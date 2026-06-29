@@ -38,6 +38,9 @@
     taint-interactive-mode: false # whether enable interactive mode for taint analysis
     spring: false # whether enable Spring Framework analysis (DI + WEC)
     plugins: [ ] # | [ pluginClass, ... ]
+    llm-mock-file: null # path to a canned LLM-response file; when set, arm
+    # plugins (e.g. pta.arm3.LlmFactPlugin) use an offline MockOracle instead
+    # of querying a live model
     time-limit: -1 # set time limit (in seconds) for pointer analysis,
     # -1 means no time limit
 
