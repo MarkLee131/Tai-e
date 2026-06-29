@@ -21,8 +21,9 @@
     # scaler | scaler=TST
     # mahjong | collection
     # llm | llm=CAP (Arm① LLM-guided selective context-sensitivity)
-    llm-mock-file: null # Arm① path to a canned mock-oracle answer file
-    # (when set, an offline MockOracle is used instead of the live LLM)
+    llm-mock-file: null # shared by Arm① (selective-CS) and Arm③ (LlmFactPlugin):
+    # path to a canned mock-oracle answer file; when set, an offline MockOracle
+    # is used instead of querying the live LLM
     llm-model: gemini-2.0-flash # Arm① model id for the live LLM oracle
     llm-budget: "100.0" # Arm① hard USD budget cap for live LLM calls
     llm-cache-dir: .llm-cache # Arm① prompt cache directory
@@ -38,9 +39,6 @@
     taint-interactive-mode: false # whether enable interactive mode for taint analysis
     spring: false # whether enable Spring Framework analysis (DI + WEC)
     plugins: [ ] # | [ pluginClass, ... ]
-    llm-mock-file: null # path to a canned LLM-response file; when set, arm
-    # plugins (e.g. pta.arm3.LlmFactPlugin) use an offline MockOracle instead
-    # of querying a live model
     time-limit: -1 # set time limit (in seconds) for pointer analysis,
     # -1 means no time limit
 
