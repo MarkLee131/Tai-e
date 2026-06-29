@@ -41,9 +41,14 @@ public class MultiInflowWrapper {
     }
 
     public static void main(String[] args) {
-        A arg = new A();
-        arg = makeB();        // second inflow: arg now also holds a B-obj
-        A lhs = id(arg);
-        lhs.foo();            // must dispatch to A.foo() AND B.foo()
+        // Two LIVE inflows joined at `arg` (a control-flow merge, so the front
+        // end keeps them in one variable web): a group-B method return and a
+        // group-A `new`. Under flow-insensitive CI, pts(arg) = {A-obj, B-obj}.
+        A arg = makeB();          // inflow 1: group-B object (via method return)
+        if (args.length > 0) {
+            arg = new A();        // inflow 2: group-A object
+        }
+        A lhs = id(arg);          // identity wrapper output holds BOTH
+        lhs.foo();                // must dispatch to A.foo() AND B.foo()
     }
 }

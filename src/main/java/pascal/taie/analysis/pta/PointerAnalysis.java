@@ -119,23 +119,45 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
         if (selector == null) {
             selector = ContextSelectorFactory.makePlainSelector(cs);
         }
-        return runAnalysis(heapModel, selector);
+        // Arm③ (neuro-symbolic) two-pass: when the LlmFactPlugin is requested,
+        // run a sound context-insensitive PRE-ANALYSIS first (without the arm③
+        // plugin) so the plugin can build its consistency base and gate its
+        // filters on the real points-to relation. Mirrors the advanced:llm /
+        // advanced:cafd pre-analysis pattern used by arm① / B3.
+        PointerAnalysisResult arm3Pre = null;
+        @SuppressWarnings("unchecked")
+        List<String> plugins = (List<String>) options.get("plugins");
+        if (plugins != null && plugins.contains(ARM3_PLUGIN)) {
+            arm3Pre = runAnalysis(heapModel,
+                    ContextSelectorFactory.makeCISelector(), null);
+        }
+        return runAnalysis(heapModel, selector, arm3Pre);
     }
+
+    /** Fully-qualified class name of the arm③ neuro-symbolic plugin. */
+    private static final String ARM3_PLUGIN = "pta.arm3.LlmFactPlugin";
 
     private PointerAnalysisResult runAnalysis(HeapModel heapModel,
                                               ContextSelector selector) {
+        return runAnalysis(heapModel, selector, null);
+    }
+
+    private PointerAnalysisResult runAnalysis(HeapModel heapModel,
+                                              ContextSelector selector,
+                                              PointerAnalysisResult arm3Pre) {
         AnalysisOptions options = getOptions();
         Solver solver = new DefaultSolver(options,
                 heapModel, selector, new MapBasedCSManager());
         // The initialization of some Plugins may read the fields in solver,
         // e.g., contextSelector or csManager, thus we initialize Plugins
         // after setting all other fields of solver.
-        setPlugin(solver, options);
+        setPlugin(solver, options, arm3Pre);
         solver.solve();
         return solver.getResult();
     }
 
-    private static void setPlugin(Solver solver, AnalysisOptions options) {
+    private static void setPlugin(Solver solver, AnalysisOptions options,
+                                  PointerAnalysisResult arm3Pre) {
         CompositePlugin plugin = new CompositePlugin();
         // add builtin plugins
         // To record elapsed time precisely, AnalysisTimer should be added at first.
@@ -194,9 +216,20 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
             }
             // else: AllocationSiteBasedModel = CI pre-analysis pass — skip silently
         }
-        // add plugins specified in options
+        // add plugins specified in options.
+        // Arm③ (LlmFactPlugin) is handled specially: it is NOT instantiated via
+        // the no-arg reflective path because it requires the sound CI pre-analysis
+        // result. It is added manually only for the MAIN pass (arm3Pre != null);
+        // during the pre-analysis pass (arm3Pre == null) it is skipped, so the
+        // base relation is computed by an unrefined, sound analysis.
         // noinspection unchecked
-        addPlugins(plugin, (List<String>) options.get("plugins"));
+        List<String> pluginClasses =
+                new java.util.ArrayList<>((List<String>) options.get("plugins"));
+        boolean hasArm3 = pluginClasses.remove(ARM3_PLUGIN);
+        addPlugins(plugin, pluginClasses);
+        if (hasArm3 && arm3Pre != null) {
+            plugin.addPlugin(new pta.arm3.LlmFactPlugin(arm3Pre));
+        }
         // connects plugins and solver
         plugin.setSolver(solver);
         solver.setPlugin(plugin);
