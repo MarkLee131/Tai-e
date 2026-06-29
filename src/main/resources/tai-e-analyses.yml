@@ -20,6 +20,12 @@
     # zipper | zipper-e | zipper-e=PV
     # scaler | scaler=TST
     # mahjong | collection
+    # llm | llm=CAP (Arm① LLM-guided selective context-sensitivity)
+    llm-mock-file: null # Arm① path to a canned mock-oracle answer file
+    # (when set, an offline MockOracle is used instead of the live LLM)
+    llm-model: gemini-2.0-flash # Arm① model id for the live LLM oracle
+    llm-budget: "100.0" # Arm① hard USD budget cap for live LLM calls
+    llm-cache-dir: .llm-cache # Arm① prompt cache directory
     dump: false # whether dump points-to results (with contexts)
     dump-ci: false # whether dump points-to results (without contexts)
     dump-yaml: false # whether dump points-to results in yaml format

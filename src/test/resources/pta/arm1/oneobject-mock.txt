@@ -1,0 +1,8 @@
+# Arm① canned mock-oracle answers for OneObject.
+# Format: "<answer> <method-signature>"; "default <answer>" sets the fallback.
+# Answer is the first whitespace-delimited token (YES/NO); the rest of the
+# line (which may contain spaces) is the exact JMethod.getSignature().
+default NO
+YES <A: void set(B)>
+YES <A: void doSet(B)>
+YES <A: B get()>

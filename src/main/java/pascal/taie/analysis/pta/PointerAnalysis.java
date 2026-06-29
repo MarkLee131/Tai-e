@@ -94,6 +94,13 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
                     selector = Monitor.runAndCount(() -> ContextSelectorFactory
                                     .makeSelectiveSelector(cs, Zipper.run(preResult, advanced)),
                             "Zipper", Level.INFO);
+                } else if (advanced.startsWith("llm")) {
+                    // Arm① — LLM-guided selective context-sensitivity.
+                    selector = Monitor.runAndCount(() -> ContextSelectorFactory
+                                    .makeSelectiveSelector(cs, pta.arm1.LlmCsSelector.run(
+                                            preResult, advanced,
+                                            pta.arm1.ArmOracleFactory.fromOptions(options))),
+                            "LLM-CS", Level.INFO);
                 } else if (advanced.equals("mahjong")) {
                     heapModel = Monitor.runAndCount(() -> Mahjong.run(preResult, options),
                             "Mahjong", Level.INFO);
