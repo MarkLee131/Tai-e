@@ -1,0 +1,7 @@
+# Arm① mock oracle for RobustnessSweep: selects ALL methods for context sensitivity.
+# Format: "<answer> <method-signature>" — first token is YES/NO, rest is the key.
+# "default YES" makes every method answer YES, so all are selected for 2-obj CS.
+# At error rate p>0, the ErrorInjectingOracle flips YES→NO for a fraction p of
+# queries. A deselected method falls back to context-insensitive analysis (CI),
+# which is always a sound over-approximation: CI ⊇ 2-obj, so recall stays 1.0.
+default YES
