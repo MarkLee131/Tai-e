@@ -7,7 +7,6 @@ import pta.llm.LlmResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 
 /**
  * Builds the {@link LlmOracle} for Arm 3 from analysis options. Self-contained
@@ -69,12 +68,5 @@ public final class ArmOracleFactory {
         }
         // A constant oracle returning the canned response for any query.
         return q -> new LlmResponse(canned, true, 0.0);
-    }
-
-    /** Visible for symmetry/testing: a constant oracle over a literal answer. */
-    public static LlmOracle constant(String answer) {
-        Map<String, String> ignored = Map.of();
-        return q -> new LlmResponse(ignored.getOrDefault(q.contextId(), answer),
-                true, 0.0);
     }
 }
