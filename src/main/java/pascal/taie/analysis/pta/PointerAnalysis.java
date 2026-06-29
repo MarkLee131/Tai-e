@@ -104,6 +104,12 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
                 } else if (advanced.equals("mahjong")) {
                     heapModel = Monitor.runAndCount(() -> Mahjong.run(preResult, options),
                             "Mahjong", Level.INFO);
+                } else if (advanced.equals("cafd")) {
+                    // B3 baseline — CAFD-equivalent allocator-wrapper heap refinement.
+                    // Per-callsite cloning via AllocatorWrapperModel + AllocatorWrapperPlugin.
+                    heapModel = Monitor.runAndCount(
+                            () -> pta.baseline.cafd.AllocatorWrapperModel.run(preResult, options),
+                            "CAFD", Level.INFO);
                 } else {
                     throw new IllegalArgumentException(
                             "Illegal advanced analysis argument: " + advanced);
@@ -171,6 +177,13 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
             plugin.addPlugin(new SpringAnalysis());
         }
         plugin.addPlugin(new ResultProcessor());
+        // B3 baseline: add the CAFD companion plugin for the main (non-pre) analysis.
+        // The instanceof guard ensures we skip the CI pre-analysis pass (where the
+        // heap model is still AllocationSiteBasedModel).
+        if (solver.getHeapModel()
+                instanceof pta.baseline.cafd.AllocatorWrapperModel cafdModel) {
+            plugin.addPlugin(new pta.baseline.cafd.AllocatorWrapperPlugin(cafdModel));
+        }
         // add plugins specified in options
         // noinspection unchecked
         addPlugins(plugin, (List<String>) options.get("plugins"));
