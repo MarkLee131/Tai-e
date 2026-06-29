@@ -75,6 +75,16 @@ public class LlmReflectionModel implements Plugin {
         oracleOverride = null;
     }
 
+    /**
+     * Returns {@code true} when a static oracle override is currently installed
+     * (i.e. {@link #setOracle} has been called without a matching
+     * {@link #clearOracle}).  Used by {@link pta.eval.ConfigRunner} to avoid
+     * clobbering an externally-injected error oracle during a robustness sweep.
+     */
+    public static boolean hasOracle() {
+        return oracleOverride != null;
+    }
+
     private Solver solver;
 
     private CSManager csManager;

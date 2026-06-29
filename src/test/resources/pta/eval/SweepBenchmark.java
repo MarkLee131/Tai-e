@@ -1,29 +1,55 @@
 // Benchmark for RobustnessSweep tests.
 //
 // Two runner classes ARunner and BRunner both implement the Runner interface.
-// The static identity wrapper id(Runner r) returns its argument unchanged.
 //
-// Under context-INSENSITIVE analysis, id() is analysed once: its parameter
-// merges both ARunner and BRunner objects, so pts(wa) = pts(wb) = {ARunner, BRunner}.
-// Both wa.run() and wb.run() dispatch to BOTH ARunner.run() and BRunner.run()
-// — four virtual-dispatch call edges in total.
+// INSTANCE WRAPPER (RunnerBox) — for precision-gap detection in the sound arm1 test:
+// ─────────────────────────────────────────────────────────────────────────────────
+// RunnerBox.get() is an INSTANCE method whose receiver (box1 vs box2) determines
+// the 2-object-sensitive heap context, just like BoxAlias.Box.get().
 //
-// Under 2-object-sensitive analysis (arm① with all-YES oracle), the two
-// allocation sites of 'a' and 'b' separate the contexts of id(). In the
-// ARunner context pts(r) = {ARunner}, so pts(wa) = {ARunner}; in the BRunner
-// context pts(wb) = {BRunner}. This gives only TWO virtual-dispatch edges:
-//   wa.run() → ARunner.run()
-//   wb.run() → BRunner.run()
+// Under context-INSENSITIVE analysis, get() is analysed once: its field
+// 'stored' merges ARunner and BRunner objects, so
+//   pts(wa) = pts(wb) = {ARunner, BRunner}  (each size 2).
 //
-// Arm① soundness: every 2-obj edge also exists in CI (CI ⊇ 2-obj), so recall
-// vs the p=0 (2-obj) ground truth stays 1.0 for any corrupt CS-selection oracle.
+// Under 2-object-sensitive analysis (arm① with all-YES oracle), box1 and box2
+// are different allocation sites → different heap contexts for get():
+//   box1-ctx: stored → {ARunner-alloc} → wa → {ARunner}  (size 1)
+//   box2-ctx: stored → {BRunner-alloc} → wb → {BRunner}  (size 1)
 //
-// UnsoundCafdStylePlugin contrast: at p=1 the corrupt oracle returns
-// "wrapper id / never-alias ARunner ARunner". The plugin applies this without
-// the ConsistencyEngine check that arm③ would perform. The self-referential
-// never-alias fact causes ARunner objects to be filtered from pts(wa), so
-// wa.run() can no longer dispatch to ARunner.run() — a real call edge is lost
-// and recall drops below 1.0.
+// This precision gap (wa/wb size-2 under CI vs size-1 under 2-obj) drives the
+// avgPtsSize inequality that proves the sound arm1 sweep test is non-vacuous:
+//   sweep[p=1].m().avgPtsSize()  >  sweep[p=0].m().avgPtsSize()
+//
+// Arm① soundness: CI ⊇ 2-obj — every 2-obj edge also exists under CI, so
+// recall vs the p=0 ground truth stays 1.0 at every error rate.
+//
+// STATIC WRAPPER (id) — for UnsoundCafdStylePlugin contrast test:
+// ────────────────────────────────────────────────────────────────
+// The static identity method id() is kept so that the corrupt oracle
+// "wrapper id\nnever-alias ARunner ARunner" can identify it as a wrapper and
+// apply a self-contradictory never-alias fact without a consistency check.
+// Because id() is static, 2-obj does NOT separate its contexts — both id(a)
+// and id(b) calls execute in the same static context, and the result variables
+// xa and xb point to {ARunner, BRunner} regardless of the CS level.
+//
+// UnsoundCafdStylePlugin contrast:
+// At p≥threshold (seed=42), the corrupt oracle fires; the plugin applies
+// "never-alias ARunner ARunner" without a ConsistencyEngine check. This bans
+// ARunner objects from xa (the result of id(a) where arg-group=ARunner),
+// causing xa.run() to miss ARunner.run → recall drops below 1.0.
+// Arm③ with the same corrupt oracle would reject the self-contradictory fact
+// and keep recall = 1.0.
+//
+// Ground-truth (p=0, no oracle for CAFD test):
+//   xa.run() → ARunner.run           (1 edge)
+//   xb.run() → BRunner.run           (1 edge)
+//   wa.run() → ARunner.run, BRunner.run (2 edges, CI)
+//   wb.run() → ARunner.run, BRunner.run (2 edges, CI)
+//   Total: 6 virtual-dispatch edges
+//
+// After corrupt oracle "never-alias ARunner ARunner" on id():
+//   xa → {} (ARunner filtered), xa.run() → 0 edges  (1 edge dropped)
+//   recall = 5/6 ≈ 0.83 < 1.0.
 
 interface Runner {
     void run();
@@ -37,9 +63,28 @@ class BRunner implements Runner {
     public void run() {}
 }
 
+/** Instance wrapper — enables 2-obj context separation (reuses BoxAlias idiom). */
+class RunnerBox {
+    private Runner stored;
+
+    void put(Runner r) {
+        this.stored = r;
+    }
+
+    Runner get() {
+        return this.stored;
+    }
+}
+
 public class SweepBenchmark {
 
-    /** Structural identity wrapper: returns its argument unchanged. */
+    /**
+     * Static identity wrapper — retained for UnsoundCafdStylePlugin contrast test.
+     * The corrupt oracle identifies this by name ("wrapper id") and applies
+     * "never-alias ARunner ARunner" without a consistency check.
+     * Static methods are NOT context-separated by 2-obj, so xa and xb always
+     * see {ARunner, BRunner} regardless of the CS level.
+     */
     static Runner id(Runner r) {
         return r;
     }
@@ -47,9 +92,27 @@ public class SweepBenchmark {
     public static void main(String[] args) {
         ARunner a = new ARunner();
         BRunner b = new BRunner();
-        Runner wa = id(a); // under CI: wa pts = {ARunner, BRunner}
-        Runner wb = id(b); // under CI: wb pts = {ARunner, BRunner}
-        wa.run();          // dispatch site 1 — real targets: ARunner.run (+ BRunner.run under CI)
-        wb.run();          // dispatch site 2 — real targets: BRunner.run (+ ARunner.run under CI)
+
+        // Instance wrapper calls: RunnerBox.get() is an instance method, so
+        // 2-obj separates box1 and box2 heap contexts.
+        // Under 2-obj: wa → {ARunner}, wb → {BRunner}  (size 1 each)
+        // Under CI:    wa → {ARunner, BRunner}, wb → {ARunner, BRunner}  (size 2 each)
+        // This precision gap drives the avgPtsSize inequality in the sound arm1 test.
+        RunnerBox box1 = new RunnerBox();
+        RunnerBox box2 = new RunnerBox();
+        box1.put(a);
+        box2.put(b);
+        Runner wa = box1.get();
+        Runner wb = box2.get();
+        wa.run();
+        wb.run();
+
+        // Static id() calls: context NOT separated — xa and xb always point to
+        // {ARunner, BRunner} under both CI and 2-obj (arg-group propagation for
+        // UnsoundCafdStylePlugin uses these alloc-group mappings: a→ARunner, b→BRunner).
+        Runner xa = id(a);
+        Runner xb = id(b);
+        xa.run();
+        xb.run();
     }
 }

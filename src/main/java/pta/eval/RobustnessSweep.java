@@ -163,9 +163,10 @@ public class RobustnessSweep {
                     ? baseOracle
                     : new ErrorInjectingOracle(baseOracle, p, corrupt, SEED);
 
-            injectOracle(arm, oracle);
             MetricCollector.Metrics m;
             try {
+                // injectOracle is inside the try so clearOracle in finally always runs.
+                injectOracle(arm, oracle);
                 m = runner.run(arm, benchmarkCp, main);
             } finally {
                 clearOracle(arm);
@@ -178,8 +179,12 @@ public class RobustnessSweep {
             if (groundTruthKeys == null) {
                 // p=0 run provides the ground truth for this arm.
                 groundTruthKeys = keys;
-                logger.info("[sweep] {} ground truth: {} call-graph edge keys",
-                        arm.id(), groundTruthKeys.size());
+                logger.info("[sweep] {} p=0 ground-truth EdgeKey set size: {} edges "
+                        + "(avgPtsSize={})",
+                        arm.id(), groundTruthKeys.size(), m.avgPtsSize());
+            } else {
+                logger.info("[sweep] {} p={} EdgeKey set size: {} edges (avgPtsSize={})",
+                        arm.id(), p, keys.size(), m.avgPtsSize());
             }
 
             double recall = checker.recallByKeys(groundTruthKeys, keys);

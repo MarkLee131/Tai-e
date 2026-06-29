@@ -77,9 +77,15 @@ public final class ConfigRunner {
                                        String benchmarkCp,
                                        String mainClass) {
         boolean arm2Active = config.ptaArgs().contains(ARM2_PLUGIN);
-
-        if (arm2Active) {
+        // Only inject our own oracle when no external override is already present
+        // (e.g. when RobustnessSweep has already installed an error oracle).
+        // We track whether WE injected so that we only clear what we set.
+        boolean arm2InjectedHere = false;
+        if (arm2Active && !LlmReflectionModel.hasOracle()) {
             injectArm2Oracle(config);
+            arm2InjectedHere = true;
+        } else if (arm2Active) {
+            logger.info("[ConfigRunner] A2 external oracle already set; skipping own injection");
         }
 
         try {
@@ -96,7 +102,7 @@ public final class ConfigRunner {
             logger.info("[ConfigRunner] {} done in {}ms: avgPts={}", config.id(), timeMs, m.avgPtsSize());
             return m;
         } finally {
-            if (arm2Active) {
+            if (arm2InjectedHere) {
                 LlmReflectionModel.clearOracle();
             }
         }
