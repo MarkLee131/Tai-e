@@ -126,6 +126,71 @@ public class RobustnessSweepTest {
                 + "and must be enlarged.");
     }
 
+    /** Benchmark for the sound arm ③ sweep (static identity wrapper). */
+    private static final String ARM3_MAIN = "Arm3Sweep";
+    /** Cosmetic good-facts file (overridden by the injected sweep oracle). */
+    private static final String ARM3_GOOD =
+            "src/test/resources/pta/eval/arm3-sweep-good.txt";
+
+    /**
+     * Sound arm ③ (neuro-symbolic): recall must stay 1.0 at every error rate.
+     *
+     * <p>p=0 oracle returns the CORRECT facts {@code "wrapper id" +
+     * "never-alias P Q"}. On {@code Arm3Sweep} the static wrapper {@code id()}
+     * conflates {P,Q} under CI; arg {@code p} is provably single-group P per the
+     * CI pre-analysis, so the sound disposer de-conflates {@code xp} to {P} and
+     * {@code xq} to {Q}, dropping the two spurious dispatch edges. This refined
+     * edge set is the p=0 ground truth.
+     *
+     * <p>At any p&gt;0 the oracle is corrupted to a self-contradictory fact
+     * {@code "never-alias P P"}. Arm ③'s disposer rejects/withholds it (the
+     * ConsistencyEngine base, built from the real CI may-alias relation, plus the
+     * CI-gated filter install), so the analysis falls back to the sound CI
+     * super-set. CI edges ⊇ the p=0 ground truth → recall = 1.0 at every rate.
+     *
+     * <p>Contrast: {@link UnsoundCafdStylePlugin} applies the same corrupt fact
+     * without a check and loses recall. Arm ③ stays sound by construction.
+     *
+     * <p>Non-vacuity: avgPtsSize at p=1 (all-corrupt → CI super-set, pts size 2)
+     * strictly exceeds that at p=0 (refined, pts size 1), proving the sweep
+     * exercised a real refinement while soundness held.
+     */
+    @Test
+    void soundArm3RecallStaysOneAcrossAllErrorRates() {
+        RobustnessSweep sweep = new RobustnessSweep();
+        Configs.Config arm3 = Configs.a3(ARM3_GOOD);
+
+        // Base (correct) oracle: arm③ applies these facts soundly at p=0.
+        LlmOracle base = new MockOracle(Map.of(), "wrapper id\nnever-alias P Q");
+        // Corrupt: a self-contradictory never-alias that arm③ MUST reject.
+        Function<LlmResponse, String> corrupt =
+                r -> "wrapper id\nnever-alias P P";
+
+        List<RobustnessSweep.SweepPoint> points = sweep.run(
+                arm3, RobustnessSweep.DEFAULT_ERROR_RATES,
+                BENCHMARK_CP, ARM3_MAIN, base, corrupt);
+
+        assertEquals(RobustnessSweep.DEFAULT_ERROR_RATES.length, points.size(),
+                "sweep must return one SweepPoint per error rate");
+
+        for (RobustnessSweep.SweepPoint pt : points) {
+            assertEquals(1.0, pt.recall(), 1e-9,
+                    "Arm③ (sound-by-construction) must have recall=1.0 at errorRate="
+                    + pt.errorRate() + " — a wrong/contradictory never-alias fact is "
+                    + "rejected or CI-gated-withheld, never dropping a real call edge");
+        }
+
+        // NON-VACUITY: p=0 (correct fact, refined) is strictly more precise than
+        // p=1 (corrupt fact rejected → CI super-set).
+        RobustnessSweep.SweepPoint p0 = points.get(0);
+        RobustnessSweep.SweepPoint pLast = points.get(points.size() - 1);
+        assertTrue(pLast.m().avgPtsSize() > p0.m().avgPtsSize(),
+                "Precision must degrade at p=1 (corrupt → CI super-set) vs p=0 "
+                + "(correct → de-conflated): avgPtsSize p=1 (" + pLast.m().avgPtsSize()
+                + ") must exceed p=0 (" + p0.m().avgPtsSize() + "). If equal, arm③ "
+                + "did not refine on Arm3Sweep and the sweep is vacuous.");
+    }
+
     /**
      * Unsound CAFD-style config: recall must drop under high error rate.
      *
