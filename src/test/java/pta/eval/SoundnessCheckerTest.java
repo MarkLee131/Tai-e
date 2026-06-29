@@ -9,6 +9,7 @@ import pascal.taie.analysis.pta.PointerAnalysisResult;
 import pascal.taie.ir.stmt.Invoke;
 import pascal.taie.language.classes.JMethod;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,33 +18,42 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TDD tests for {@link SoundnessChecker}.
+ * Tests for {@link SoundnessChecker}.
  *
  * <p>Uses {@code BoxAlias} (from {@code src/test/resources/pta/eval})
  * as a small but non-trivial benchmark with multiple call-graph edges.
  *
- * <h2>Identity semantics</h2>
- * <p>{@code pascal.taie.ir.stmt.Invoke} and
- * {@code pascal.taie.language.classes.JMethod} do not override
- * {@code equals}/{@code hashCode}, so each call to {@code Main.main}
- * (which resets the Tai-e {@code World}) produces fresh object instances.
- * Edges collected from one run will therefore <em>never</em> be found in the
- * call graph of a subsequent run — even if both analyses are structurally
- * identical.  The cross-run tests exploit this to build honest
- * "candidate drops real edges" and "candidate has edges absent from sound"
- * scenarios without requiring mock objects or custom stubs.
+ * <h2>Test strategy</h2>
+ * <p>Edge equality in Tai-e uses object identity for {@code Invoke} and
+ * {@code JMethod} (neither overrides {@code equals}/{@code hashCode}).
+ * The value-key fix in {@link SoundnessChecker} converts edges to
+ * {@link SoundnessChecker.EdgeKey} triples before comparison, making
+ * cross-run and cross-World-instance comparisons semantically correct.
+ *
+ * <p>Tests {@link #recallIsLessThanOneWhenCandidateDropsRealEdges} and
+ * {@link #subsumesFalseWhenCandidateHasEdgeAbsentFromSound} exercise the
+ * comparison logic via the package-private
+ * {@link SoundnessChecker#recallByKeys} and
+ * {@link SoundnessChecker#subsumesByKeys} helpers with synthetic key sets
+ * built from a single real analysis run — this is the only way to model
+ * "genuine subset/superset" semantics without Mockito or additional benchmark
+ * programs.  The public-API, cross-run regression guard
+ * {@link #crossRunSameConfigSubsumesAndRecallOneAfterValueKeyFix} tests
+ * the full end-to-end path and would fail under the old identity
+ * implementation.
  */
 public class SoundnessCheckerTest {
 
     /**
-     * Step 1a – recall == 1.0: When the ground-truth edges and the candidate
-     * come from the <em>same</em> call graph object (same Java references),
-     * every ground-truth edge is found in the candidate → recall must be 1.0.
+     * Step 1a – recall == 1.0: public API, same-run ground truth.
      *
-     * <p>This is non-tautological: the implementation must iterate the
-     * ground-truth set and perform a hash-set lookup against the candidate's
-     * edge collection; if either iteration or containment is broken the
-     * assertion fails.
+     * <p>When the ground-truth edges and the candidate come from the same
+     * call graph object (same Java references), every ground-truth edge is
+     * found in the candidate → recall must be 1.0.
+     *
+     * <p>This exercises the public {@link SoundnessChecker#recallVsGroundTruth}
+     * path and confirms that value-key conversion of real edges round-trips
+     * correctly.
      */
     @Test
     void recallIsOneWhenAllGroundTruthEdgesAreInCandidate() {
@@ -64,47 +74,53 @@ public class SoundnessCheckerTest {
     }
 
     /**
-     * Step 1b – recall < 1.0: When the ground-truth edges were collected from
-     * a <em>previous</em> World instance and the candidate comes from a fresh
-     * run of the same analysis, Invoke/JMethod identity mismatch means no
-     * ground-truth edge will be found in the candidate → recall must be 0.0.
+     * Step 1b – recall &lt; 1.0: genuine missing-edge scenario.
      *
-     * <p>This models the real use-case where the candidate (e.g. a context-
-     * sensitive arm) drops call-graph edges that were present in the B0
-     * ground-truth.
+     * <p>Collects the full EdgeKey set from a single CI run, then removes one
+     * key to model a candidate that genuinely drops a real call-graph edge.
+     * Tests via the package-private {@link SoundnessChecker#recallByKeys}
+     * helper so the test controls the exact key sets without needing a second
+     * analysis run or a {@code PointerAnalysisResult} mock.
+     *
+     * <p>Previously this test used two separate World runs with identical
+     * configurations and relied on identity mismatch to produce recall &lt; 1.0
+     * — that only worked because of the identity bug and did not model any real
+     * semantic difference.
      */
     @Test
     void recallIsLessThanOneWhenCandidateDropsRealEdges() {
-        // Run 1 – collect ground truth from this World instance.
         Tests.testPTA(false, "eval", "BoxAlias", "cs:ci");
-        PointerAnalysisResult run1Result = World.get().getResult(PointerAnalysis.ID);
-        Set<Edge<Invoke, JMethod>> groundTruth =
-                run1Result.getCallGraph().edges().collect(Collectors.toSet());
-        assertFalse(groundTruth.isEmpty(),
-                "BoxAlias CI call graph must contain at least one edge (run 1)");
+        PointerAnalysisResult result = World.get().getResult(PointerAnalysis.ID);
 
-        // Run 2 – fresh World; all Invoke/JMethod objects are new instances.
-        Tests.testPTA(false, "eval", "BoxAlias", "cs:ci");
-        PointerAnalysisResult run2Result = World.get().getResult(PointerAnalysis.ID);
-
-        // No edge from run 1 equals any edge from run 2 (identity inequality).
         SoundnessChecker checker = new SoundnessChecker();
-        double recall = checker.recallVsGroundTruth(groundTruth, run2Result);
+        Set<SoundnessChecker.EdgeKey> fullKeys = checker.toKeySet(result);
+
+        assertFalse(fullKeys.isEmpty(),
+                "BoxAlias CI must produce at least one edge");
+
+        // Simulate a candidate that drops one real edge: remove one key.
+        SoundnessChecker.EdgeKey dropped = fullKeys.iterator().next();
+        Set<SoundnessChecker.EdgeKey> candidateKeys = new HashSet<>(fullKeys);
+        candidateKeys.remove(dropped);
+
+        // groundTruth = full N keys; candidateKeys = N-1 keys → recall = (N-1)/N < 1.0
+        double recall = checker.recallByKeys(fullKeys, candidateKeys);
 
         assertTrue(recall < 1.0,
-                "Ground-truth edges come from a different World instance; "
-                + "no match possible — recall must be < 1.0 (got " + recall + ")");
+                "Candidate is missing one ground-truth edge — recall must be < 1.0, got " + recall);
+        assertEquals((double) (fullKeys.size() - 1) / fullKeys.size(), recall, 1e-9,
+                "Recall must equal (N-1)/N");
     }
 
     /**
-     * Step 1c – subsumes == true: When sound and candidate are the
-     * <em>same</em> {@link PointerAnalysisResult} object (every edge in
-     * the candidate is trivially in the sound call graph), subsumes must
-     * return {@code true}.
+     * Step 1c – subsumes == true: public API, same result.
      *
-     * <p>The implementation must correctly iterate the candidate's call-graph
-     * edges and verify each against the sound's edge set; a trivially wrong
-     * implementation that always returns {@code false} will fail this test.
+     * <p>When sound and candidate are the same {@link PointerAnalysisResult},
+     * every candidate edge key is trivially present in the sound key set →
+     * subsumes must return {@code true}.
+     *
+     * <p>The assertion is non-vacuous: BoxAlias CI produces a non-empty call
+     * graph, so at least one membership check is performed.
      */
     @Test
     void subsumesTrueWhenAllCandidateEdgesAreInSound() {
@@ -116,34 +132,89 @@ public class SoundnessCheckerTest {
 
         SoundnessChecker checker = new SoundnessChecker();
         assertTrue(checker.subsumes(result, result),
-                "A result must subsume itself — every edge in the candidate is in the sound CG");
+                "A result must subsume itself — every candidate edge key is in the sound key set");
     }
 
     /**
-     * Step 1d – subsumes == false: When the candidate comes from a
-     * <em>different</em> World instance than the sound, the candidate's edges
-     * (new object references) are absent from the sound's call graph → at
-     * least one candidate edge fails the containment check → subsumes must
-     * return {@code false}.
+     * Step 1d – subsumes == false: genuine extra-edge-in-candidate scenario.
      *
-     * <p>This models the unsound-candidate scenario where an arm introduces
-     * a call edge that was not present in the B0 sound over-approximation.
+     * <p>Collects the full EdgeKey set from a single CI run.  The sound key
+     * set is constructed as (full set minus one key); the candidate key set is
+     * the full set.  Because the candidate has a key absent from the sound,
+     * {@link SoundnessChecker#subsumesByKeys} must return {@code false}.
+     *
+     * <p>Previously this test ran the same configuration twice (two World
+     * resets) and exploited identity mismatch to produce a false result — the
+     * old test passed only because of the identity bug, with no semantic
+     * difference between sound and candidate.
      */
     @Test
     void subsumesFalseWhenCandidateHasEdgeAbsentFromSound() {
-        // Run 1 – collect "sound" from this World instance.
         Tests.testPTA(false, "eval", "BoxAlias", "cs:ci");
-        PointerAnalysisResult soundResult = World.get().getResult(PointerAnalysis.ID);
-
-        // Run 2 – fresh World; candidate edges are new object instances.
-        Tests.testPTA(false, "eval", "BoxAlias", "cs:ci");
-        PointerAnalysisResult candidateResult = World.get().getResult(PointerAnalysis.ID);
-
-        assertFalse(candidateResult.getCallGraph().edges().findAny().isEmpty(),
-                "BoxAlias CI call graph must be non-empty so at least one edge fails the check");
+        PointerAnalysisResult result = World.get().getResult(PointerAnalysis.ID);
 
         SoundnessChecker checker = new SoundnessChecker();
-        assertFalse(checker.subsumes(soundResult, candidateResult),
-                "Candidate edges are from a different World — none match sound's edge set → subsumes false");
+        Set<SoundnessChecker.EdgeKey> fullKeys = checker.toKeySet(result);
+
+        assertFalse(fullKeys.isEmpty(),
+                "BoxAlias CI must produce at least one edge");
+
+        // Sound is missing one key; candidate has the full set.
+        // The candidate therefore has an edge absent from the sound → subsumes = false.
+        SoundnessChecker.EdgeKey missing = fullKeys.iterator().next();
+        Set<SoundnessChecker.EdgeKey> soundKeys = new HashSet<>(fullKeys);
+        soundKeys.remove(missing);
+
+        assertFalse(checker.subsumesByKeys(soundKeys, fullKeys),
+                "Candidate has a key absent from sound (we removed one from sound) — "
+                + "subsumesByKeys must return false");
+    }
+
+    /**
+     * Regression guard: cross-run, public API — proves the value-key fix works
+     * end-to-end.
+     *
+     * <p>Runs B0 (CI) on BoxAlias TWICE in separate Tai-e {@code World}
+     * instances. Because {@link Invoke} and {@link JMethod} do not override
+     * {@code equals}/{@code hashCode}, the two runs produce identity-inequal
+     * objects: under the <em>old</em> identity-based implementation,
+     * {@link SoundnessChecker#subsumes} would unconditionally return
+     * {@code false} and {@link SoundnessChecker#recallVsGroundTruth} would
+     * return {@code 0.0} for any cross-run comparison.  Under the value-key
+     * fix, same analysis on same program → same EdgeKey set → subsumes true
+     * and recall 1.0.
+     *
+     * <p>This test is the definitive evidence that the identity bug is fixed:
+     * it would fail under the old implementation and pass only after the
+     * value-key change.
+     */
+    @Test
+    void crossRunSameConfigSubsumesAndRecallOneAfterValueKeyFix() {
+        // Run 1 — collect ground-truth edges and result.
+        Tests.testPTA(false, "eval", "BoxAlias", "cs:ci");
+        PointerAnalysisResult run1 = World.get().getResult(PointerAnalysis.ID);
+        Set<Edge<Invoke, JMethod>> run1Edges =
+                run1.getCallGraph().edges().collect(Collectors.toSet());
+
+        assertFalse(run1Edges.isEmpty(),
+                "BoxAlias CI must produce at least one edge (run 1)");
+
+        // Run 2 — fresh World; all Invoke/JMethod objects are new instances.
+        Tests.testPTA(false, "eval", "BoxAlias", "cs:ci");
+        PointerAnalysisResult run2 = World.get().getResult(PointerAnalysis.ID);
+
+        SoundnessChecker checker = new SoundnessChecker();
+
+        // Value-key fix: same analysis → same EdgeKeys → subsumes true.
+        // OLD identity impl: different World → fresh objects → subsumes false (BUG).
+        assertTrue(checker.subsumes(run1, run2),
+                "Same config run twice: value-key subsumes must be true "
+                + "(would be false under identity bug)");
+
+        // Value-key fix: same EdgeKeys → recall 1.0.
+        // OLD identity impl: no identity match across worlds → recall 0.0 (BUG).
+        assertEquals(1.0, checker.recallVsGroundTruth(run1Edges, run2), 1e-9,
+                "Same config run twice: value-key recall must be 1.0 "
+                + "(would be 0.0 under identity bug)");
     }
 }

@@ -35,33 +35,102 @@ import java.util.stream.Collectors;
  * &lt; 1.0 means some ground-truth edges are absent from the candidate.
  *
  * <h2>Edge equality</h2>
- * <p>Edge equality is defined by
- * {@link pascal.taie.analysis.graph.callgraph.Edge#equals}, which compares
- * (kind, callSite, callee) using the respective {@code .equals()} of each
- * component.  Because {@link Invoke} and {@link JMethod} do not override
- * {@code equals}/{@code hashCode}, equality reduces to object identity.
- * Callers must ensure that both results originate from the <em>same</em> Tai-e
- * {@code World} instance for meaningful cross-result comparisons.
+ * <p>Edges are compared by value key ({@link EdgeKey}), encoding
+ * (container method signature, call-site index, callee method signature).
+ * This makes cross-run comparisons correct even when two separate
+ * {@code Main.main} invocations produce fresh {@code Invoke}/{@code JMethod}
+ * instances that are identity-inequal.
  */
 public class SoundnessChecker {
+
+    /**
+     * Value key for a call-graph edge, independent of object identity.
+     *
+     * <p>{@link Invoke} and {@link JMethod} do not override
+     * {@code equals}/{@code hashCode}, so {@code Edge.equals} reduces to
+     * object identity.  This record captures the three string/int fields that
+     * uniquely identify an edge across Tai-e {@code World} resets.
+     *
+     * <p>Package-private so that {@code pta.eval} test classes can construct
+     * synthetic key sets to verify subset/superset semantics directly.
+     *
+     * @param containerSig  signature of the method containing the call site
+     * @param callSiteIndex index of the {@link Invoke} statement in its method IR
+     * @param calleeSig     signature of the callee method
+     */
+    record EdgeKey(String containerSig, int callSiteIndex, String calleeSig) {}
+
+    /**
+     * Converts a single call-graph edge to its {@link EdgeKey}.
+     */
+    private static EdgeKey toKey(Edge<Invoke, JMethod> e) {
+        return new EdgeKey(
+                e.getCallSite().getContainer().getSignature(),
+                e.getCallSite().getIndex(),
+                e.getCallee().getSignature());
+    }
+
+    /**
+     * Collects all call-graph edges from {@code result} as a value-key set.
+     * Package-private for use by {@code pta.eval} tests.
+     *
+     * @param result a pointer-analysis result
+     * @return set of {@link EdgeKey} values for every edge in its call graph
+     */
+    Set<EdgeKey> toKeySet(PointerAnalysisResult result) {
+        return result.getCallGraph().edges()
+                .map(SoundnessChecker::toKey)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Core subsumption check over pre-computed key sets.
+     * Package-private so tests can verify subset/superset semantics by
+     * constructing synthetic key sets from a single analysis run.
+     *
+     * @param soundKeys     key set of the sound over-approximation
+     * @param candidateKeys key set of the candidate result
+     * @return {@code true} iff every key in {@code candidateKeys} is present
+     *         in {@code soundKeys}
+     */
+    boolean subsumesByKeys(Set<EdgeKey> soundKeys, Set<EdgeKey> candidateKeys) {
+        return candidateKeys.stream().allMatch(soundKeys::contains);
+    }
+
+    /**
+     * Core recall computation over pre-computed key sets.
+     * Package-private so tests can verify recall arithmetic by constructing
+     * synthetic key sets from a single analysis run.
+     *
+     * @param groundTruthKeys key set of the ground-truth edges
+     * @param candidateKeys   key set of the candidate's edges
+     * @return fraction of ground-truth keys present in candidate keys,
+     *         or {@code 1.0} when {@code groundTruthKeys} is empty
+     */
+    double recallByKeys(Set<EdgeKey> groundTruthKeys, Set<EdgeKey> candidateKeys) {
+        if (groundTruthKeys.isEmpty()) {
+            return 1.0;
+        }
+        long covered = groundTruthKeys.stream().filter(candidateKeys::contains).count();
+        return (double) covered / groundTruthKeys.size();
+    }
 
     /**
      * Returns {@code true} iff every call-graph edge in {@code candidate} is
      * also present in {@code sound}'s call graph (candidate ⊆ sound).
      *
-     * <p>The check iterates {@code candidate.getCallGraph().edges()} and
-     * verifies each edge against a {@link Set} built from
-     * {@code sound.getCallGraph().edges()}.  The overall complexity is
-     * O(|sound| + |candidate|).
+     * <p>Edges are compared by {@link EdgeKey} value (container signature,
+     * call-site index, callee signature), not by object identity.  This means
+     * the comparison works correctly even when {@code sound} and
+     * {@code candidate} come from separate {@code Main.main} invocations
+     * (separate Tai-e {@code World} instances).
      *
      * @param sound     the sound over-approximation result (e.g. B0 / CI)
      * @param candidate the analysis result to check
      * @return {@code true} if candidate call-graph ⊆ sound call-graph
      */
     public boolean subsumes(PointerAnalysisResult sound, PointerAnalysisResult candidate) {
-        Set<Edge<Invoke, JMethod>> soundEdges =
-                sound.getCallGraph().edges().collect(Collectors.toSet());
-        return candidate.getCallGraph().edges().allMatch(soundEdges::contains);
+        return subsumesByKeys(toKeySet(sound), toKeySet(candidate));
     }
 
     /**
@@ -72,6 +141,10 @@ public class SoundnessChecker {
      * <pre>
      *   recall = |groundTruth ∩ candidateEdges| / |groundTruth|
      * </pre>
+     *
+     * <p>Each ground-truth edge is converted to an {@link EdgeKey} before
+     * comparison, so cross-run usage (ground-truth edges from one World,
+     * candidate from another) is correct.
      *
      * <p>Returns {@code 1.0} when {@code groundTruth} is empty (vacuously all
      * ground-truth edges are covered).
@@ -86,9 +159,9 @@ public class SoundnessChecker {
         if (groundTruth.isEmpty()) {
             return 1.0;
         }
-        Set<Edge<Invoke, JMethod>> candidateEdges =
-                candidate.getCallGraph().edges().collect(Collectors.toSet());
-        long covered = groundTruth.stream().filter(candidateEdges::contains).count();
-        return (double) covered / groundTruth.size();
+        Set<EdgeKey> groundTruthKeys = groundTruth.stream()
+                .map(SoundnessChecker::toKey)
+                .collect(Collectors.toSet());
+        return recallByKeys(groundTruthKeys, toKeySet(candidate));
     }
 }
