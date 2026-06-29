@@ -8,31 +8,41 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * TDD tests for {@link ConfigRunner} and {@link Configs}.
  *
- * <p>Uses {@code WrapperAlias} from {@code src/test/resources/pta/arm3} because
- * that program has no dependency on {@code PTAAssert}, so a single classpath
- * entry suffices. WrapperAlias is precision-discriminating between CI and 2-obj:
- * the identity wrapper {@code id()} is analysed once under CI, conflating
- * {@code {AObj, BObj}} into {@code wa} and {@code wb}; under 2-obj each call
- * site gets its own context, so {@code wa} → {@code {AObj}} and
- * {@code wb} → {@code {BObj}}, strictly reducing {@code avgPtsSize}.
+ * <p>Uses {@code BoxAlias} from {@code src/test/resources/pta/eval} as the
+ * canonical object-sensitivity benchmark.  {@code Box} exposes instance
+ * methods {@code set(Object)} and {@code get()}, so the receiver's heap
+ * allocation site is the context discriminator under 2-obj.
+ *
+ * <ul>
+ *   <li>Under context-insensitive analysis (B0), {@code Box.get()} is
+ *       analysed once; its return variable points to both {@code A-alloc}
+ *       and {@code B-alloc}, so {@code x} and {@code y} each have
+ *       points-to size 2.</li>
+ *   <li>Under 2-object-sensitive analysis (B1), each call site of
+ *       {@code get()} has a distinct heap context (the receiver's alloc
+ *       site), so {@code x} -> {A-alloc} and {@code y} -> {B-alloc}:
+ *       points-to size 1 each.  This strictly reduces {@code avgPtsSize}
+ *       relative to B0.</li>
+ * </ul>
  */
 public class ConfigRunnerTest {
 
-    private static final String BENCHMARK_CP = "src/test/resources/pta/arm3";
+    private static final String BENCHMARK_CP = "src/test/resources/pta/eval";
 
-    private static final String MAIN_CLASS = "WrapperAlias";
+    private static final String MAIN_CLASS = "BoxAlias";
 
     /**
-     * Step 1 (failing): run B0 (CI) and B1 (2-obj) on WrapperAlias; assert
-     * both complete and B1 is at least as precise as B0 ({@code avgPtsSize}).
+     * Runs B0 (CI) and B1 (2-obj) on {@code BoxAlias} and asserts that B1
+     * achieves strictly smaller {@code avgPtsSize} than B0.
      *
-     * <p>Context sensitivity can only improve precision: the 2-obj analysis
-     * separates the two call sites of {@code id()}, so each wrapper output
-     * points to exactly one object instead of two, making B1 strictly more
-     * precise than B0 on this benchmark.
+     * <p>This test is non-vacuous: under CI, {@code Box.get()} merges both
+     * allocation sites so each result variable sees two objects; under 2-obj
+     * the two {@code Box} allocation sites separate the contexts so each
+     * result variable sees exactly one object.  If B1 were broken (e.g.
+     * context sensitivity disabled), the strict inequality would fail.
      */
     @Test
-    void b1IsAtLeastAsPreciseAsB0OnWrapperAlias() {
+    void b1IsStrictlyMorePreciseThanB0OnBoxAlias() {
         ConfigRunner runner = new ConfigRunner();
 
         MetricCollector.Metrics b0 = runner.run(Configs.B0, BENCHMARK_CP, MAIN_CLASS);
@@ -41,13 +51,12 @@ public class ConfigRunnerTest {
         assertNotNull(b0, "B0 (CI) must complete without exception");
         assertNotNull(b1, "B1 (2-obj) must complete without exception");
 
-        assertTrue(b1.avgPtsSize() <= b0.avgPtsSize(),
-                "B1 (2-obj) avgPtsSize=" + b1.avgPtsSize()
-                + " should be <= B0 (CI) avgPtsSize=" + b0.avgPtsSize()
-                + " (context sensitivity only improves precision)");
-
-        // On WrapperAlias CI conflates {AObj,BObj} in wa/wb: strict inequality.
         assertTrue(b0.avgPtsSize() > 0,
                 "B0 must see non-empty points-to sets");
+
+        assertTrue(b1.avgPtsSize() < b0.avgPtsSize(),
+                "B1 (2-obj) avgPtsSize=" + b1.avgPtsSize()
+                + " must be STRICTLY LESS than B0 (CI) avgPtsSize=" + b0.avgPtsSize()
+                + " — BoxAlias instance-method context separation must hold");
     }
 }
