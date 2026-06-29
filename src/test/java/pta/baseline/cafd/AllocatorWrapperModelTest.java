@@ -59,9 +59,10 @@ public class AllocatorWrapperModelTest {
                         + " — per-callsite cloning for make() should add 2 MockObjs vs 1 NewObj",
                         cafdObjects, ciObjects));
 
-        // CAFD must not inflate total PTS size
-        assertTrue(cafdPts <= ciPts,
-                String.format("CAFD (pts-sum=%d) should not exceed CI (pts-sum=%d)"
+        // CAFD must strictly reduce total PTS size (observed CAFD=9 < CI=10):
+        // suppressing make()'s body removes its internal-variable contributions
+        assertTrue(cafdPts < ciPts,
+                String.format("CAFD (pts-sum=%d) must be strictly less than CI (pts-sum=%d)"
                         + " — suppressing make() body removes its internal-variable contributions",
                         cafdPts, ciPts));
     }

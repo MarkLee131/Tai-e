@@ -54,12 +54,13 @@ public class WrapperDetector {
      * Detects allocator-wrapper methods from a CI pre-analysis result.
      *
      * @param preAnalysis CI pre-analysis result (provides points-to information)
-     * @param h           class hierarchy (reserved for future use, e.g., checking
-     *                    whether a method has overrides that could escape)
+     * @param h           class hierarchy — reserved for future use (e.g., checking
+     *                    whether a method has overrides that could escape); not
+     *                    consulted by the current implementation
      * @return deterministic, insertion-ordered set of detected wrapper methods
      */
     public static Set<JMethod> detect(PointerAnalysisResult preAnalysis,
-                                       ClassHierarchy h) {
+                                       @SuppressWarnings("unused") ClassHierarchy h) {
         Set<JMethod> wrappers = new LinkedHashSet<>();
         List<JMethod> candidates = preAnalysis.getCallGraph()
                 .reachableMethods()

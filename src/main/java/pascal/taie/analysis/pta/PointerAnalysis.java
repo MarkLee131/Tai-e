@@ -178,11 +178,21 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
         }
         plugin.addPlugin(new ResultProcessor());
         // B3 baseline: add the CAFD companion plugin for the main (non-pre) analysis.
-        // The instanceof guard ensures we skip the CI pre-analysis pass (where the
-        // heap model is still AllocationSiteBasedModel).
-        if (solver.getHeapModel()
-                instanceof pta.baseline.cafd.AllocatorWrapperModel cafdModel) {
-            plugin.addPlugin(new pta.baseline.cafd.AllocatorWrapperPlugin(cafdModel));
+        // When advanced:cafd is in options the heap model must be one of:
+        //   (a) AllocationSiteBasedModel — the CI pre-analysis pass; silently skip.
+        //   (b) AllocatorWrapperModel    — the real CAFD main pass; add the plugin.
+        // Any other model is a configuration mismatch: fail fast so it is never
+        // silently treated as bare CI.
+        if ("cafd".equals(options.getString("advanced"))) {
+            HeapModel heapModel = solver.getHeapModel();
+            if (heapModel instanceof pta.baseline.cafd.AllocatorWrapperModel cafdModel) {
+                plugin.addPlugin(new pta.baseline.cafd.AllocatorWrapperPlugin(cafdModel));
+            } else if (!(heapModel instanceof AllocationSiteBasedModel)) {
+                throw new IllegalStateException(
+                        "advanced:cafd requires AllocatorWrapperModel for the main analysis "
+                        + "pass, but got: " + heapModel.getClass().getName());
+            }
+            // else: AllocationSiteBasedModel = CI pre-analysis pass — skip silently
         }
         // add plugins specified in options
         // noinspection unchecked

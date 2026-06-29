@@ -127,6 +127,13 @@ public class AllocatorWrapperModel extends AbstractHeapModel {
      *         return type is not a reference type
      */
     Obj getOrCreateCallSiteObj(Invoke callSite, JMethod callee) {
+        // Note on computeIfAbsent + null return: when the lambda returns null,
+        // Java's Map contract does NOT insert the key, so subsequent calls for a
+        // callee whose return type is non-reference will re-invoke the lambda each
+        // time. This is intentional — the lambda is cheap, and returning null here
+        // correctly signals to AllocatorWrapperPlugin that no MockObj exists for
+        // this callsite (callee has a primitive/void return type, which should not
+        // occur in practice given wrappers must have a reference return type).
         return callSiteObjs.computeIfAbsent(callSite, cs -> {
             if (!(callee.getReturnType() instanceof ReferenceType retType)) {
                 return null;
