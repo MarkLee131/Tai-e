@@ -84,7 +84,7 @@ public final class ArmOracleFactory {
      * query key (a method signature). A line {@code "default <answer>"} sets the
      * fallback answer for keys not listed.
      */
-    static MockOracle loadMockOracle(Path file) {
+    public static MockOracle loadMockOracle(Path file) {
         Map<String, String> answers = new HashMap<>();
         String def = "NO";
         try {
