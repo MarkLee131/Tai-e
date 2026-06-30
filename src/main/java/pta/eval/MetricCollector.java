@@ -67,21 +67,28 @@ public class MetricCollector {
          */
         public static final String CSV_HEADER =
                 "config,benchmark,timeMs,memMb,"
-                + "mayFailCasts,avgPtsSize,polyCallSites,reachableMethods,aliasPairs,objects";
+                + "mayFailCasts,avgPtsSize,polyCallSites,reachableMethods,aliasPairs,objects,"
+                + "costUsd,llmQueries";
 
         /**
          * Returns a single CSV data row for this metric snapshot.
          *
-         * @param config    analysis configuration label (e.g. {@code "ci"}, {@code "2obj"})
-         * @param benchmark benchmark/program name
-         * @param timeMs    wall-clock analysis time in milliseconds
-         * @param memMb     peak heap usage in megabytes
+         * @param config     analysis configuration label (e.g. {@code "ci"}, {@code "2obj"})
+         * @param benchmark  benchmark/program name
+         * @param timeMs     wall-clock analysis time in milliseconds
+         * @param memMb      peak heap usage in megabytes
+         * @param costUsd    estimated LLM cost in USD (0 for baselines)
+         * @param llmQueries number of LLM oracle calls made (0 for baselines)
          */
-        public String toCsvRow(String config, String benchmark, long timeMs, long memMb) {
-            return String.format(Locale.ROOT, "%s,%s,%d,%d,%d,%.6f,%d,%d,%d,%d",
+        public String toCsvRow(String config, String benchmark,
+                                long timeMs, long memMb,
+                                double costUsd, long llmQueries) {
+            return String.format(Locale.ROOT,
+                    "%s,%s,%d,%d,%d,%.6f,%d,%d,%d,%d,%.6f,%d",
                     config, benchmark, timeMs, memMb,
                     mayFailCasts, avgPtsSize, polyCallSites,
-                    reachableMethods, aliasPairs, objects);
+                    reachableMethods, aliasPairs, objects,
+                    costUsd, llmQueries);
         }
     }
 

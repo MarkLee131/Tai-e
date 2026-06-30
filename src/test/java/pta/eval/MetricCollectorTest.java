@@ -24,8 +24,8 @@ public class MetricCollectorTest {
 
     private static final String PTA_ROOT = "src/test/resources/pta";
 
-    /** CSV column count: config, benchmark, timeMs, memMb + 6 metric fields. */
-    private static final int EXPECTED_CSV_COLUMNS = 10;
+    /** CSV column count: config, benchmark, timeMs, memMb + 6 metric fields + costUsd + llmQueries. */
+    private static final int EXPECTED_CSV_COLUMNS = 12;
 
     /**
      * Step 1: run CI PTA on Dispatch.java and assert structural sanity of metrics
@@ -51,18 +51,20 @@ public class MetricCollectorTest {
         assertTrue(m.polyCallSites() >= 1,
                 "Dispatch's a.foo() dispatches to 3 targets → at least 1 poly call site");
 
-        // CSV row shape
-        String csv = m.toCsvRow("ci", "Dispatch", 100L, 64L);
+        // CSV row shape: pass 0.0 costUsd and 0 llmQueries for a baseline run
+        String csv = m.toCsvRow("ci", "Dispatch", 100L, 64L, 0.0, 0L);
         String[] parts = csv.split(",", -1);
         assertEquals(EXPECTED_CSV_COLUMNS, parts.length,
                 "CSV row must have exactly " + EXPECTED_CSV_COLUMNS + " columns");
 
         // Column order: config, benchmark, timeMs, memMb, mayFailCasts, avgPtsSize,
-        //               polyCallSites, reachableMethods, aliasPairs, objects
+        //               polyCallSites, reachableMethods, aliasPairs, objects, costUsd, llmQueries
         assertEquals("ci", parts[0], "column 0 must be config");
         assertEquals("Dispatch", parts[1], "column 1 must be benchmark");
         assertEquals("100", parts[2], "column 2 must be timeMs");
         assertEquals("64", parts[3], "column 3 must be memMb");
+        assertEquals("0.000000", parts[10], "column 10 must be costUsd=0.000000");
+        assertEquals("0", parts[11], "column 11 must be llmQueries=0");
     }
 
     /**
@@ -83,7 +85,7 @@ public class MetricCollectorTest {
                 "Cast.java has cast expressions that may fail → mayFailCasts must be positive");
     }
 
-    /** CSV_HEADER must list 10 column names in the prescribed order. */
+    /** CSV_HEADER must list 12 column names in the prescribed order. */
     @Test
     void csvHeaderHasCorrectColumnsInOrder() {
         String header = MetricCollector.Metrics.CSV_HEADER;
@@ -100,5 +102,7 @@ public class MetricCollectorTest {
         assertEquals("reachableMethods", cols[7]);
         assertEquals("aliasPairs", cols[8]);
         assertEquals("objects", cols[9]);
+        assertEquals("costUsd", cols[10]);
+        assertEquals("llmQueries", cols[11]);
     }
 }
