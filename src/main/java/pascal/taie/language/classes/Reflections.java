@@ -93,4 +93,27 @@ public final class Reflections {
         }
         return methods.stream();
     }
+
+    public static Stream<JField> getDeclaredFields(JClass jclass, String fieldName) {
+        return jclass.getDeclaredFields()
+                .stream()
+                .filter(f -> f.getName().equals(fieldName));
+    }
+
+    public static Stream<JField> getFields(JClass jclass, String fieldName) {
+        List<JField> fields = new ArrayList<>();
+        Set<String> names = Sets.newHybridSet();
+        while (jclass != null) {
+            jclass.getDeclaredFields()
+                    .stream()
+                    .filter(f -> f.isPublic() && f.getName().equals(fieldName))
+                    .filter(f -> !names.contains(f.getName()))
+                    .forEach(f -> {
+                        fields.add(f);
+                        names.add(f.getName());
+                    });
+            jclass = jclass.getSuperClass();
+        }
+        return fields.stream();
+    }
 }

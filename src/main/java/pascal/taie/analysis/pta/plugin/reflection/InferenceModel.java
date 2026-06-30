@@ -29,6 +29,7 @@ import pascal.taie.analysis.pta.plugin.util.AnalysisModelPlugin;
 import pascal.taie.ir.exp.Var;
 import pascal.taie.ir.stmt.Invoke;
 import pascal.taie.language.classes.JClass;
+import pascal.taie.language.classes.JField;
 import pascal.taie.language.classes.JMethod;
 import pascal.taie.language.classes.Reflections;
 import pascal.taie.util.AnalysisException;
@@ -121,6 +122,24 @@ abstract class InferenceModel extends AnalysisModelPlugin {
                 };
                 methods.map(helper::getMetaObj)
                         .forEach(mtdObj -> solver.addVarPointsTo(context, result, mtdObj));
+            }
+        }
+    }
+
+    protected void classGetFieldKnown(Context context, Invoke invoke,
+                                      @Nullable JClass clazz, @Nullable String name) {
+        if (clazz != null && name != null) {
+            Var result = invoke.getResult();
+            if (result != null) {
+                Stream<JField> fields = switch (invoke.getMethodRef().getName()) {
+                    case "getField" -> Reflections.getFields(clazz, name);
+                    case "getDeclaredField" -> Reflections.getDeclaredFields(clazz, name);
+                    default -> throw new AnalysisException(
+                            "Expected [getField, getDeclaredField], given " +
+                                    invoke.getMethodRef());
+                };
+                fields.map(helper::getMetaObj)
+                        .forEach(fldObj -> solver.addVarPointsTo(context, result, fldObj));
             }
         }
     }

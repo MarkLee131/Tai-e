@@ -175,6 +175,46 @@ public class LlmInferenceModel extends InferenceModel {
     }
 
     // -----------------------------------------------------------------------
+    // getField / getDeclaredField — resolve the (possibly Unknown) field name
+    // -----------------------------------------------------------------------
+
+    @InvokeHandler(signature = {
+            "<java.lang.Class: java.lang.reflect.Field getField(java.lang.String)>",
+            "<java.lang.Class: java.lang.reflect.Field getDeclaredField(java.lang.String)>"},
+            argIndexes = {BASE, 0})
+    public void classGetField(Context context, Invoke invoke,
+                              PointsToSet classObjs, PointsToSet nameObjs) {
+        if (invokesWithLog.contains(invoke)) {
+            return;
+        }
+        List<JClass> classes = new ArrayList<>();
+        classObjs.forEach(co -> {
+            JClass clazz = CSObjs.toClass(co);
+            if (clazz != null) {
+                classes.add(clazz);
+            }
+        });
+        boolean[] knownName = {false};
+        classes.forEach(clazz -> nameObjs.forEach(no -> {
+            String name = CSObjs.toString(no);
+            if (name != null) {
+                classGetFieldKnown(context, invoke, clazz, name);
+                knownName[0] = true;
+            }
+        }));
+        if (!knownName[0] && !classes.isEmpty() && oracle != null && queried.add(invoke)) {
+            for (String name : askLlm("llm-field", invoke,
+                    "A reflective getField(...) has a non-constant field name. "
+                            + "Given the surrounding code, list the field name(s) it may "
+                            + "retrieve, one per line.")) {
+                for (JClass clazz : classes) {
+                    classGetFieldKnown(context, invoke, clazz, name.trim());
+                }
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
     // getConstructor — no name to resolve; mirror StringBasedModel for known class
     // -----------------------------------------------------------------------
 
