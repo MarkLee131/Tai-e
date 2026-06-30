@@ -5,13 +5,13 @@ Feeds tiny canned CSVs (written inline) into the report generator and asserts:
   - comparison_table.md exists and has one row per config in results.csv
   - pareto_precision_vs_time.png is created and non-empty
   - robustness_recall_vs_error.png is created and non-empty
+  - cost_vs_precision.png is created and non-empty
+  - comparison_table.md contains costUsd and llmQueries columns
 """
 
-import os
 import pathlib
 import subprocess
 import sys
-import tempfile
 import textwrap
 
 import pytest
@@ -22,17 +22,17 @@ import pytest
 
 # results.csv columns (from MetricCollector.CSV_HEADER):
 # config,benchmark,timeMs,memMb,mayFailCasts,avgPtsSize,polyCallSites,
-# reachableMethods,aliasPairs,objects
+# reachableMethods,aliasPairs,objects,costUsd,llmQueries
 RESULTS_CSV = textwrap.dedent("""\
-    config,benchmark,timeMs,memMb,mayFailCasts,avgPtsSize,polyCallSites,reachableMethods,aliasPairs,objects
-    B0,test-bench,1000,256,50,3.200000,20,500,1000,800
-    B1,test-bench,1200,280,45,2.900000,18,510,950,790
-    B2z,test-bench,1400,300,42,2.700000,17,515,900,780
-    B2s,test-bench,1600,320,40,2.500000,16,520,880,770
-    B3,test-bench,1800,340,38,2.300000,15,525,860,760
-    A1,test-bench,2000,360,35,2.100000,14,530,840,750
-    A2,test-bench,2200,380,33,1.900000,13,535,820,740
-    A3,test-bench,2400,400,30,1.700000,12,540,800,730
+    config,benchmark,timeMs,memMb,mayFailCasts,avgPtsSize,polyCallSites,reachableMethods,aliasPairs,objects,costUsd,llmQueries
+    B0,test-bench,1000,256,50,3.200000,20,500,1000,800,0.000000,0
+    B1,test-bench,1200,280,45,2.900000,18,510,950,790,0.000000,0
+    B2z,test-bench,1400,300,42,2.700000,17,515,900,780,0.000000,0
+    B2s,test-bench,1600,320,40,2.500000,16,520,880,770,0.000000,0
+    B3,test-bench,1800,340,38,2.300000,15,525,860,760,0.000000,0
+    A1,test-bench,2000,360,35,2.100000,14,530,840,750,0.001234,42
+    A2,test-bench,2200,380,33,1.900000,13,535,820,740,0.000987,38
+    A3,test-bench,2400,400,30,1.700000,12,540,800,730,0.000543,21
 """)
 
 # robustness.csv columns (derived from SweepPoint record):
@@ -149,7 +149,8 @@ class TestReportGeneration:
             and not all(
                 cell.strip() in ("config", "benchmark", "timeMs", "memMb",
                                  "mayFailCasts", "avgPtsSize", "polyCallSites",
-                                 "reachableMethods", "aliasPairs", "objects")
+                                 "reachableMethods", "aliasPairs", "objects",
+                                 "costUsd", "llmQueries")
                 for cell in line.strip().strip("|").split("|")
                 if cell.strip()
             )
@@ -212,3 +213,34 @@ class TestReportGeneration:
         assert not missing, (
             f"Table header missing columns: {missing}\nHeader: {header_line}"
         )
+
+    def test_cost_vs_precision_png_created(self, canned_data):
+        """cost_vs_precision.png must be created and non-empty."""
+        _run_report(
+            canned_data["results"],
+            canned_data["robustness"],
+            canned_data["outdir"],
+        )
+        png_path = pathlib.Path(canned_data["outdir"]) / "cost_vs_precision.png"
+        assert png_path.exists(), "cost_vs_precision.png was not created"
+        assert png_path.stat().st_size > 0, "cost_vs_precision.png is empty"
+
+    def test_comparison_table_has_cost_and_query_columns(self, canned_data):
+        """The comparison table header must contain costUsd and llmQueries columns."""
+        _run_report(
+            canned_data["results"],
+            canned_data["robustness"],
+            canned_data["outdir"],
+        )
+        table_path = pathlib.Path(canned_data["outdir"]) / "comparison_table.md"
+        text = table_path.read_text()
+        header_line = next(
+            (line for line in text.splitlines() if line.strip().startswith("|")),
+            None,
+        )
+        assert header_line is not None, "No header row found in table"
+        header_cells = {c.strip() for c in header_line.strip("|").split("|")}
+        for col in ("costUsd", "llmQueries"):
+            assert col in header_cells, (
+                f"Table header missing '{col}' column.\nHeader: {header_line}"
+            )

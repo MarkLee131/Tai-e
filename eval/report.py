@@ -9,12 +9,14 @@ Produces in <outdir>:
     comparison_table.md         — markdown table, one row per config
     pareto_precision_vs_time.png — avgPtsSize (y, lower=better) vs timeMs (x)
     robustness_recall_vs_error.png — recall (y) vs errorRate (x), one line/arm
+    cost_vs_precision.png       — avgPtsSize (y) vs costUsd (x), one point/config
 
 CSV schemas consumed
 --------------------
 results.csv  (MetricCollector.CSV_HEADER):
     config,benchmark,timeMs,memMb,
-    mayFailCasts,avgPtsSize,polyCallSites,reachableMethods,aliasPairs,objects
+    mayFailCasts,avgPtsSize,polyCallSites,reachableMethods,aliasPairs,objects,
+    costUsd,llmQueries
 
 robustness.csv  (derived from RobustnessSweep.SweepPoint):
     config,errorRate,recall,
@@ -22,7 +24,6 @@ robustness.csv  (derived from RobustnessSweep.SweepPoint):
 """
 
 import argparse
-import os
 import pathlib
 import sys
 
@@ -48,6 +49,8 @@ TABLE_COLS = [
     "reachableMethods",
     "aliasPairs",
     "objects",
+    "costUsd",
+    "llmQueries",
 ]
 
 
@@ -74,7 +77,10 @@ def _make_comparison_table(results: pd.DataFrame, outdir: pathlib.Path) -> None:
     numeric_cols = [
         "timeMs", "memMb", "mayFailCasts", "avgPtsSize",
         "polyCallSites", "reachableMethods", "aliasPairs", "objects",
+        "costUsd", "llmQueries",
     ]
+    # Only aggregate columns that actually exist in the data
+    numeric_cols = [c for c in numeric_cols if c in results.columns]
     agg = (
         results.groupby("config")[numeric_cols]
         .mean()
@@ -205,6 +211,58 @@ def _make_robustness_plot(robustness: pd.DataFrame, outdir: pathlib.Path) -> Non
 
 
 # ---------------------------------------------------------------------------
+# Step 4: Cost vs precision scatter
+# ---------------------------------------------------------------------------
+
+def _make_cost_precision_plot(results: pd.DataFrame, outdir: pathlib.Path) -> None:
+    """
+    Scatter plot: x = mean costUsd (LLM cost), y = mean avgPtsSize (precision,
+    lower=better). One point per config. Shows cost as a tool-quality dimension
+    alongside precision. Baselines cluster at costUsd=0.
+    """
+    numeric_cols = ["costUsd", "avgPtsSize"]
+    # Only proceed if costUsd column exists
+    numeric_cols = [c for c in numeric_cols if c in results.columns]
+    if "costUsd" not in numeric_cols:
+        return
+    agg = results.groupby("config")[numeric_cols].mean().reset_index()
+    agg = _sort_configs(agg)
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    xs = agg["costUsd"].tolist()
+    ys = agg["avgPtsSize"].tolist()
+    labels = agg["config"].tolist()
+
+    # Color baselines (costUsd == 0) differently
+    colors = ["steelblue" if x == 0.0 else "darkorange" for x in xs]
+    ax.scatter(xs, ys, s=80, zorder=3, color=colors)
+
+    for x, y, lbl in zip(xs, ys, labels):
+        ax.annotate(lbl, (x, y), textcoords="offset points",
+                    xytext=(5, 4), fontsize=9)
+
+    ax.set_xlabel("Estimated LLM cost (USD, lower=cheaper)", fontsize=11)
+    ax.set_ylabel("Avg points-to set size (lower = more precise)", fontsize=11)
+    ax.set_title("Precision vs. LLM Cost", fontsize=12)
+    ax.grid(True, linestyle="--", alpha=0.4)
+
+    # Legend
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='steelblue',
+               markersize=9, label='Baseline (no LLM cost)'),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='darkorange',
+               markersize=9, label='LLM-augmented arm'),
+    ]
+    ax.legend(handles=legend_elements, fontsize=9)
+
+    fig.tight_layout()
+    fig.savefig(outdir / "cost_vs_precision.png", dpi=150)
+    plt.close(fig)
+
+
+# ---------------------------------------------------------------------------
 # CLI entry point
 # ---------------------------------------------------------------------------
 
@@ -227,11 +285,13 @@ def generate_report(results_csv: str, robustness_csv: str, outdir: str) -> None:
     _make_comparison_table(results, out)
     _make_pareto_plot(results, out)
     _make_robustness_plot(robustness, out)
+    _make_cost_precision_plot(results, out)
 
     print(f"[report] outputs written to {out.resolve()}")
     print(f"  comparison_table.md")
     print(f"  pareto_precision_vs_time.png")
     print(f"  robustness_recall_vs_error.png")
+    print(f"  cost_vs_precision.png")
 
 
 def main(argv=None) -> int:
