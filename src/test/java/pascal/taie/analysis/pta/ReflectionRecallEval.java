@@ -111,7 +111,7 @@ public class ReflectionRecallEval {
         }
         args.addAll(Arrays.asList("-m", info.main()));
         StringBuilder pta = new StringBuilder()
-                .append("distinguish-string-constants:null;merge-string-objects:false")
+                .append("distinguish-string-constants:reflection;merge-string-objects:false")
                 .append(";only-app:true;cs:ci")
                 .append(";reflection-inference:").append(reflInference)
                 .append(";time-limit:").append(TIME_LIMIT);
