@@ -85,6 +85,21 @@ public class LlmReflectionModel implements Plugin {
         return oracleOverride != null;
     }
 
+    /**
+     * SOLAR-N3 self-flagging: residual sites the LLM+disposer could NOT resolve
+     * this run (never silently dropped). Cleared at the start of each analysis
+     * in {@link #setSolver}. Read with {@link #gapReport()}.
+     */
+    private static final Set<String> GAP =
+            java.util.Collections.synchronizedSet(new LinkedHashSet<>());
+
+    /** Read-only snapshot of the unresolved-site gap report for the last run. */
+    public static List<String> gapReport() {
+        synchronized (GAP) {
+            return List.copyOf(GAP);
+        }
+    }
+
     private Solver solver;
 
     private CSManager csManager;
@@ -118,6 +133,7 @@ public class LlmReflectionModel implements Plugin {
         this.hierarchy = solver.getHierarchy();
         this.typeSystem = solver.getTypeSystem();
         this.oracle = oracleOverride;
+        GAP.clear();
     }
 
     @Override
@@ -172,10 +188,12 @@ public class LlmReflectionModel implements Plugin {
             response = oracle.ask(new LlmQuery("reflect-targets", prompt, siteId));
         } catch (RuntimeException e) {
             logger.warn("[arm2] LLM query failed for {}: {}", siteId, e.getMessage());
+            GAP.add(siteId); // SOLAR-N3: oracle failure → site stays unresolved
             return;
         }
         List<String> proposed = response.asLines();
         if (proposed.isEmpty()) {
+            GAP.add(siteId); // LLM declined → unresolved, not silently dropped
             return;
         }
         // Two-layer sound disposer: base TargetFilter (loaded + type-compatible)
@@ -183,6 +201,11 @@ public class LlmReflectionModel implements Plugin {
         // is clamped on precision grounds; arm② only adds edges, never drops one.
         Set<JMethod> admitted = ReflectionDisposer.admit(site, proposed, evidence,
                 hierarchy, typeSystem);
+        if (admitted.isEmpty()) {
+            // Nothing survived the sound disposer → flag, don't fail open/closed.
+            GAP.add(siteId);
+            return;
+        }
         for (JMethod init : admitted) {
             addReflectiveInitEdge(context, invoke, csCallSite, init);
         }
