@@ -76,6 +76,8 @@ public class ReflectionAnalysis extends CompositePlugin {
             inferenceModel = new StringBasedModel(solver, helper, invokesWithLog);
         } else if ("solar".equals(reflection)) {
             inferenceModel = new SolarModel(solver, helper, typeMatcher, invokesWithLog);
+        } else if ("llm".equals(reflection)) {
+            inferenceModel = new LlmInferenceModel(solver, helper, invokesWithLog);
         } else if (reflection == null) {
             inferenceModel = InferenceModel.getDummy(solver);
         } else {
