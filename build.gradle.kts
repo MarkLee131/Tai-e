@@ -176,3 +176,31 @@ tasks.test {
         }
     }
 }
+
+// ── DaCapo LLM query-count measurement task ──────────────────────────────────
+// Zero-cost: uses MockOracle internally, no live API calls.
+//
+// Usage (select benchmarks via property):
+//   ./gradlew measureDaCapo
+//   ./gradlew measureDaCapo -PdaCapoBenchmarks=luindex,antlr
+tasks.register<Test>("measureDaCapo") {
+    group = "measurement"
+    description = "Zero-cost DaCapo-2006 LLM query-count measurement (mock oracle)"
+    useJUnitPlatform()
+    maxHeapSize = (findProperty("testMaxHeap") as String?) ?: "32g"
+    maxParallelForks = 1  // runs must be sequential (static oracle fields)
+    val suiteClasses = testing.suites
+        .named<JvmTestSuite>(JvmTestSuitePlugin.DEFAULT_TEST_SUITE_NAME)
+    testClassesDirs = files(suiteClasses.map { it.sources.output.classesDirs })
+    classpath = files(suiteClasses.map { it.sources.runtimeClasspath })
+
+    val benchmarks = (findProperty("daCapoBenchmarks") as String?)
+        ?: "luindex,antlr,bloat,fop,hsqldb,lusearch,pmd,xalan,chart"
+    systemProperty("dacapo.measure", "true")
+    systemProperty("dacapo.benchmarks", benchmarks)
+    jvmArgs("-Xss4m")  // larger stack for deep call chains
+
+    filter {
+        includeTestsMatching("pascal.taie.analysis.pta.DaCapoQueryCountTest")
+    }
+}
