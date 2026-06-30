@@ -1,2 +1,6 @@
-wrapper id
-never-alias P Q
+# Cosmetic good-proposal file for the arm③ sweep config (advanced:llm-cafd).
+# The RobustnessSweep injects a static oracle override per sweep point, so this
+# file is only used to satisfy the llm-mock-file option. Format: per-method
+# YES/NO keyed by simple method name. The LLM proposes make() as a fresh wrapper.
+YES make
+default NO

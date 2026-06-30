@@ -33,7 +33,8 @@ import java.util.function.Function;
  *       {@link pta.arm1.ArmOracleFactory#clearOracle}</li>
  *   <li><b>Arm ②</b> ({@code pta.arm2.LlmReflectionModel}): {@link LlmReflectionModel#setOracle} /
  *       {@link LlmReflectionModel#clearOracle}</li>
- *   <li><b>Arm ③</b> ({@code pta.arm3.LlmFactPlugin}): {@link pta.arm3.ArmOracleFactory#setOracle} /
+ *   <li><b>Arm ③</b> ({@code advanced:llm-cafd}, sound heap cloning):
+ *       {@link pta.arm3.ArmOracleFactory#setOracle} /
  *       {@link pta.arm3.ArmOracleFactory#clearOracle}</li>
  *   <li><b>Unsound CAFD-style</b> ({@code pta.eval.UnsoundCafdStylePlugin}):
  *       {@link UnsoundCafdStylePlugin#setOracle} / {@link UnsoundCafdStylePlugin#clearOracle}</li>
@@ -70,9 +71,11 @@ public class RobustnessSweep {
     static final long SEED = 42L;
 
     // Arm identification tags (substrings of ptaArgs).
+    // NOTE: ARM3_TAG ("advanced:llm-cafd") contains ARM1_TAG ("advanced:llm") as a
+    // substring, so ARM3 MUST be tested BEFORE ARM1 in injectOracle/clearOracle.
     private static final String ARM1_TAG   = "advanced:llm";
     private static final String ARM2_TAG   = "pta.arm2.LlmReflectionModel";
-    private static final String ARM3_TAG   = "pta.arm3.LlmFactPlugin";
+    private static final String ARM3_TAG   = "advanced:llm-cafd";
     private static final String UNSOUND_TAG = "pta.eval.UnsoundCafdStylePlugin";
 
     private final ConfigRunner runner   = new ConfigRunner();
@@ -201,12 +204,13 @@ public class RobustnessSweep {
 
     private static void injectOracle(Configs.Config arm, LlmOracle oracle) {
         String args = arm.ptaArgs();
-        if (args.contains(ARM1_TAG)) {
+        // ARM3 ("advanced:llm-cafd") must be checked BEFORE ARM1 ("advanced:llm").
+        if (args.contains(ARM3_TAG)) {
+            pta.arm3.ArmOracleFactory.setOracle(oracle);
+        } else if (args.contains(ARM1_TAG)) {
             pta.arm1.ArmOracleFactory.setOracle(oracle);
         } else if (args.contains(ARM2_TAG)) {
             LlmReflectionModel.setOracle(oracle);
-        } else if (args.contains(ARM3_TAG)) {
-            pta.arm3.ArmOracleFactory.setOracle(oracle);
         } else if (args.contains(UNSOUND_TAG)) {
             UnsoundCafdStylePlugin.setOracle(oracle);
         } else {
@@ -217,12 +221,13 @@ public class RobustnessSweep {
 
     private static void clearOracle(Configs.Config arm) {
         String args = arm.ptaArgs();
-        if (args.contains(ARM1_TAG)) {
+        // ARM3 ("advanced:llm-cafd") must be checked BEFORE ARM1 ("advanced:llm").
+        if (args.contains(ARM3_TAG)) {
+            pta.arm3.ArmOracleFactory.clearOracle();
+        } else if (args.contains(ARM1_TAG)) {
             pta.arm1.ArmOracleFactory.clearOracle();
         } else if (args.contains(ARM2_TAG)) {
             LlmReflectionModel.clearOracle();
-        } else if (args.contains(ARM3_TAG)) {
-            pta.arm3.ArmOracleFactory.clearOracle();
         } else if (args.contains(UNSOUND_TAG)) {
             UnsoundCafdStylePlugin.clearOracle();
         }

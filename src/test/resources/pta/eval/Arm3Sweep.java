@@ -1,48 +1,44 @@
-// Benchmark for the Arm 3 (neuro-symbolic) robustness sweep.
+// Benchmark for the Arm 3 (neuro-symbolic) robustness sweep — REDESIGNED for
+// SOUND per-callsite heap cloning ("CAFD done right"). Mirrors B3's WrapperProgram.
 //
-// A STATIC identity wrapper id() with SINGLE-GROUP arguments and no other
-// conflation path. Under context-INSENSITIVE analysis id() is analysed once and
-// its parameter conflates {P, Q} across the two call sites, so:
-//   pts(xp) = pts(xq) = {P, Q}
-//   xp.m() dispatches to P.m() AND Q.m()   (Q.m edge is spurious)
-//   xq.m() dispatches to P.m() AND Q.m()   (P.m edge is spurious)
+// make() is a genuine FRESH-ALLOCATION WRAPPER: it returns `new Data()` on every
+// path, with no escaping side effect. WrapperDetector confirms it.
 //
-// A CORRECT LLM fact ("wrapper id" + "never-alias P Q") lets the sound arm 3
-// disposer de-conflate: arg p is provably single-group P per the CI pre-analysis
-// (pts(p) = {P}), so banning Q from xp removes only the spurious Q.m edge —
-// SOUND. p=0 ground truth therefore drops the two spurious edges.
+// Under context-INSENSITIVE analysis, make() has a single abstract Data object,
+// so the results of the two call sites (a and b) point to the SAME object and
+// alias each other:
+//   pts(a) = pts(b) = {Data@make}   =>   a and b MAY-ALIAS  (1 abstract object)
 //
-// A WRONG fact (any error rate > 0) is rejected/withheld by the disposer, so the
-// analysis falls back to the (sound) CI super-set. Recall vs the p=0 ground
-// truth stays 1.0 at every error rate: arm 3 is sound by construction.
+// A CORRECT LLM proposal ("make" is a fresh wrapper), confirmed by the detector,
+// clones make() per call site, so a and b point to DISTINCT abstract objects:
+//   pts(a) = {Data@callsite1}, pts(b) = {Data@callsite2}   =>   a, b DON'T alias
+//   (2 abstract objects, fewer may-alias pairs). This refined heap is the p=0
+//   reference.
+//
+// A WRONG proposal (any error rate > 0 that flips make YES->NO, or proposes a
+// non-wrapper the detector rejects) simply does NOT clone, so the analysis falls
+// back to the SOUND CI super-set (a and b alias again). Cloning only ever ADDS
+// abstract objects and SPLITS alias sets — it never drops a real call edge — so
+// recall vs the p=0 reference call-graph stays 1.0 at every error rate. Arm 3 is
+// sound by construction.
 
-interface T {
-    void m();
-}
-
-class P implements T {
-    public void m() {
-    }
-}
-
-class Q implements T {
-    public void m() {
-    }
+class Data {
 }
 
 public class Arm3Sweep {
 
-    /** Static identity wrapper — context-conflated under CI. */
-    static T id(T t) {
-        return t;
+    /** Fresh-allocation wrapper — cloned per call site when confirmed. */
+    static Data make() {
+        return new Data();
     }
 
     public static void main(String[] args) {
-        T p = new P();
-        T q = new Q();
-        T xp = id(p);     // CI: xp -> {P, Q}; correct fact refines to {P}
-        T xq = id(q);     // CI: xq -> {P, Q}; correct fact refines to {Q}
-        xp.m();           // CI: P.m, Q.m  (Q.m spurious)
-        xq.m();           // CI: P.m, Q.m  (P.m spurious)
+        Data a = make();   // call site 1
+        Data b = make();   // call site 2
+        sink(a);
+        sink(b);
+    }
+
+    static void sink(Object o) {
     }
 }

@@ -34,7 +34,7 @@ import java.util.List;
  *       {@link ConfigRunner} before each run; the {@code llm-mock-file} value
  *       in the config's {@code ptaArgs} is used by the runner to load the
  *       oracle, but is NOT read by {@code LlmReflectionModel} itself.</li>
- *   <li>{@link #a3(String)} — neuro-symbolic LLM fact plugin (arm ③)</li>
+ *   <li>{@link #a3(String)} — neuro-symbolic sound heap cloning (arm ③)</li>
  * </ul>
  */
 public final class Configs {
@@ -121,19 +121,21 @@ public final class Configs {
     }
 
     /**
-     * Arm ③: Neuro-symbolic LLM fact plugin.
+     * Arm ③: Neuro-symbolic SOUND per-callsite heap cloning ("CAFD done right").
      *
-     * <p>Activated by {@code plugins:[pta.arm3.LlmFactPlugin]} +
-     * {@code llm-mock-file:<mockFile>}, read by
-     * {@link pta.arm3.ArmOracleFactory#fromOptions}.
+     * <p>Activated by {@code advanced:llm-cafd} + {@code llm-mock-file:<mockFile>}.
+     * The LLM proposes fresh-allocation wrapper candidates (read via
+     * {@link pta.arm3.ArmOracleFactory#fromOptions}); B3's
+     * {@link pta.baseline.cafd.WrapperDetector} confirms them; only the confirmed
+     * subset is cloned per call site (see {@link pta.arm3.LlmWrapperProposer}).
      *
-     * @param mockFile path to the fact file (lines of {@code never-alias A B} /
-     *                 {@code wrapper <name>})
+     * @param mockFile path to the per-method proposal file (lines of
+     *                 {@code YES <method>} / {@code NO <method>}; {@code default <ans>})
      * @return arm ③ config
      */
     public static Config a3(String mockFile) {
         return new Config("A3",
-                "plugins:[pta.arm3.LlmFactPlugin];llm-mock-file:" + mockFile);
+                "advanced:llm-cafd;llm-mock-file:" + mockFile);
     }
 
     private Configs() {
