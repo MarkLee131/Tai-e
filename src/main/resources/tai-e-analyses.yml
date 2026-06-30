@@ -21,10 +21,10 @@
     # scaler | scaler=TST
     # mahjong | collection
     # llm | llm=CAP (Arm① LLM-guided selective context-sensitivity)
-    llm-mock-file: null # shared by Arm① (selective-CS) and Arm③ (LlmFactPlugin):
-    # path to a canned mock-oracle answer file; when set, an offline MockOracle
-    # is used instead of querying the live LLM
-    llm-model: gemini-2.0-flash # Arm① model id for the live LLM oracle
+    llm-mock-file: null # shared by Arm① (selective-CS) and Arm③ (advanced:llm-cafd /
+    # LlmWrapperProposer): path to a canned mock-oracle answer file; when set, an
+    # offline MockOracle is used instead of querying the live LLM
+    llm-model: gemini-2.5-flash-lite # Arm① model id for the live LLM oracle
     llm-budget: "100.0" # Arm① hard USD budget cap for live LLM calls
     llm-cache-dir: .llm-cache # Arm① prompt cache directory
     dump: false # whether dump points-to results (with contexts)

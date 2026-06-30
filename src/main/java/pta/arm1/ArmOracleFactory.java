@@ -55,10 +55,10 @@ public final class ArmOracleFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ArmOracleFactory.class);
 
-    /** Rough Gemini-flash pricing (USD per token) for the budget meter. */
-    private static final double IN_RATE = 0.10 / 1_000_000;
+    /** Gemini Flash-Lite pricing (USD per token): $0.10/1M input, $0.40/1M output. */
+    private static final double IN_RATE = 1e-7;  // $0.10 / 1_000_000
 
-    private static final double OUT_RATE = 0.40 / 1_000_000;
+    private static final double OUT_RATE = 4e-7; // $0.40 / 1_000_000
 
     /**
      * Optional static override. When non-null, {@link #fromOptions} returns this
@@ -94,7 +94,7 @@ public final class ArmOracleFactory {
             logger.info("Arm① using offline MockOracle from {}", mockFile);
             return loadMockOracle(Path.of(mockFile));
         }
-        String model = optString(options, "llm-model", "gemini-2.0-flash");
+        String model = optString(options, "llm-model", "gemini-2.5-flash-lite");
         double budget = parseDouble(optString(options, "llm-budget", "100.0"), 100.0);
         String cacheDir = optString(options, "llm-cache-dir", ".llm-cache");
         String apiKey = firstNonNull(
