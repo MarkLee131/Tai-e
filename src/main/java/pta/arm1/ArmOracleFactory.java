@@ -102,8 +102,7 @@ public final class ArmOracleFactory {
         String model = optString(options, "llm-model", "gemini-2.5-flash-lite");
         double budget = parseDouble(optString(options, "llm-budget", "100.0"), 100.0);
         String cacheDir = optString(options, "llm-cache-dir", ".llm-cache");
-        String apiKey = firstNonNull(
-                System.getenv("GEMINI_API_KEY"), System.getenv("GOOGLE_API_KEY"), "");
+        String apiKey = pta.llm.ApiKeyResolver.resolve();
         logger.info("Arm① using live GeminiOracle (model={}, budget=${}, cache={})",
                 model, budget, cacheDir);
         return new GeminiOracle(model, apiKey,
@@ -161,14 +160,5 @@ public final class ArmOracleFactory {
         } catch (NumberFormatException e) {
             return def;
         }
-    }
-
-    private static String firstNonNull(String... vals) {
-        for (String v : vals) {
-            if (v != null) {
-                return v;
-            }
-        }
-        return null;
     }
 }

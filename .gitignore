@@ -7,3 +7,9 @@ build/
 cache/
 out/
 output/
+# Local LLM secrets / cache — never commit
+.api_key_env
+.llm-cache/
+# Python bytecode cache (eval/)
+__pycache__/
+*.pyc

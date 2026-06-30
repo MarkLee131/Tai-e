@@ -5,6 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 public class GeminiOracle implements LlmOracle {
+    /** Max attempts for transient failures (HTTP 429/5xx, network blips). */
+    private static final int MAX_ATTEMPTS = 6;
+    /** Base backoff (ms); doubles each retry, capped at 30s. */
+    private static final long BASE_BACKOFF_MS = 1000;
+
     private final String model, apiKey;
     private final PromptCache cache; private final CostMeter meter;
     private final HttpClient http = HttpClient.newHttpClient();
@@ -18,25 +23,58 @@ public class GeminiOracle implements LlmOracle {
         double est = meter.estimate(q.prompt(), q.prompt()); // assume output ~ prompt size for pre-check
         if (meter.wouldExceed(est))
             throw new CostMeter.BudgetExceededException("budget would be exceeded by live call for " + q.contextId());
+        // The arms only need a short answer (YES/NO on the first line, or a class
+        // name). Cap output tokens, and for Gemini 2.5 models disable "thinking"
+        // (which otherwise spends ~1000+ reasoning tokens → ~7s latency + cost) —
+        // a binary precision-criticality judgment does not need it.
+        String genConfig = "\"temperature\":0,\"maxOutputTokens\":64";
+        if (model.contains("2.5")) {
+            genConfig += ",\"thinkingConfig\":{\"thinkingBudget\":0}";
+        }
         String body = "{\"contents\":[{\"parts\":[{\"text\":" + jsonString(q.prompt())
-            + "}]}],\"generationConfig\":{\"temperature\":0}}";
+            + "}]}],\"generationConfig\":{" + genConfig + "}}";
         HttpRequest req = HttpRequest.newBuilder()
             .uri(URI.create("https://generativelanguage.googleapis.com/v1beta/models/"
                 + model + ":generateContent?key=" + apiKey))
             .header("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(body, StandardCharsets.UTF_8))
             .build();
+        RuntimeException last = null;
+        for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+            try {
+                HttpResponse<String> resp = http.send(req, HttpResponse.BodyHandlers.ofString());
+                int code = resp.statusCode();
+                if (code == 200) {
+                    String text = extractText(resp.body());
+                    double real = meter.estimate(q.prompt(), text);
+                    meter.charge(real);
+                    cache.put(model, q.prompt(), text);
+                    return new LlmResponse(text, false, real);
+                }
+                // 429 (rate limit) and 5xx (server) are transient → retry; 4xx → fail fast.
+                if (code != 429 && code < 500)
+                    throw new RuntimeException("Gemini HTTP " + code + ": " + resp.body());
+                last = new RuntimeException("Gemini HTTP " + code + " for " + q.contextId());
+            } catch (java.io.IOException e) {
+                last = new RuntimeException("Gemini I/O failure for " + q.contextId(), e);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Gemini call interrupted for " + q.contextId(), e);
+            }
+            if (attempt < MAX_ATTEMPTS) backoff(attempt);
+        }
+        throw new RuntimeException("Gemini call failed after " + MAX_ATTEMPTS
+            + " attempts for " + q.contextId(), last);
+    }
+
+    /** Sleeps with exponential backoff before the next retry. */
+    private static void backoff(int attempt) {
+        long ms = Math.min(BASE_BACKOFF_MS << (attempt - 1), 30_000L);
         try {
-            HttpResponse<String> resp = http.send(req, HttpResponse.BodyHandlers.ofString());
-            if (resp.statusCode() != 200)
-                throw new RuntimeException("Gemini HTTP " + resp.statusCode() + ": " + resp.body());
-            String text = extractText(resp.body());
-            double real = meter.estimate(q.prompt(), text);
-            meter.charge(real);
-            cache.put(model, q.prompt(), text);
-            return new LlmResponse(text, false, real);
-        } catch (java.io.IOException | InterruptedException e) {
-            throw new RuntimeException("Gemini call failed for " + q.contextId(), e);
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("interrupted during backoff", e);
         }
     }
     private static String jsonString(String s) {
