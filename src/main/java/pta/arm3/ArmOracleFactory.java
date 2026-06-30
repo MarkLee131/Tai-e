@@ -48,6 +48,11 @@ public final class ArmOracleFactory {
         oracleOverride = null;
     }
 
+    /** Returns {@code true} when a static oracle override is currently installed. */
+    public static boolean hasOracle() {
+        return oracleOverride != null;
+    }
+
     private ArmOracleFactory() {
     }
 

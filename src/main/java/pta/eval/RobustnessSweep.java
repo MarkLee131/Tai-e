@@ -170,7 +170,7 @@ public class RobustnessSweep {
             try {
                 // injectOracle is inside the try so clearOracle in finally always runs.
                 injectOracle(arm, oracle);
-                m = runner.run(arm, benchmarkCp, main);
+                m = runner.run(arm, benchmarkCp, main).metrics();
             } finally {
                 clearOracle(arm);
             }
