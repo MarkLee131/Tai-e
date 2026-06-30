@@ -158,6 +158,8 @@ tasks.withType<Test> {
     val test = testing.suites.named<JvmTestSuite>(JvmTestSuitePlugin.DEFAULT_TEST_SUITE_NAME)
     testClassesDirs = files(test.map { it.sources.output.classesDirs })
     classpath = files(test.map { it.sources.runtimeClasspath })
+    // Opt-in flag for live-LLM smoke tests (real Gemini calls): ./gradlew test -ParmLive
+    if (findProperty("armLive") != null) systemProperty("arm2.live", "true")
 }
 
 tasks.test {
