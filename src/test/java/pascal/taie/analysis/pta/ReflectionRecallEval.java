@@ -27,11 +27,11 @@ import org.junit.jupiter.api.Test;
 import pascal.taie.Main;
 import pascal.taie.World;
 import pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel;
+import pascal.taie.util.collection.Sets;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -126,7 +126,7 @@ public class ReflectionRecallEval {
     }
 
     private static Set<String> minus(Set<String> a, Set<String> b) {
-        Set<String> s = new LinkedHashSet<>(a);
+        Set<String> s = Sets.newSet(a);
         s.removeAll(b);
         return s;
     }

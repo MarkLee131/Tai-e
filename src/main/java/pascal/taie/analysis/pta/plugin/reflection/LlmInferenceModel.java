@@ -24,14 +24,22 @@ package pascal.taie.analysis.pta.plugin.reflection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pascal.taie.World;
 import pascal.taie.analysis.pta.core.cs.context.Context;
+import pascal.taie.analysis.pta.core.cs.element.CSMethod;
+import pascal.taie.analysis.pta.core.heap.Descriptor;
+import pascal.taie.analysis.pta.core.heap.Obj;
 import pascal.taie.analysis.pta.core.solver.Solver;
 import pascal.taie.analysis.pta.plugin.util.CSObjs;
 import pascal.taie.analysis.pta.plugin.util.InvokeHandler;
 import pascal.taie.analysis.pta.pts.PointsToSet;
+import pascal.taie.ir.exp.Var;
+import pascal.taie.ir.proginfo.MethodRef;
 import pascal.taie.ir.stmt.Invoke;
 import pascal.taie.ir.stmt.Stmt;
 import pascal.taie.language.classes.JClass;
+import pascal.taie.language.classes.JMethod;
+import pascal.taie.language.type.Type;
 import pta.llm.LlmOracle;
 import pta.llm.LlmQuery;
 
@@ -90,7 +98,7 @@ public class LlmInferenceModel extends InferenceModel {
      * analysis (the model is reconstructed in {@code ReflectionAnalysis.setSolver}).
      */
     private static final Set<String> GAP =
-            java.util.Collections.synchronizedSet(new java.util.LinkedHashSet<>());
+            java.util.Collections.synchronizedSet(Sets.newLinkedSet());
 
     /** Read-only snapshot of the unresolved-site gap report for the last run. */
     public static java.util.List<String> gapReport() {
@@ -103,6 +111,14 @@ public class LlmInferenceModel extends InferenceModel {
 
     /** Sites already queried (dedup the LLM call across pts-change re-fires). */
     private final Set<Invoke> queried = Sets.newSet();
+
+    /** Name-bearing reflective sites seen (for the empty-points-to trigger). */
+    private final Set<Invoke> reflSites = Sets.newSet();
+
+    /** Sites whose empty-pts name var has been seeded with a placeholder (dedup). */
+    private final Set<Invoke> placeholderDone = Sets.newSet();
+
+    private static final Descriptor NAME_PH = () -> "LlmUnknownReflName";
 
     LlmInferenceModel(Solver solver, MetaObjHelper helper, Set<Invoke> invokesWithLog) {
         super(solver, helper, invokesWithLog);
@@ -277,12 +293,88 @@ public class LlmInferenceModel extends InferenceModel {
     }
 
     // -----------------------------------------------------------------------
+    // Empty-points-to trigger: a reflective name built by string ops or read from
+    // config often leaves its name var with an EMPTY points-to set, so the
+    // pts-driven handler never fires. Seed such name vars with a placeholder
+    // String so the handler fires and resolves them via the LLM + the extracted
+    // string-flow context. The placeholder is not a string constant, so it is
+    // treated as Unknown — sound (only ever adds candidates).
+    // -----------------------------------------------------------------------
+
+    @Override
+    public void onNewStmt(Stmt stmt, JMethod container) {
+        super.onNewStmt(stmt, container);
+        if (oracle != null && stmt instanceof Invoke invoke
+                && !invoke.isDynamic() && isNameBearingReflection(invoke.getMethodRef())) {
+            reflSites.add(invoke);
+        }
+    }
+
+    @Override
+    public void onPhaseFinish() {
+        if (oracle == null) {
+            return;
+        }
+        List<CSMethod> reachable = solver.getCallGraph().reachableMethods().toList();
+        for (Invoke site : reflSites) {
+            if (!placeholderDone.contains(site)) {
+                seedPlaceholderIfEmptyPts(site, reachable);
+            }
+        }
+    }
+
+    private void seedPlaceholderIfEmptyPts(Invoke site, List<CSMethod> reachable) {
+        Var nameVar = site.getInvokeExp().getArg(0);
+        JMethod container = site.getContainer();
+        List<Context> ctxs = reachable.stream()
+                .filter(m -> m.getMethod().equals(container))
+                .map(CSMethod::getContext)
+                .toList();
+        if (ctxs.isEmpty()) {
+            return; // container not reachable yet; retry next phase
+        }
+        boolean anyPts = ctxs.stream().anyMatch(c ->
+                !solver.getPointsToSetOf(solver.getCSManager().getCSVar(c, nameVar)).isEmpty());
+        if (anyPts) {
+            placeholderDone.add(site); // pts-driven handler already fires here
+            return;
+        }
+        Type strType = solver.getTypeSystem().stringType();
+        Obj ph = solver.getHeapModel().getMockObj(NAME_PH,
+                "unknown-name@" + container.getSignature() + "#" + site.getIndex(),
+                strType, container);
+        for (Context c : ctxs) {
+            solver.addVarPointsTo(c, nameVar, solver.getCSManager().getCSObj(c, ph));
+        }
+        placeholderDone.add(site);
+    }
+
+    private static boolean isNameBearingReflection(MethodRef ref) {
+        String dc = ref.getDeclaringClass().getName();
+        String mn = ref.getName();
+        return switch (dc) {
+            case "java.lang.Class" -> mn.equals("forName")
+                    || mn.equals("getMethod") || mn.equals("getDeclaredMethod")
+                    || mn.equals("getField") || mn.equals("getDeclaredField");
+            case "java.lang.ClassLoader" -> mn.equals("loadClass");
+            default -> false;
+        };
+    }
+
+    // -----------------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------------
 
     private List<String> askLlm(String kind, Invoke invoke, String question) {
         String siteId = invoke.getContainer().getSignature() + "@" + invoke.getIndex();
-        String prompt = question + "\nSite: " + siteId + "\nEnclosing method body:\n" + body(invoke);
+        // Objectively model the obtainable name evidence (string-flow / config) and
+        // quality-gate it: HIGH-quality fragments are fed directly; LOW-quality is
+        // preprocessed into a best-effort summary (see ReflectionContextExtractor).
+        Var nameVar = invoke.getInvokeExp().getArg(0);
+        ReflectionContextExtractor.Context ctx =
+                ReflectionContextExtractor.extract(nameVar, invoke.getContainer());
+        String prompt = question + "\nSite: " + siteId + "\n" + ctx.promptText()
+                + "Enclosing method body:\n" + body(invoke);
         try {
             List<String> lines = oracle.ask(new LlmQuery(kind, prompt, siteId)).asLines();
             logger.info("[arm2-llm] {} at {} → {}", kind, siteId, lines);
