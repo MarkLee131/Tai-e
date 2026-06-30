@@ -194,7 +194,10 @@ def _make_robustness_plot(robustness: pd.DataFrame, outdir: pathlib.Path) -> Non
 
     for cfg in sorted(configs):
         sub = robustness[robustness["config"] == cfg].sort_values("errorRate")
-        ax.plot(sub["errorRate"], sub["recall"], label=cfg, **_style(cfg))
+        # Convert to numpy before plotting: matplotlib < 3.6 rejects raw pandas
+        # Series (multi-dimensional indexing error under pandas >= 2).
+        ax.plot(sub["errorRate"].to_numpy(), sub["recall"].to_numpy(),
+                label=cfg, **_style(cfg))
 
     ax.set_xlabel("LLM error rate", fontsize=11)
     ax.set_ylabel("Recall (fraction of ground-truth call-graph edges retained)",

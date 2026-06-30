@@ -204,3 +204,36 @@ tasks.register<Test>("measureDaCapo") {
         includeTestsMatching("pascal.taie.analysis.pta.DaCapoQueryCountTest")
     }
 }
+
+// ── End-to-end OFFLINE eval driver ───────────────────────────────────────────
+// Zero-cost: mock oracles only, no live API calls. Emits the CSVs consumed by
+// eval/report.py into eval/out/.
+//
+// Usage:
+//   ./gradlew runEval                                   # default DaCapo set: luindex,antlr
+//   ./gradlew runEval -PevalDaCapo=luindex,antlr,pmd    # choose DaCapo programs
+tasks.register<Test>("runEval") {
+    group = "measurement"
+    description = "Zero-cost end-to-end evaluation; writes results/robustness CSVs to eval/out/"
+    useJUnitPlatform()
+    maxHeapSize = (findProperty("testMaxHeap") as String?) ?: "32g"
+    maxParallelForks = 1  // runs must be sequential (static oracle fields + World reset)
+    val suiteClasses = testing.suites
+        .named<JvmTestSuite>(JvmTestSuitePlugin.DEFAULT_TEST_SUITE_NAME)
+    testClassesDirs = files(suiteClasses.map { it.sources.output.classesDirs })
+    classpath = files(suiteClasses.map { it.sources.runtimeClasspath })
+
+    systemProperty("eval.run", "true")
+    (findProperty("evalDaCapo") as String?)?.let { systemProperty("eval.dacapo", it) }
+    // Live arms (real Gemini calls): -PevalLive enables the controlled-benchmark
+    // proof; add -PevalLiveDaCapo to also run arms live on the DaCapo set.
+    if (findProperty("evalLive") != null) systemProperty("eval.live", "true")
+    if (findProperty("evalLiveDaCapo") != null) systemProperty("eval.liveDaCapo", "true")
+    (findProperty("evalModel") as String?)?.let { systemProperty("eval.model", it) }
+    jvmArgs("-Xss4m")  // larger stack for deep call chains
+    outputs.upToDateWhen { false }  // always re-run
+
+    filter {
+        includeTestsMatching("pascal.taie.analysis.pta.EvalDriverTest")
+    }
+}
