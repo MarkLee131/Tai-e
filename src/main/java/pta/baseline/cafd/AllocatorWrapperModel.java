@@ -87,6 +87,29 @@ public class AllocatorWrapperModel extends AbstractHeapModel {
         return new AllocatorWrapperModel(wrappers, preResult, options);
     }
 
+    /**
+     * Factory method for arm ③ ("neuro-symbolic CAFD done right"): builds the
+     * heap model from a CALLER-SUPPLIED wrapper set instead of running
+     * {@link WrapperDetector} over the whole program.
+     *
+     * <p>Arm ③ passes the set {@code { m : the LLM proposes m AND
+     * WrapperDetector independently confirms m }} (see
+     * {@link pta.arm3.LlmWrapperProposer}). Because every method in the set has
+     * already been confirmed by the sound detector, cloning is sound by
+     * construction: a wrong LLM proposal (a non-wrapper) never reaches this
+     * method, and a missed wrapper merely costs precision.
+     *
+     * @param wrappers  the confirmed wrapper set to clone per call site
+     * @param preResult pre-analysis (CI) result
+     * @param options   analysis options (forwarded to {@link AbstractHeapModel})
+     * @return a fully initialised {@code AllocatorWrapperModel}
+     */
+    public static AllocatorWrapperModel runWithWrappers(Set<JMethod> wrappers,
+                                                        PointerAnalysisResult preResult,
+                                                        AnalysisOptions options) {
+        return new AllocatorWrapperModel(wrappers, preResult, options);
+    }
+
     // ------------------------------------------------------------------ //
     //  HeapModel API
     // ------------------------------------------------------------------ //

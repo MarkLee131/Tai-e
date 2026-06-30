@@ -94,6 +94,21 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
                     selector = Monitor.runAndCount(() -> ContextSelectorFactory
                                     .makeSelectiveSelector(cs, Zipper.run(preResult, advanced)),
                             "Zipper", Level.INFO);
+                } else if (advanced.equals("llm-cafd")) {
+                    // Arm③ (neuro-symbolic) — "CAFD done right": SOUND per-callsite
+                    // heap cloning. The LLM PROPOSES fresh-allocation wrapper
+                    // candidates; B3's structural WrapperDetector (run on this CI
+                    // pre-analysis) independently CONFIRMS them; only the confirmed
+                    // subset is cloned via AllocatorWrapperModel. Mirrors advanced:cafd
+                    // but the wrapper set is { detected ∩ LLM-proposed } instead of B3's
+                    // own heuristic candidate generation. A wrong proposal is rejected
+                    // by the detector (not cloned); cloning never drops a real edge.
+                    final PointerAnalysisResult pre = preResult;
+                    heapModel = Monitor.runAndCount(
+                            () -> pta.baseline.cafd.AllocatorWrapperModel.runWithWrappers(
+                                    pta.arm3.LlmWrapperProposer.propose(pre, options),
+                                    pre, options),
+                            "LLM-CAFD", Level.INFO);
                 } else if (advanced.startsWith("llm")) {
                     // Arm① — LLM-guided selective context-sensitivity.
                     selector = Monitor.runAndCount(() -> ContextSelectorFactory
@@ -119,45 +134,23 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
         if (selector == null) {
             selector = ContextSelectorFactory.makePlainSelector(cs);
         }
-        // Arm③ (neuro-symbolic) two-pass: when the LlmFactPlugin is requested,
-        // run a sound context-insensitive PRE-ANALYSIS first (without the arm③
-        // plugin) so the plugin can build its consistency base and gate its
-        // filters on the real points-to relation. Mirrors the advanced:llm /
-        // advanced:cafd pre-analysis pattern used by arm① / B3.
-        PointerAnalysisResult arm3Pre = null;
-        @SuppressWarnings("unchecked")
-        List<String> plugins = (List<String>) options.get("plugins");
-        if (plugins != null && plugins.contains(ARM3_PLUGIN)) {
-            arm3Pre = runAnalysis(heapModel,
-                    ContextSelectorFactory.makeCISelector(), null);
-        }
-        return runAnalysis(heapModel, selector, arm3Pre);
+        return runAnalysis(heapModel, selector);
     }
-
-    /** Fully-qualified class name of the arm③ neuro-symbolic plugin. */
-    private static final String ARM3_PLUGIN = "pta.arm3.LlmFactPlugin";
 
     private PointerAnalysisResult runAnalysis(HeapModel heapModel,
                                               ContextSelector selector) {
-        return runAnalysis(heapModel, selector, null);
-    }
-
-    private PointerAnalysisResult runAnalysis(HeapModel heapModel,
-                                              ContextSelector selector,
-                                              PointerAnalysisResult arm3Pre) {
         AnalysisOptions options = getOptions();
         Solver solver = new DefaultSolver(options,
                 heapModel, selector, new MapBasedCSManager());
         // The initialization of some Plugins may read the fields in solver,
         // e.g., contextSelector or csManager, thus we initialize Plugins
         // after setting all other fields of solver.
-        setPlugin(solver, options, arm3Pre);
+        setPlugin(solver, options);
         solver.solve();
         return solver.getResult();
     }
 
-    private static void setPlugin(Solver solver, AnalysisOptions options,
-                                  PointerAnalysisResult arm3Pre) {
+    private static void setPlugin(Solver solver, AnalysisOptions options) {
         CompositePlugin plugin = new CompositePlugin();
         // add builtin plugins
         // To record elapsed time precisely, AnalysisTimer should be added at first.
@@ -199,37 +192,30 @@ public class PointerAnalysis extends ProgramAnalysis<PointerAnalysisResult> {
             plugin.addPlugin(new SpringAnalysis());
         }
         plugin.addPlugin(new ResultProcessor());
-        // B3 baseline: add the CAFD companion plugin for the main (non-pre) analysis.
-        // When advanced:cafd is in options the heap model must be one of:
+        // Per-callsite allocator-wrapper cloning shares one companion plugin for
+        // BOTH B3 (advanced:cafd) and arm③ (advanced:llm-cafd). For these modes
+        // the heap model on the MAIN pass must be one of:
         //   (a) AllocationSiteBasedModel — the CI pre-analysis pass; silently skip.
-        //   (b) AllocatorWrapperModel    — the real CAFD main pass; add the plugin.
+        //   (b) AllocatorWrapperModel    — the real cloning main pass; add the plugin.
         // Any other model is a configuration mismatch: fail fast so it is never
         // silently treated as bare CI.
-        if ("cafd".equals(options.getString("advanced"))) {
+        String advanced = options.getString("advanced");
+        if ("cafd".equals(advanced) || "llm-cafd".equals(advanced)) {
             HeapModel heapModel = solver.getHeapModel();
             if (heapModel instanceof pta.baseline.cafd.AllocatorWrapperModel cafdModel) {
                 plugin.addPlugin(new pta.baseline.cafd.AllocatorWrapperPlugin(cafdModel));
             } else if (!(heapModel instanceof AllocationSiteBasedModel)) {
                 throw new IllegalStateException(
-                        "advanced:cafd requires AllocatorWrapperModel for the main analysis "
-                        + "pass, but got: " + heapModel.getClass().getName());
+                        "advanced:" + advanced + " requires AllocatorWrapperModel for the "
+                        + "main analysis pass, but got: " + heapModel.getClass().getName());
             }
             // else: AllocationSiteBasedModel = CI pre-analysis pass — skip silently
         }
         // add plugins specified in options.
-        // Arm③ (LlmFactPlugin) is handled specially: it is NOT instantiated via
-        // the no-arg reflective path because it requires the sound CI pre-analysis
-        // result. It is added manually only for the MAIN pass (arm3Pre != null);
-        // during the pre-analysis pass (arm3Pre == null) it is skipped, so the
-        // base relation is computed by an unrefined, sound analysis.
         // noinspection unchecked
         List<String> pluginClasses =
                 new java.util.ArrayList<>((List<String>) options.get("plugins"));
-        boolean hasArm3 = pluginClasses.remove(ARM3_PLUGIN);
         addPlugins(plugin, pluginClasses);
-        if (hasArm3 && arm3Pre != null) {
-            plugin.addPlugin(new pta.arm3.LlmFactPlugin(arm3Pre));
-        }
         // connects plugins and solver
         plugin.setSolver(solver);
         solver.setPlugin(plugin);
