@@ -1,0 +1,7 @@
+# Mock LLM proposal for arm③ (sound heap cloning) — SOUNDNESS REGRESSION.
+# The LLM proposes mutate() as a fresh-allocation wrapper, but mutate() has an
+# escaping side effect (writes its result into the static field `leaked`), so it
+# is NOT a genuine fresh-allocation wrapper. WrapperDetector REJECTS it, so it is
+# NOT cloned and the result equals the no-arm③ CI baseline (soundness preserved).
+YES mutate
+default NO

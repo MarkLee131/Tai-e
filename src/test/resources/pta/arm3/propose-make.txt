@@ -1,0 +1,5 @@
+# Mock LLM proposal for arm③ (sound heap cloning).
+# The LLM proposes make() as a fresh-allocation wrapper (a GENUINE wrapper).
+# WrapperDetector independently confirms it -> it is cloned (precision gain).
+YES make
+default NO
