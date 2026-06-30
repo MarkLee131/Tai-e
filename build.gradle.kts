@@ -239,3 +239,30 @@ tasks.register<Test>("runEval") {
         includeTestsMatching("pascal.taie.analysis.pta.EvalDriverTest")
     }
 }
+
+// ── Reflection-recall evaluation (arm② vs string-constant vs TamiFlex log GT) ──
+// Usage:
+//   ./gradlew reflRecall                              # string-constant recall only
+//   ./gradlew reflRecall -ParmLive                    # also live-LLM recall
+//   ./gradlew reflRecall -PreflBenchmarks=luindex,antlr,pmd
+tasks.register<Test>("reflRecall") {
+    group = "measurement"
+    description = "Reflection-recall eval: arm② (reflection-inference:llm) vs string-constant vs log GT"
+    useJUnitPlatform()
+    maxHeapSize = (findProperty("testMaxHeap") as String?) ?: "32g"
+    maxParallelForks = 1
+    val suiteClasses = testing.suites
+        .named<JvmTestSuite>(JvmTestSuitePlugin.DEFAULT_TEST_SUITE_NAME)
+    testClassesDirs = files(suiteClasses.map { it.sources.output.classesDirs })
+    classpath = files(suiteClasses.map { it.sources.runtimeClasspath })
+
+    systemProperty("refl.recall", "true")
+    (findProperty("reflBenchmarks") as String?)?.let { systemProperty("refl.benchmarks", it) }
+    if (findProperty("armLive") != null) systemProperty("arm2.live", "true")
+    jvmArgs("-Xss4m")
+    outputs.upToDateWhen { false }
+
+    filter {
+        includeTestsMatching("pascal.taie.analysis.pta.ReflectionRecallEval")
+    }
+}
