@@ -221,7 +221,7 @@ public class RobustnessSweepTest {
      *
      * <p>At p=1, the corrupt oracle returns
      * {@code "wrapper id\nnever-alias ARunner ARunner"} — a self-contradictory
-     * fact that arm ③'s ConsistencyEngine would reject. The unsound plugin
+     * fact that arm ③'s LlmWrapperProposer/WrapperDetector would reject. The unsound plugin
      * applies it without any check: ARunner objects are filtered from {@code xa}
      * (result of {@code id(a)}, whose arg-group is ARunner), causing
      * {@code xa.run()} to miss ARunner.run() → 1 edge dropped, recall ≈ 0.83
@@ -237,7 +237,7 @@ public class RobustnessSweepTest {
         // Base oracle: always returns "" — no facts, no filtering at p=0.
         LlmOracle base = new MockOracle(Map.of(), "");
         // Corrupt: inject self-contradictory "never-alias ARunner ARunner".
-        // Arm③ would REJECT this (ConsistencyEngine: alias(ARunner,ARunner) exists).
+        // Arm③ would REJECT this (WrapperDetector: structural check fails).
         // UnsoundCafdStylePlugin ACCEPTS it without checking → drops ARunner from wa.
         Function<LlmResponse, String> corrupt =
                 r -> "wrapper id\nnever-alias ARunner ARunner";

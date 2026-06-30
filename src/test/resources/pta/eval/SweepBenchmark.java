@@ -34,7 +34,7 @@
 //
 // UnsoundCafdStylePlugin contrast:
 // At p≥threshold (seed=42), the corrupt oracle fires; the plugin applies
-// "never-alias ARunner ARunner" without a ConsistencyEngine check. This bans
+// "never-alias ARunner ARunner" without a structural LlmWrapperProposer check. This bans
 // ARunner objects from xa (the result of id(a) where arg-group=ARunner),
 // causing xa.run() to miss ARunner.run → recall drops below 1.0.
 // Arm③ with the same corrupt oracle would reject the self-contradictory fact

@@ -108,7 +108,7 @@ public class UnsoundCafdStylePlugin implements Plugin {
      * <p>Unlike arm ③ this method applies ALL oracle-proposed facts without:
      * <ul>
      *   <li>Structural identity verification of wrapper methods</li>
-     *   <li>ConsistencyEngine rejection of contradictory never-alias facts</li>
+     *   <li>LlmWrapperProposer / WrapperDetector structural confirmation (advanced:llm-cafd)</li>
      * </ul>
      */
     private void plan(Solver solver) {
@@ -137,7 +137,8 @@ public class UnsoundCafdStylePlugin implements Plugin {
                 + ", reply with lines of 'never-alias <A> <B>' or 'wrapper <method>'.";
         LlmResponse resp = oracle.ask(new LlmQuery("alias-fact", prompt, "unsound-cafd"));
 
-        // Parse proposals — NO ConsistencyEngine check (this is the unsoundness).
+        // Parse proposals — NO structural check (this is the unsoundness; arm③ would
+        // confirm via LlmWrapperProposer + WrapperDetector before applying).
         Map<String, Set<String>> excluded = new HashMap<>();
         Set<String> wrappers = new HashSet<>();
         for (String line : resp.asLines()) {
@@ -210,7 +211,7 @@ public class UnsoundCafdStylePlugin implements Plugin {
     }
 
     // -----------------------------------------------------------------------
-    // Helpers (mirrored from LlmFactPlugin for self-containment)
+    // Helpers (self-contained; mirrors simple type-name extraction logic)
     // -----------------------------------------------------------------------
 
     private static String simpleName(String typeName) {
