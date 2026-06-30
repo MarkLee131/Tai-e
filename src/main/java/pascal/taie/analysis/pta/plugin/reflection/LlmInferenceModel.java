@@ -373,10 +373,20 @@ public class LlmInferenceModel extends InferenceModel {
         Var nameVar = invoke.getInvokeExp().getArg(0);
         ReflectionContextExtractor.Context ctx =
                 ReflectionContextExtractor.extract(nameVar, invoke.getContainer());
-        String prompt = question + "\nSite: " + siteId + "\n" + ctx.promptText()
-                + "Enclosing method body:\n" + body(invoke);
+        StringBuilder prompt = new StringBuilder(question)
+                .append("\nSite: ").append(siteId).append('\n').append(ctx.promptText());
+        // HIGH-quality config path: if the name is config-driven, read the actual
+        // values from the .properties on the classpath and feed them directly.
+        if (ctx.fromConfig() || ctx.fromResource()) {
+            List<String> values = ConfigResolver.valuesForKeys(ctx.fragments());
+            if (!values.isEmpty()) {
+                prompt.append("Config values found on the classpath for these keys "
+                        + "(high-confidence candidates): ").append(values).append('\n');
+            }
+        }
+        prompt.append("Enclosing method body:\n").append(body(invoke));
         try {
-            List<String> lines = oracle.ask(new LlmQuery(kind, prompt, siteId)).asLines();
+            List<String> lines = oracle.ask(new LlmQuery(kind, prompt.toString(), siteId)).asLines();
             logger.info("[arm2-llm] {} at {} → {}", kind, siteId, lines);
             return lines;
         } catch (RuntimeException e) {

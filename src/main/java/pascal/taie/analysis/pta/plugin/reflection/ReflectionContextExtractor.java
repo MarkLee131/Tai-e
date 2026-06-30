@@ -65,8 +65,17 @@ final class ReflectionContextExtractor {
     /** Bound on backward-trace steps (avoids cycles / runaway). */
     private static final int MAX_STEPS = 60;
 
-    /** Resulting context: the prompt text and whether the evidence is high-quality. */
-    record Context(boolean highQuality, String promptText) {}
+    /**
+     * Modeled use-site name evidence.
+     *
+     * @param fragments    constant string fragments recovered (identifiers, keys, …)
+     * @param fromConfig   the name flows from a property/map lookup
+     * @param fromResource the name flows from a resource (file) read
+     * @param highQuality  whether a substantial constant fragment is present
+     * @param promptText   the (quality-gated) context block to feed the LLM
+     */
+    record Context(List<String> fragments, boolean fromConfig, boolean fromResource,
+                   boolean highQuality, String promptText) {}
 
     private ReflectionContextExtractor() {
     }
@@ -163,6 +172,6 @@ final class ReflectionContextExtractor {
                     + "rely on naming conventions, the surrounding code, and the use-site "
                     + "type bounds.\n");
         }
-        return new Context(high, sb.toString());
+        return new Context(frags, fromConfig, fromResource, high, sb.toString());
     }
 }
