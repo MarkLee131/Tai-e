@@ -7,7 +7,7 @@ import pascal.taie.World;
 import pascal.taie.analysis.pta.PointerAnalysis;
 import pascal.taie.analysis.pta.PointerAnalysisResult;
 import pta.arm1.ArmOracleFactory;
-import pta.arm2.LlmReflectionModel;
+import pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel;
 import pta.llm.CountingOracle;
 import pta.llm.LlmOracle;
 
@@ -37,12 +37,12 @@ import java.util.List;
  * produce {@code llmQueries = 0} and {@code costUsd = 0.0}.
  *
  * <h2>Arm ② special handling</h2>
- * <p>{@link pta.arm2.LlmReflectionModel} uses a <em>static</em> oracle field
+ * <p>{@link pta.arm2.LlmInferenceModel} uses a <em>static</em> oracle field
  * that must be populated before {@code Main.main} is called. When a config's
- * {@code ptaArgs} string contains {@code pta.arm2.LlmReflectionModel}, the
+ * {@code ptaArgs} string contains {@code pta.arm2.LlmInferenceModel}, the
  * runner loads a {@link pta.llm.MockOracle} from {@code llm-mock-file}, wraps
  * it in a {@link CountingOracle}, and injects it via
- * {@link LlmReflectionModel#setOracle}.
+ * {@link LlmInferenceModel#setOracle}.
  */
 public final class ConfigRunner {
 
@@ -73,7 +73,7 @@ public final class ConfigRunner {
             "only-app:true",
             "distinguish-string-constants:all");
 
-    private static final String ARM2_PLUGIN = "pta.arm2.LlmReflectionModel";
+    private static final String ARM2_PLUGIN = "reflection-inference:llm";
     private static final String ARM1_ADVANCED = "advanced:llm";
     private static final String ARM3_ADVANCED = "advanced:llm-cafd";
 
@@ -114,10 +114,10 @@ public final class ConfigRunner {
         }
 
         // ── Arm ② injection ──────────────────────────────────────────────
-        if (isArm2 && !LlmReflectionModel.hasOracle()) {
+        if (isArm2 && !LlmInferenceModel.hasOracle()) {
             LlmOracle base = buildArm2BaseOracle(config);
             arm2Counter = new CountingOracle(base);
-            LlmReflectionModel.setOracle(arm2Counter);
+            LlmInferenceModel.setOracle(arm2Counter);
             arm2InjectedHere = true;
         } else if (isArm2) {
             logger.info("[ConfigRunner] A2 external oracle already set; skipping own injection");
@@ -168,7 +168,7 @@ public final class ConfigRunner {
                 pta.arm1.ArmOracleFactory.clearOracle();
             }
             if (arm2InjectedHere) {
-                LlmReflectionModel.clearOracle();
+                LlmInferenceModel.clearOracle();
             }
             if (arm3InjectedHere) {
                 pta.arm3.ArmOracleFactory.clearOracle();

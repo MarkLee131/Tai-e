@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import pascal.taie.World;
 import pascal.taie.analysis.pta.PointerAnalysis;
 import pascal.taie.analysis.pta.PointerAnalysisResult;
-import pta.arm2.LlmReflectionModel;
+import pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel;
 import pta.llm.ErrorInjectingOracle;
 import pta.llm.LlmOracle;
 import pta.llm.LlmResponse;
@@ -31,8 +31,8 @@ import java.util.function.Function;
  * <ul>
  *   <li><b>Arm ①</b> ({@code advanced:llm}): {@link pta.arm1.ArmOracleFactory#setOracle} /
  *       {@link pta.arm1.ArmOracleFactory#clearOracle}</li>
- *   <li><b>Arm ②</b> ({@code pta.arm2.LlmReflectionModel}): {@link LlmReflectionModel#setOracle} /
- *       {@link LlmReflectionModel#clearOracle}</li>
+ *   <li><b>Arm ②</b> ({@code pta.arm2.LlmInferenceModel}): {@link LlmInferenceModel#setOracle} /
+ *       {@link LlmInferenceModel#clearOracle}</li>
  *   <li><b>Arm ③</b> ({@code advanced:llm-cafd}, sound heap cloning):
  *       {@link pta.arm3.ArmOracleFactory#setOracle} /
  *       {@link pta.arm3.ArmOracleFactory#clearOracle}</li>
@@ -74,7 +74,7 @@ public class RobustnessSweep {
     // NOTE: ARM3_TAG ("advanced:llm-cafd") contains ARM1_TAG ("advanced:llm") as a
     // substring, so ARM3 MUST be tested BEFORE ARM1 in injectOracle/clearOracle.
     private static final String ARM1_TAG   = "advanced:llm";
-    private static final String ARM2_TAG   = "pta.arm2.LlmReflectionModel";
+    private static final String ARM2_TAG   = "reflection-inference:llm";
     private static final String ARM3_TAG   = "advanced:llm-cafd";
     private static final String UNSOUND_TAG = "pta.eval.UnsoundCafdStylePlugin";
 
@@ -210,7 +210,7 @@ public class RobustnessSweep {
         } else if (args.contains(ARM1_TAG)) {
             pta.arm1.ArmOracleFactory.setOracle(oracle);
         } else if (args.contains(ARM2_TAG)) {
-            LlmReflectionModel.setOracle(oracle);
+            LlmInferenceModel.setOracle(oracle);
         } else if (args.contains(UNSOUND_TAG)) {
             UnsoundCafdStylePlugin.setOracle(oracle);
         } else {
@@ -227,7 +227,7 @@ public class RobustnessSweep {
         } else if (args.contains(ARM1_TAG)) {
             pta.arm1.ArmOracleFactory.clearOracle();
         } else if (args.contains(ARM2_TAG)) {
-            LlmReflectionModel.clearOracle();
+            LlmInferenceModel.clearOracle();
         } else if (args.contains(UNSOUND_TAG)) {
             UnsoundCafdStylePlugin.clearOracle();
         }

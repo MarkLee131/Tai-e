@@ -116,8 +116,11 @@ public final class Configs {
      * @return arm ② config
      */
     public static Config a2(String mockFile) {
+        // Arm ② is the production reflection model, activated by
+        // reflection-inference:llm; ConfigRunner injects the oracle via
+        // LlmInferenceModel.setOracle (loaded from mockFile).
         return new Config("A2",
-                "plugins:[pta.arm2.LlmReflectionModel];llm-mock-file:" + mockFile);
+                "reflection-inference:llm;llm-mock-file:" + mockFile);
     }
 
     /**

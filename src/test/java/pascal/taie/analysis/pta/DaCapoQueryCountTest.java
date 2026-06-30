@@ -143,7 +143,7 @@ public class DaCapoQueryCountTest {
             boolean a1ok = false;
             try {
                 Main.main(buildArgs(info.jdk(), appCp, libCp, info.main(), reflLog,
-                        "2-obj", "llm", ""));
+                        "2-obj", "llm", "null", ""));
                 a1ok = true;
                 System.out.printf("  arm1: %d queries, avg prompt %d chars%n",
                         arm1Oracle.queries, arm1Oracle.avgPromptChars());
@@ -156,11 +156,11 @@ public class DaCapoQueryCountTest {
 
             // ── Arm ② ──────────────────────────────────────────────────────
             arm2Oracle.reset();
-            pta.arm2.LlmReflectionModel.setOracle(arm2Oracle);
+            pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel.setOracle(arm2Oracle);
             boolean a2ok = false;
             try {
                 Main.main(buildArgs(info.jdk(), appCp, libCp, info.main(), reflLog,
-                        "ci", "null", "pta.arm2.LlmReflectionModel"));
+                        "ci", "null", "llm", ""));
                 a2ok = true;
                 System.out.printf("  arm2: %d queries, avg prompt %d chars%n",
                         arm2Oracle.queries, arm2Oracle.avgPromptChars());
@@ -168,7 +168,7 @@ public class DaCapoQueryCountTest {
                 System.out.printf("  arm2 FAILED: %s: %s%n",
                         t.getClass().getSimpleName(), t.getMessage());
             } finally {
-                pta.arm2.LlmReflectionModel.clearOracle();
+                pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel.clearOracle();
             }
 
             // ── Arm ③ ──────────────────────────────────────────────────────
@@ -177,7 +177,7 @@ public class DaCapoQueryCountTest {
             boolean a3ok = false;
             try {
                 Main.main(buildArgs(info.jdk(), appCp, libCp, info.main(), reflLog,
-                        "ci", "llm-cafd", ""));
+                        "ci", "llm-cafd", "null", ""));
                 a3ok = true;
                 System.out.printf("  arm3: %d queries, avg prompt %d chars%n",
                         arm3Oracle.queries, arm3Oracle.avgPromptChars());
@@ -206,7 +206,8 @@ public class DaCapoQueryCountTest {
 
     private static String[] buildArgs(int jdk, String appCp, String libCp,
                                       String main, String reflLog,
-                                      String cs, String advanced, String plugins) {
+                                      String cs, String advanced,
+                                      String reflInference, String plugins) {
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList("-java", String.valueOf(jdk)));
         args.addAll(Arrays.asList("-acp", appCp));
@@ -220,7 +221,7 @@ public class DaCapoQueryCountTest {
            .append(";merge-string-objects:false")
            .append(";cs:").append(cs)
            .append(";advanced:").append(advanced)
-           .append(";reflection-inference:null")
+           .append(";reflection-inference:").append(reflInference)
            .append(";reflection-log:").append(reflLog)
            .append(";time-limit:").append(TIME_LIMIT_SEC);
         if (plugins != null && !plugins.isEmpty()) {

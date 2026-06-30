@@ -35,8 +35,9 @@ import pascal.taie.language.classes.JClass;
 import pta.llm.LlmOracle;
 import pta.llm.LlmQuery;
 
+import pascal.taie.util.collection.Sets;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -78,14 +79,42 @@ public class LlmInferenceModel extends InferenceModel {
         oracleOverride = null;
     }
 
+    /** Returns whether a static oracle override is installed (used by the eval harness). */
+    public static boolean hasOracle() {
+        return oracleOverride != null;
+    }
+
+    /**
+     * SOLAR-N3 self-flagging: residual sites the LLM was queried for but could not
+     * resolve to any loaded target this run (never silently dropped). Cleared per
+     * analysis (the model is reconstructed in {@code ReflectionAnalysis.setSolver}).
+     */
+    private static final Set<String> GAP =
+            java.util.Collections.synchronizedSet(new java.util.LinkedHashSet<>());
+
+    /** Read-only snapshot of the unresolved-site gap report for the last run. */
+    public static java.util.List<String> gapReport() {
+        synchronized (GAP) {
+            return java.util.List.copyOf(GAP);
+        }
+    }
+
     private final LlmOracle oracle;
 
     /** Sites already queried (dedup the LLM call across pts-change re-fires). */
-    private final Set<Invoke> queried = new HashSet<>();
+    private final Set<Invoke> queried = Sets.newSet();
 
     LlmInferenceModel(Solver solver, MetaObjHelper helper, Set<Invoke> invokesWithLog) {
         super(solver, helper, invokesWithLog);
         this.oracle = resolveOracle();
+        GAP.clear();
+    }
+
+    /** Records {@code invoke} as unresolved (SOLAR-N3) unless it resolved a target. */
+    private void flagIfUnresolved(Invoke invoke, boolean resolvedAny) {
+        if (!resolvedAny) {
+            GAP.add(invoke.getContainer().getSignature() + "@" + invoke.getIndex());
+        }
     }
 
     private static LlmOracle resolveOracle() {
@@ -124,12 +153,18 @@ public class LlmInferenceModel extends InferenceModel {
         });
         // Residual: name is input-dependent → ask the LLM, inject its proposals.
         if (!knownName[0] && oracle != null && queried.add(invoke)) {
+            boolean resolvedAny = false;
             for (String className : askLlm("llm-class", invoke,
                     "A reflective Class.forName(...) has a non-constant class name. "
                             + "Given the surrounding code, list the fully-qualified names of "
                             + "the classes it may load, one per line.")) {
-                classForNameKnown(context, invoke, className.trim());
+                String name = className.trim();
+                if (hierarchy.getClass(name) != null) {
+                    resolvedAny = true;
+                }
+                classForNameKnown(context, invoke, name);
             }
+            flagIfUnresolved(invoke, resolvedAny);
         }
     }
 
@@ -163,14 +198,20 @@ public class LlmInferenceModel extends InferenceModel {
         }));
         // Residual: method name input-dependent and at least one class is known.
         if (!knownName[0] && !classes.isEmpty() && oracle != null && queried.add(invoke)) {
+            boolean resolvedAny = false;
             for (String name : askLlm("llm-method", invoke,
                     "A reflective getMethod(...) has a non-constant method name. "
                             + "Given the surrounding code, list the method name(s) it may "
                             + "retrieve, one per line.")) {
                 for (JClass clazz : classes) {
+                    if (pascal.taie.language.classes.Reflections
+                            .getMethods(clazz, name.trim()).findAny().isPresent()) {
+                        resolvedAny = true;
+                    }
                     classGetMethodKnown(context, invoke, clazz, name.trim());
                 }
             }
+            flagIfUnresolved(invoke, resolvedAny);
         }
     }
 
@@ -203,14 +244,20 @@ public class LlmInferenceModel extends InferenceModel {
             }
         }));
         if (!knownName[0] && !classes.isEmpty() && oracle != null && queried.add(invoke)) {
+            boolean resolvedAny = false;
             for (String name : askLlm("llm-field", invoke,
                     "A reflective getField(...) has a non-constant field name. "
                             + "Given the surrounding code, list the field name(s) it may "
                             + "retrieve, one per line.")) {
                 for (JClass clazz : classes) {
+                    if (pascal.taie.language.classes.Reflections
+                            .getFields(clazz, name.trim()).findAny().isPresent()) {
+                        resolvedAny = true;
+                    }
                     classGetFieldKnown(context, invoke, clazz, name.trim());
                 }
             }
+            flagIfUnresolved(invoke, resolvedAny);
         }
     }
 
