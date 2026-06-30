@@ -1,2 +1,0 @@
-wrapper id
-never-alias AObj AObj

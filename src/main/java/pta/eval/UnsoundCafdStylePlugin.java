@@ -36,19 +36,15 @@ import java.util.Set;
  * to <em>contrast</em> with our sound arms: as the LLM error rate rises, recall
  * falls below 1.0 because real call edges are dropped.
  *
- * <h2>How it differs from arm ③ ({@link pta.arm3.LlmFactPlugin})</h2>
- * <p>Arm ③ applies two defenses before installing any pointer filter:
- * <ol>
- *   <li><b>Structural identity check</b> — only methods that structurally return
- *       their sole parameter are admitted as wrappers.</li>
- *   <li><b>ConsistencyEngine check</b> — {@code never-alias(A,B)} facts that
- *       contradict the reflexive base alias relation (e.g. {@code never-alias A A})
- *       are rejected.</li>
- * </ol>
- * This plugin skips <em>both</em> defenses: it applies all LLM-proposed facts
- * directly. A self-contradictory fact ({@code never-alias ARunner ARunner})
- * therefore filters the actual allocated type from the wrapper result variable,
- * causing a real virtual-dispatch edge to be missed — soundness is lost.
+ * <h2>How it differs from arm ③ (sound heap cloning, {@code advanced:llm-cafd})</h2>
+ * <p>Arm ③ never lets the LLM act unchecked: an LLM-proposed method is cloned
+ * only if B3's structural {@link pta.baseline.cafd.WrapperDetector} independently
+ * confirms it is a genuine fresh-allocation wrapper, and cloning only ever adds
+ * abstract objects (it cannot drop an edge). This plugin, by contrast, applies
+ * all LLM-proposed facts directly with NO structural or consistency check. A
+ * self-contradictory fact ({@code never-alias ARunner ARunner}) therefore filters
+ * the actual allocated type from a wrapper result variable, causing a real
+ * virtual-dispatch edge to be missed — soundness is lost.
  *
  * <h2>Oracle injection</h2>
  * <p>Like arm ②, the oracle is injected via {@link #setOracle}/{@link #clearOracle}
