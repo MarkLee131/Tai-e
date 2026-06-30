@@ -17,6 +17,9 @@ public class ArmReflectionEvidence {
         Object res = m.invoke(recv, "hi");      // INVOKE, receiver = recv : Animal
         String r = (String) res;                // result downcast = String
         r.length();
+
+        Object u = new Cat();                   // load Cat (NOT a subtype of Animal)
+        u.hashCode();
     }
 
     static String cname() {
@@ -41,4 +44,7 @@ class Animal {
 }
 
 class Dog extends Animal {
+}
+
+class Cat {
 }

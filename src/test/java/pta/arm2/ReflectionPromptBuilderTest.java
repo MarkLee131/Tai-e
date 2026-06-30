@@ -33,7 +33,7 @@ public class ReflectionPromptBuilderTest {
     void newInstancePromptCarriesDowncastAndAsksForClasses() {
         PointerAnalysisResult r = analyze("ArmReflectionEvidence");
         FlaggedSite ni = siteOf(ReflectionSiteLocator.locate(r), ReflectiveKind.NEW_INSTANCE);
-        String prompt = ReflectionPromptBuilder.build(ni, EvidenceCollector.collect(ni, r));
+        String prompt = ReflectionPromptBuilder.build(ni, EvidenceCollector.collect(ni));
         assertTrue(prompt.contains("Animal"),
                 "prompt must carry the downcast type bound (Animal); got:\n" + prompt);
         assertTrue(prompt.toLowerCase().contains("class"),
@@ -45,7 +45,7 @@ public class ReflectionPromptBuilderTest {
     void invokePromptCarriesReceiverType() {
         PointerAnalysisResult r = analyze("ArmReflectionEvidence");
         FlaggedSite inv = siteOf(ReflectionSiteLocator.locate(r), ReflectiveKind.INVOKE);
-        String prompt = ReflectionPromptBuilder.build(inv, EvidenceCollector.collect(inv, r));
+        String prompt = ReflectionPromptBuilder.build(inv, EvidenceCollector.collect(inv));
         assertTrue(prompt.contains("Dog"),
                 "invoke prompt must carry the receiver-type bound (Dog); got:\n" + prompt);
     }

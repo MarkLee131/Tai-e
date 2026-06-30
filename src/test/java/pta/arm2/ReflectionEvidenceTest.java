@@ -35,7 +35,7 @@ public class ReflectionEvidenceTest {
     void collectsDowncastTypeForNewInstance() {
         PointerAnalysisResult r = analyze("ArmReflectionEvidence");
         FlaggedSite ni = siteOf(ReflectionSiteLocator.locate(r), ReflectiveKind.NEW_INSTANCE);
-        ReflectionEvidence ev = EvidenceCollector.collect(ni, r);
+        ReflectionEvidence ev = EvidenceCollector.collect(ni);
         assertNotNull(ev.downcastType(), "newInstance result is downcast to (Animal)");
         assertTrue(ev.downcastType().contains("Animal"),
                 "downcast on newInstance result should be Animal; got " + ev.downcastType());
@@ -51,7 +51,7 @@ public class ReflectionEvidenceTest {
     void collectsReceiverTypeForInvoke() {
         PointerAnalysisResult r = analyze("ArmReflectionEvidence");
         FlaggedSite inv = siteOf(ReflectionSiteLocator.locate(r), ReflectiveKind.INVOKE);
-        ReflectionEvidence ev = EvidenceCollector.collect(inv, r);
+        ReflectionEvidence ev = EvidenceCollector.collect(inv);
         assertNotNull(ev.receiverType(), "invoke receiver arg has a static type");
         assertTrue(ev.receiverType().contains("Dog"),
                 "invoke receiver type should be the receiver's class (Dog); got " + ev.receiverType());

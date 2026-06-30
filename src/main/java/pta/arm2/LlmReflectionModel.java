@@ -99,8 +99,6 @@ public class LlmReflectionModel implements Plugin {
 
     private LlmOracle oracle;
 
-    private final TargetFilter filter = new TargetFilter();
-
     /**
      * Reflective {@code Class.newInstance()} call sites seen during analysis.
      */
@@ -164,10 +162,11 @@ public class LlmReflectionModel implements Plugin {
     private void resolveWithLlm(Context context, Invoke invoke,
                                 CSCallSite csCallSite) {
         String siteId = invoke.getContainer().getSignature() + "@" + invoke.getIndex();
-        String prompt = "A reflective Class.newInstance() call at " + siteId
-                + " has an unresolved target. Given the surrounding code, list the"
-                + " fully-qualified names of the classes that may be instantiated"
-                + " here, one per line.";
+        // §11 pipeline: gather use-site evidence and build the rich prompt.
+        FlaggedSite site = new FlaggedSite(invoke, ReflectiveKind.NEW_INSTANCE,
+                invoke.getContainer());
+        ReflectionEvidence evidence = EvidenceCollector.collect(site);
+        String prompt = ReflectionPromptBuilder.build(site, evidence);
         LlmResponse response;
         try {
             response = oracle.ask(new LlmQuery("reflect-targets", prompt, siteId));
@@ -179,8 +178,11 @@ public class LlmReflectionModel implements Plugin {
         if (proposed.isEmpty()) {
             return;
         }
-        // Soundness gate: only loaded, type-compatible constructors survive.
-        Set<JMethod> admitted = filter.admit(invoke, proposed, hierarchy, typeSystem);
+        // Two-layer sound disposer: base TargetFilter (loaded + type-compatible)
+        // ∩ use-site type bound (the post-dominating downcast). A wrong proposal
+        // is clamped on precision grounds; arm② only adds edges, never drops one.
+        Set<JMethod> admitted = ReflectionDisposer.admit(site, proposed, evidence,
+                hierarchy, typeSystem);
         for (JMethod init : admitted) {
             addReflectiveInitEdge(context, invoke, csCallSite, init);
         }

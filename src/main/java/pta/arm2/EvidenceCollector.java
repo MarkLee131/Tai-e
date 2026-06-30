@@ -1,6 +1,5 @@
 package pta.arm2;
 
-import pascal.taie.analysis.pta.PointerAnalysisResult;
 import pascal.taie.ir.IR;
 import pascal.taie.ir.exp.InvokeExp;
 import pascal.taie.ir.exp.Var;
@@ -29,7 +28,12 @@ public final class EvidenceCollector {
     private EvidenceCollector() {
     }
 
-    public static ReflectionEvidence collect(FlaggedSite site, PointerAnalysisResult result) {
+    /**
+     * Gathers evidence purely from the site's IR (downcast, receiver type,
+     * surrounding code), so it works both on a finished result and mid-analysis
+     * inside a plugin.
+     */
+    public static ReflectionEvidence collect(FlaggedSite site) {
         Invoke invoke = site.site();
         IR ir = site.container().getIR();
         String downcast = findDowncastType(ir, invoke.getResult());
