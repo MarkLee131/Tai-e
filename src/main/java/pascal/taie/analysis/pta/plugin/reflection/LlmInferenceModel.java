@@ -159,16 +159,21 @@ public class LlmInferenceModel extends InferenceModel {
         if (invokesWithLog.contains(invoke)) {
             return;
         }
-        boolean[] knownName = {false};
+        // Resolve every constant, and note whether ANY name obj is Unknown (a merged /
+        // non-constant string). A co-present bogus constant (e.g. DaCapo's findClass,
+        // where config.className points to a bag of parser constants PLUS a merged
+        // Unknown) must NOT suppress the LLM for the Unknown part.
+        boolean[] hasUnknown = {false};
         nameObjs.forEach(obj -> {
             String s = CSObjs.toString(obj);
             if (s != null) {
                 classForNameKnown(context, invoke, s);
-                knownName[0] = true;
+            } else {
+                hasUnknown[0] = true;
             }
         });
-        // Residual: name is input-dependent → ask the LLM, inject its proposals.
-        if (!knownName[0] && oracle != null && queried.add(invoke)) {
+        // Residual: name is (partly) input-dependent → ask the LLM, inject its proposals.
+        if (hasUnknown[0] && oracle != null && queried.add(invoke)) {
             boolean resolvedAny = false;
             for (String className : askLlm("llm-class", invoke,
                     "A reflective Class.forName(...) has a non-constant class name. "
@@ -373,7 +378,16 @@ public class LlmInferenceModel extends InferenceModel {
         Var nameVar = invoke.getInvokeExp().getArg(0);
         ReflectionContextExtractor.Context ctx =
                 ReflectionContextExtractor.extract(nameVar, invoke.getContainer());
-        StringBuilder prompt = new StringBuilder(question)
+        StringBuilder prompt = new StringBuilder();
+        // Application identity: an out-of-band fact the analysis knows (e.g. which
+        // benchmark/app is under analysis) but the method body does not. It lets the
+        // LLM propose convention-driven names (e.g. the harness class from the app id)
+        // that are unrecoverable from the code alone.
+        String appContext = System.getProperty("arm2.appContext");
+        if (appContext != null && !appContext.isBlank()) {
+            prompt.append("Application under analysis: ").append(appContext).append('\n');
+        }
+        prompt.append(question)
                 .append("\nSite: ").append(siteId).append('\n').append(ctx.promptText());
         // HIGH-quality config path: if the name is config-driven, read the actual
         // values from the .properties on the classpath and feed them directly.
@@ -382,6 +396,21 @@ public class LlmInferenceModel extends InferenceModel {
             if (!values.isEmpty()) {
                 prompt.append("Config values found on the classpath for these keys "
                         + "(high-confidence candidates): ").append(values).append('\n');
+            }
+        }
+        // Ground the proposal in real classpath classes: list application classes whose
+        // name matches the app id, so the LLM chooses an existing class instead of
+        // hallucinating a plausible-but-absent name (which the sound gate would drop).
+        String classHint = System.getProperty("arm2.classHint");
+        if ("llm-class".equals(kind) && classHint != null && !classHint.isBlank()) {
+            String h = classHint.toLowerCase();
+            List<String> candidates = World.get().getClassHierarchy().applicationClasses()
+                    .map(JClass::getName)
+                    .filter(n -> n.toLowerCase().contains(h))
+                    .distinct().limit(40).toList();
+            if (!candidates.isEmpty()) {
+                prompt.append("Classes on the classpath matching the application id "
+                        + "(choose the exact one): ").append(candidates).append('\n');
             }
         }
         prompt.append("Enclosing method body:\n").append(body(invoke));

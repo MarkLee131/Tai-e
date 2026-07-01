@@ -103,7 +103,19 @@ public class ReflectionRecallEval {
                 String llmCol = "—";
                 if (live) {
                     LlmInferenceModel.clearOracle(); // live ApiKeyResolver path
-                    Set<String> llm = reach(info, appCp, libCp, "llm", null);
+                    // Feed the application identity (which we know) so the LLM can
+                    // propose convention-driven names (e.g. the benchmark harness class).
+                    System.setProperty("arm2.appContext",
+                            "This is the DaCapo-2006 benchmark suite; the program under "
+                                    + "analysis is the '" + id + "' benchmark.");
+                    System.setProperty("arm2.classHint", id);
+                    Set<String> llm;
+                    try {
+                        llm = reach(info, appCp, libCp, "llm", null);
+                    } finally {
+                        System.clearProperty("arm2.appContext");
+                        System.clearProperty("arm2.classHint");
+                    }
                     llmCol = String.format("%.3f (%d)", recall(llm, gt), gt.isEmpty() ? 0 : countRecovered(llm, gt));
                 }
                 System.out.printf("%-10s | %8d | %14s | %14s%n",
