@@ -116,7 +116,12 @@ public class ReflectionRecallEval {
                     System.setProperty("arm2.classHint", id);
                     Set<String> llm;
                     try {
-                        llm = reach(info, appCp, libCp, "llm", null);
+                        // arm2.extraLog: supply extra reflective targets alongside the LLM
+                        // (used to confirm whether a residual is name-resolution vs a
+                        // Class-object-flow gap that the log — not the LLM — fills).
+                        String extraLog = System.getProperty("arm2.extraLog");
+                        llm = reach(info, appCp, libCp, "llm",
+                                (extraLog != null && new File(extraLog).isFile()) ? extraLog : null);
                     } finally {
                         System.clearProperty("arm2.appContext");
                         System.clearProperty("arm2.classHint");
@@ -129,6 +134,13 @@ public class ReflectionRecallEval {
                     double prec = reflAdded.isEmpty() ? 1.0 : (double) hit / reflAdded.size();
                     int extra = minus(llm, log).size();
                     llmCol = String.format("r=%.3f p=%.3f +%d", recall(llm, gt), prec, extra);
+                    String probes = System.getProperty("refl.probe");
+                    if (probes != null) {
+                        for (String p : probes.split(",")) {
+                            System.out.printf("     [probe] %-32s llm=%d  log=%d%n",
+                                    p, count(llm, p), count(log, p));
+                        }
+                    }
                 }
                 System.out.printf("%-10s | %8d | %10s | %-26s%n",
                         id, gt.size(), String.format("%.3f", rSc), llmCol);
