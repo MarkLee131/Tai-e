@@ -93,9 +93,14 @@ public class ReflectionAnalysis extends CompositePlugin {
         addPlugin(logBasedModel,
                 inferenceModel,
                 reflectiveActionModel,
-                new OthersModel(solver, helper),
-                new ServiceLoaderModel(solver),
-                new SelfInferenceModel(solver));
+                new OthersModel(solver, helper));
+        // arm②'s always-on, deterministic add-ons (ServiceLoader + self-inference).
+        // -Darm2.noAddons disables them, to measure a PURE Tai-e baseline (string-constant
+        // / SOLAR as shipped) for an honest "how much do we improve" comparison.
+        if (System.getProperty("arm2.noAddons") == null) {
+            addPlugin(new ServiceLoaderModel(solver),
+                    new SelfInferenceModel(solver));
+        }
 
         if (World.get().getOptions().getJavaVersion() >= 5) {
             addPlugin(new AnnotationModel(solver, helper));

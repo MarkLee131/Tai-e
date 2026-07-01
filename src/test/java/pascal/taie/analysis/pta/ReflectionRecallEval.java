@@ -69,8 +69,9 @@ public class ReflectionRecallEval {
         String list = System.getProperty("refl.benchmarks", "luindex,antlr");
 
         System.out.println("\n==== Reflection-recall (GT = log-reachable \\ no-reflection) ====");
-        System.out.printf("%-10s | %8s | %10s | %-26s%n",
-                "bench", "GT", "sc-recall", live ? "llm: recall/precision/extra" : "llm(skip)");
+        System.out.printf("%-10s | %8s | %8s | %-20s | %-26s%n",
+                "bench", "GT", "sc-rec", "SOLAR (Tai-e full)",
+                live ? "arm②: recall/prec/extra" : "arm²(skip)");
         for (String id : list.split(",")) {
             id = id.trim();
             BenchmarkInfo info = all.get(id);
@@ -82,11 +83,29 @@ public class ReflectionRecallEval {
             String libCp = cp(info.libs());
             String refl = new File(HOME, info.reflectionLog()).toString();
             try {
-                Set<String> none = reach(info, appCp, libCp, "null", null);
-                Set<String> log = reach(info, appCp, libCp, "null", refl);
+                // PURE Tai-e baselines (no arm② add-ons) for an honest comparison:
+                // string-constant (basic) and solar (Tai-e's complete reflection analysis).
+                System.setProperty("arm2.noAddons", "true");
+                Set<String> none;
+                Set<String> log;
+                Set<String> sc;
+                Set<String> solar;
+                try {
+                    none = reach(info, appCp, libCp, "null", null);
+                    log = reach(info, appCp, libCp, "null", refl);
+                    sc = reach(info, appCp, libCp, "string-constant", null);
+                    solar = reach(info, appCp, libCp, "solar", null);
+                } finally {
+                    System.clearProperty("arm2.noAddons");
+                }
                 Set<String> gt = minus(log, none); // reflection-reachable ground truth
-                Set<String> sc = reach(info, appCp, libCp, "string-constant", null);
                 double rSc = recall(sc, gt);
+                double rSolar = recall(solar, gt);
+                int solarHit = countRecovered(solar, gt);
+                Set<String> solarAdded = minus(solar, none);
+                double pSolar = solarAdded.isEmpty() ? 1.0
+                        : (double) solarHit / solarAdded.size();
+                String solarCol = String.format("r=%.3f p=%.3f", rSolar, pSolar);
                 if (Boolean.getBoolean("refl.debug")) {
                     debugBreakdown(id, none, log, gt, sc);
                     String bootLog = System.getProperty("refl.bootstrapLog");
@@ -142,8 +161,8 @@ public class ReflectionRecallEval {
                         }
                     }
                 }
-                System.out.printf("%-10s | %8d | %10s | %-26s%n",
-                        id, gt.size(), String.format("%.3f", rSc), llmCol);
+                System.out.printf("%-10s | %8d | %8s | %-20s | %-26s%n",
+                        id, gt.size(), String.format("%.3f", rSc), solarCol, llmCol);
             } catch (Throwable t) {
                 System.out.printf("%-10s | FAILED: %s: %s%n",
                         id, t.getClass().getSimpleName(), t.getMessage());
