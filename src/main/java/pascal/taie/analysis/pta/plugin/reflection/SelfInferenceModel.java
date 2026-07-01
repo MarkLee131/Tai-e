@@ -47,18 +47,25 @@ import static pascal.taie.analysis.pta.plugin.util.InvokeUtils.BASE;
  *       constant of the class's (binary) name. This lets the classic
  *       {@code DefaultClass.class.getName()} default reach a downstream
  *       {@code Class.forName}.</li>
- *   <li>{@code System.getProperty(key, default)} → the {@code default} value flows to
- *       the result (sound over-approximation: the real return is the property value or
- *       the default; we include the default so that
- *       {@code Class.forName(System.getProperty(key, X.class.getName()))} resolves to
- *       {@code X}).</li>
+ *   <li>{@code System.getProperty(key, default)} → {@code default ⊔ ⊤} (G7). The call
+ *       returns the {@code default} only if the property is unset; if set at runtime
+ *       (env / {@code -Dkey=…} / config) it returns THAT value. Flowing only the default
+ *       is UNDER-approximate (unsound) — it misses the runtime-set class. So we flow the
+ *       default AND an Unknown string {@code ⊤}, which routes a downstream
+ *       {@code Class.forName} to the residual/oracle (the disposer then resolves or flags
+ *       it). The default still lets {@code forName(getProperty(key, X.class.getName()))}
+ *       resolve {@code X}.</li>
  * </ul>
  *
- * Both are sound (only add points-to facts).
+ * Both are sound (only add points-to facts; {@code getProperty} now over- not
+ * under-approximates its result).
  */
 public class SelfInferenceModel extends AnalysisModelPlugin {
 
     private static final Descriptor CLASS_NAME = () -> "ClassNameConstant";
+
+    /** ⊤ for G7: an Unknown string (a runtime property value could be anything). */
+    private static final Descriptor UNKNOWN_PROP = () -> "UnknownRuntimeProperty";
 
     SelfInferenceModel(Solver solver) {
         super(solver);
@@ -94,6 +101,14 @@ public class SelfInferenceModel extends AnalysisModelPlugin {
         if (result == null) {
             return;
         }
+        // Flow the default (the value when the property is unset)...
         defaults.forEach(d -> solver.addVarPointsTo(context, result, d));
+        // ...and ⊤ (G7): the property may be SET at runtime to any value, so emit an
+        // Unknown string (non-constant allocation → CSObjs.toString == null) that routes a
+        // downstream forName to the residual/oracle instead of under-approximating to the
+        // default alone. Sound: only adds a candidate.
+        Obj top = solver.getHeapModel().getMockObj(UNKNOWN_PROP, invoke,
+                solver.getTypeSystem().stringType(), invoke.getContainer());
+        solver.addVarPointsTo(context, result, top);
     }
 }
