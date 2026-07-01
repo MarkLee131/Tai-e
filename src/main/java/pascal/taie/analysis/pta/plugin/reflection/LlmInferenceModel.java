@@ -383,11 +383,24 @@ public class LlmInferenceModel extends InferenceModel {
             return false;
         }
         if (c.isAbstract() || c.isInterface()) {
+            int cap = Integer.getInteger("arm2.maxSubtypes", MAX_SUBTYPES);
             int n = 0;
             for (JClass sub : hierarchy.getAllSubclassesOf(c)) {
                 if (sub != c && !sub.isAbstract() && !sub.isInterface()) {
                     classForNameKnown(context, invoke, sub.getName());
-                    if (++n >= MAX_SUBTYPES) {
+                    if (++n >= cap) {
+                        // G1: more concrete subtypes than the precision-effort bound κ.
+                        // SILENTLY truncating here can drop a true runtime target (unsound).
+                        // The formal ideal is to widen to OverApprox(B); but injecting all
+                        // subtypes of a broad type would blow up, so the PRACTICAL sound
+                        // choice (and SOLAR's own behaviour for high-target calls) is to
+                        // FLAG the site as an under-approximated residual — explicit, not
+                        // silent, and bounded.
+                        GAP.add(invoke.getContainer().getSignature() + "@" + invoke.getIndex());
+                        logger.info("[arm2-llm] subtype expansion of {} exceeded κ={} at "
+                                + "{}@{}; flagged as under-approximated residual (not silently "
+                                + "truncated)", name, cap,
+                                invoke.getContainer().getSignature(), invoke.getIndex());
                         break;
                     }
                 }
