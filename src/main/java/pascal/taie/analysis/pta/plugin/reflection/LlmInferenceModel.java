@@ -179,11 +179,9 @@ public class LlmInferenceModel extends InferenceModel {
                     "A reflective Class.forName(...) has a non-constant class name. "
                             + "Given the surrounding code, list the fully-qualified names of "
                             + "the classes it may load, one per line.")) {
-                String name = className.trim();
-                if (hierarchy.getClass(name) != null) {
+                if (injectClassAndSubtypes(context, invoke, className.trim())) {
                     resolvedAny = true;
                 }
-                classForNameKnown(context, invoke, name);
             }
             flagIfUnresolved(invoke, resolvedAny);
         }
@@ -369,6 +367,34 @@ public class LlmInferenceModel extends InferenceModel {
     // -----------------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------------
+
+    /** Cap on concrete subclasses injected when a target is abstract/interface. */
+    private static final int MAX_SUBTYPES = 64;
+
+    /**
+     * Injects the resolved class, and — because {@code forName(...).newInstance()} cannot
+     * instantiate an abstract class or interface — its concrete subclasses too (the real
+     * runtime object is a subtype). Returns whether the name resolved to a known class.
+     */
+    private boolean injectClassAndSubtypes(Context context, Invoke invoke, String name) {
+        classForNameKnown(context, invoke, name);
+        JClass c = hierarchy.getClass(name);
+        if (c == null) {
+            return false;
+        }
+        if (c.isAbstract() || c.isInterface()) {
+            int n = 0;
+            for (JClass sub : hierarchy.getAllSubclassesOf(c)) {
+                if (sub != c && !sub.isAbstract() && !sub.isInterface()) {
+                    classForNameKnown(context, invoke, sub.getName());
+                    if (++n >= MAX_SUBTYPES) {
+                        break;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     private List<String> askLlm(String kind, Invoke invoke, String question) {
         String siteId = invoke.getContainer().getSignature() + "@" + invoke.getIndex();

@@ -262,6 +262,7 @@ tasks.register<Test>("reflRecall") {
     if (findProperty("reflDebug") != null) systemProperty("refl.debug", "true")
     if (findProperty("reflDebug") != null) systemProperty("si.debug", "true")
     if (findProperty("reflDebug") != null) systemProperty("arm2.debug", "true")
+    if (findProperty("reflDumpTargets") != null) systemProperty("arm2.dumpTargets", "true")
     (findProperty("reflBootstrapLog") as String?)?.let { systemProperty("refl.bootstrapLog", it) }
     jvmArgs("-Xss4m")
     outputs.upToDateWhen { false }

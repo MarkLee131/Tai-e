@@ -120,6 +120,13 @@ public class ReflectionAnalysis extends CompositePlugin {
     public void onFinish() {
         super.onFinish();
         reportImpreciseCalls();
+        if (System.getProperty("arm2.dumpTargets") != null
+                && inferenceModel instanceof LlmInferenceModel) {
+            inferenceModel.getForNameTargets().forEach((invoke, clazz) ->
+                    logger.info("[refl-target] {}#{} -> {}",
+                            invoke.getContainer().getSignature(), invoke.getIndex(),
+                            clazz.getName()));
+        }
     }
 
     /**
