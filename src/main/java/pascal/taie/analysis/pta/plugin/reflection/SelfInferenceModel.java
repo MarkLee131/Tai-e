@@ -1,0 +1,99 @@
+/*
+ * Tai-e: A Static Analysis Framework for Java
+ *
+ * Copyright (C) 2022 Tian Tan <tiantan@nju.edu.cn>
+ * Copyright (C) 2022 Yue Li <yueli@nju.edu.cn>
+ *
+ * This file is part of Tai-e.
+ *
+ * Tai-e is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Tai-e is distributed in the hope that it will be useful,but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Tai-e. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package pascal.taie.analysis.pta.plugin.reflection;
+
+import pascal.taie.analysis.pta.core.cs.context.Context;
+import pascal.taie.analysis.pta.core.heap.Descriptor;
+import pascal.taie.analysis.pta.core.heap.Obj;
+import pascal.taie.analysis.pta.core.solver.Solver;
+import pascal.taie.analysis.pta.plugin.util.AnalysisModelPlugin;
+import pascal.taie.analysis.pta.plugin.util.CSObjs;
+import pascal.taie.analysis.pta.plugin.util.InvokeHandler;
+import pascal.taie.analysis.pta.pts.PointsToSet;
+import pascal.taie.ir.exp.StringLiteral;
+import pascal.taie.ir.exp.Var;
+import pascal.taie.ir.stmt.Invoke;
+import pascal.taie.language.classes.JClass;
+
+import static pascal.taie.analysis.pta.plugin.util.InvokeUtils.BASE;
+
+/**
+ * Deterministic self-inferencing links that Tai-e's reflection models leave open, and
+ * which dominate the DaCapo reflection-recall gap (e.g. lucene's SegmentReader /
+ * FSDirectory). No LLM involved — this is Elf-style collective inference.
+ *
+ * <ul>
+ *   <li>{@code Class.getName()} on a resolved {@code Class} metaobject → a string
+ *       constant of the class's (binary) name. This lets the classic
+ *       {@code DefaultClass.class.getName()} default reach a downstream
+ *       {@code Class.forName}.</li>
+ *   <li>{@code System.getProperty(key, default)} → the {@code default} value flows to
+ *       the result (sound over-approximation: the real return is the property value or
+ *       the default; we include the default so that
+ *       {@code Class.forName(System.getProperty(key, X.class.getName()))} resolves to
+ *       {@code X}).</li>
+ * </ul>
+ *
+ * Both are sound (only add points-to facts).
+ */
+public class SelfInferenceModel extends AnalysisModelPlugin {
+
+    private static final Descriptor CLASS_NAME = () -> "ClassNameConstant";
+
+    SelfInferenceModel(Solver solver) {
+        super(solver);
+    }
+
+    @InvokeHandler(signature = "<java.lang.Class: java.lang.String getName()>",
+            argIndexes = {BASE})
+    public void classGetName(Context context, Invoke invoke, PointsToSet classObjs) {
+        Var result = invoke.getResult();
+        if (result == null) {
+            return;
+        }
+        classObjs.forEach(co -> {
+            JClass c = CSObjs.toClass(co);
+            if (c == null) {
+                return;
+            }
+            // A mock obj whose ALLOCATION is a StringLiteral: CSObjs.toString reads it
+            // back as the class name, so a downstream forName resolves it (bypasses the
+            // string-constant merging that would otherwise hide a synthesized constant).
+            Obj nameObj = solver.getHeapModel().getMockObj(CLASS_NAME,
+                    StringLiteral.get(c.getName()),
+                    solver.getTypeSystem().stringType(), invoke.getContainer());
+            solver.addVarPointsTo(context, result, nameObj);
+        });
+    }
+
+    @InvokeHandler(signature =
+            "<java.lang.System: java.lang.String getProperty(java.lang.String,java.lang.String)>",
+            argIndexes = {1})
+    public void getPropertyDefault(Context context, Invoke invoke, PointsToSet defaults) {
+        Var result = invoke.getResult();
+        if (result == null) {
+            return;
+        }
+        defaults.forEach(d -> solver.addVarPointsTo(context, result, d));
+    }
+}

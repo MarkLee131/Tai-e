@@ -87,6 +87,19 @@ public class ReflectionRecallEval {
                 Set<String> gt = minus(log, none); // reflection-reachable ground truth
                 Set<String> sc = reach(info, appCp, libCp, "string-constant", null);
                 double rSc = recall(sc, gt);
+                if (Boolean.getBoolean("refl.debug")) {
+                    debugBreakdown(id, none, log, gt, sc);
+                    String bootLog = System.getProperty("refl.bootstrapLog");
+                    if (bootLog != null && new File(bootLog).isFile()) {
+                        // string-constant + ONLY the findClass→Harness bootstrap (no lucene
+                        // log lines): does SelfInferenceModel cascade the lucene subtree in?
+                        Set<String> boot = reach(info, appCp, libCp, "string-constant", bootLog);
+                        System.out.printf("     [bootstrap] lucene reachable: string-const=%d  "
+                                        + "+bootstrap=%d  (GT lucene=%d)  recall +bootstrap=%.3f%n",
+                                count(sc, "lucene"), count(boot, "lucene"), count(gt, "lucene"),
+                                recall(boot, gt));
+                    }
+                }
                 String llmCol = "—";
                 if (live) {
                     LlmInferenceModel.clearOracle(); // live ApiKeyResolver path
@@ -123,6 +136,34 @@ public class ReflectionRecallEval {
         PointerAnalysisResult r = World.get().getResult(PointerAnalysis.ID);
         return r.getCallGraph().reachableMethods()
                 .map(m -> m.getSignature()).collect(Collectors.toSet());
+    }
+
+    /** Evidence: package histogram of GT + probe-class reachability per config. */
+    private static void debugBreakdown(String id, Set<String> none, Set<String> log,
+                                       Set<String> gt, Set<String> sc) {
+        System.out.println("---- [debug] " + id + " GT package histogram (top 8) ----");
+        java.util.Map<String, Integer> hist = new java.util.TreeMap<>();
+        for (String sig : gt) {
+            // sig like <org.apache.lucene.index.SegmentReader: ...>
+            int lt = sig.indexOf('<');
+            int dot = sig.lastIndexOf('.', sig.indexOf(':'));
+            String pkg = (lt >= 0 && dot > lt) ? sig.substring(lt + 1, dot) : "?";
+            // collapse to 3-segment package
+            String[] parts = pkg.split("\\.");
+            String key = parts.length >= 3 ? parts[0] + "." + parts[1] + "." + parts[2] : pkg;
+            hist.merge(key, 1, Integer::sum);
+        }
+        hist.entrySet().stream()
+                .sorted((a, b) -> b.getValue() - a.getValue()).limit(8)
+                .forEach(e -> System.out.printf("     %5d  %s%n", e.getValue(), e.getKey()));
+        for (String probe : new String[]{"SegmentReader", "FSDirectory", "LuindexHarness", "lucene"}) {
+            System.out.printf("     probe %-14s log=%d none=%d gt=%d string-const=%d%n",
+                    probe, count(log, probe), count(none, probe), count(gt, probe), count(sc, probe));
+        }
+    }
+
+    private static int count(Set<String> set, String needle) {
+        return (int) set.stream().filter(s -> s.contains(needle)).count();
     }
 
     private static Set<String> minus(Set<String> a, Set<String> b) {
