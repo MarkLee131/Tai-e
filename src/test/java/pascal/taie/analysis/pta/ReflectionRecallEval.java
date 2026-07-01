@@ -69,8 +69,8 @@ public class ReflectionRecallEval {
         String list = System.getProperty("refl.benchmarks", "luindex,antlr");
 
         System.out.println("\n==== Reflection-recall (GT = log-reachable \\ no-reflection) ====");
-        System.out.printf("%-10s | %8s | %14s | %14s%n",
-                "bench", "GT", "string-const", live ? "llm(live)" : "llm(skip)");
+        System.out.printf("%-10s | %8s | %10s | %-26s%n",
+                "bench", "GT", "sc-recall", live ? "llm: recall/precision/extra" : "llm(skip)");
         for (String id : list.split(",")) {
             id = id.trim();
             BenchmarkInfo info = all.get(id);
@@ -107,7 +107,12 @@ public class ReflectionRecallEval {
                     // propose convention-driven names (e.g. the benchmark harness class).
                     System.setProperty("arm2.appContext",
                             "This is the DaCapo-2006 benchmark suite; the program under "
-                                    + "analysis is the '" + id + "' benchmark.");
+                                    + "analysis is the '" + id + "' benchmark. DaCapo launches "
+                                    + "each benchmark through a wrapper class named "
+                                    + "dacapo.<id>.<CapitalizedId>Harness (e.g. the '" + id
+                                    + "' benchmark's harness is dacapo." + id + "."
+                                    + Character.toUpperCase(id.charAt(0)) + id.substring(1)
+                                    + "Harness).");
                     System.setProperty("arm2.classHint", id);
                     Set<String> llm;
                     try {
@@ -116,9 +121,16 @@ public class ReflectionRecallEval {
                         System.clearProperty("arm2.appContext");
                         System.clearProperty("arm2.classHint");
                     }
-                    llmCol = String.format("%.3f (%d)", recall(llm, gt), gt.isEmpty() ? 0 : countRecovered(llm, gt));
+                    // recall = |llm ∩ GT| / |GT|; precision = fraction of arm②'s
+                    // reflection-added methods that are dynamically-confirmed (in GT);
+                    // extra = methods llm reaches beyond the log run (over-approximation).
+                    Set<String> reflAdded = minus(llm, none);
+                    int hit = countRecovered(llm, gt);
+                    double prec = reflAdded.isEmpty() ? 1.0 : (double) hit / reflAdded.size();
+                    int extra = minus(llm, log).size();
+                    llmCol = String.format("r=%.3f p=%.3f +%d", recall(llm, gt), prec, extra);
                 }
-                System.out.printf("%-10s | %8d | %14s | %14s%n",
+                System.out.printf("%-10s | %8d | %10s | %-26s%n",
                         id, gt.size(), String.format("%.3f", rSc), llmCol);
             } catch (Throwable t) {
                 System.out.printf("%-10s | FAILED: %s: %s%n",
