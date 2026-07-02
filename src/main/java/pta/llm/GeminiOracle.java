@@ -90,7 +90,10 @@ public class GeminiOracle implements LlmOracle {
 
     /** The cache key: model + generation config (config changes invalidate entries). */
     static String cacheKeyFor(String model) {
-        return model + "|" + genConfig(model);
+        // -Darm2.cacheSalt forces cache misses without touching stored entries — used to
+        // measure true cold-cache cost/latency in experiments.
+        String salt = System.getProperty("arm2.cacheSalt", "");
+        return model + "|" + genConfig(model) + (salt.isEmpty() ? "" : "|salt=" + salt);
     }
 
     /** Sleeps with exponential backoff before the next retry. */

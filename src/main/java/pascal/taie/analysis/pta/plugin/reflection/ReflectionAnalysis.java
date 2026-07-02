@@ -99,8 +99,13 @@ public class ReflectionAnalysis extends CompositePlugin {
         // (null / string-constant / solar / log) keep VANILLA Tai-e semantics, so
         // published-baseline comparisons and reproductions are uncontaminated.
         if ("llm".equals(reflection) || System.getProperty("arm2.addons") != null) {
-            addPlugin(new ServiceLoaderModel(solver),
-                    new SelfInferenceModel(solver));
+            // per-component ablation switches for controlled experiments (RQ3)
+            if (System.getProperty("arm2.ablate.serviceLoader") == null) {
+                addPlugin(new ServiceLoaderModel(solver));
+            }
+            if (System.getProperty("arm2.ablate.selfInference") == null) {
+                addPlugin(new SelfInferenceModel(solver));
+            }
         }
         // The SOLAR-N3 ledgers are static (read by the eval harness across runs): reset
         // them on EVERY analysis construction, not just llm runs, so a baseline run never

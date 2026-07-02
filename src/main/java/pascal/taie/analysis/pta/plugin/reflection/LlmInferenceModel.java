@@ -167,6 +167,30 @@ public class LlmInferenceModel extends InferenceModel {
     public static void resetLedgers() {
         GAP.clear();
         OVERFLOW.clear();
+        QUERIES.set(0);
+        LIVE_QUERIES.set(0);
+        synchronized (COST) {
+            COST[0] = 0.0;
+        }
+    }
+
+    /** Experiment ablation switch: {@code -Darm2.ablate.<component>} disables it. */
+    private static boolean ablated(String component) {
+        return System.getProperty("arm2.ablate." + component) != null;
+    }
+
+    // ---- oracle-usage accounting for the cost report (reset per analysis) ----
+    private static final java.util.concurrent.atomic.AtomicInteger QUERIES =
+            new java.util.concurrent.atomic.AtomicInteger();
+    private static final java.util.concurrent.atomic.AtomicInteger LIVE_QUERIES =
+            new java.util.concurrent.atomic.AtomicInteger();
+    private static final double[] COST = {0.0};
+
+    /** {@code queries,liveQueries,costUsd} of the current/last analysis run. */
+    public static String oracleStats() {
+        synchronized (COST) {
+            return QUERIES.get() + "," + LIVE_QUERIES.get() + "," + COST[0];
+        }
     }
 
     /** Canonical site id used for the gap report and prompts. */
@@ -414,7 +438,7 @@ public class LlmInferenceModel extends InferenceModel {
 
     @Override
     public void onPhaseFinish() {
-        if (oracle == null) {
+        if (oracle == null || ablated("seeding")) {
             return;
         }
         // One pass over the reachable set per phase, indexed by the containers we
@@ -496,7 +520,7 @@ public class LlmInferenceModel extends InferenceModel {
         if (c == null) {
             return false;
         }
-        if (c.isAbstract() || c.isInterface()) {
+        if ((c.isAbstract() || c.isInterface()) && !ablated("subtypeExpansion")) {
             int cap = Integer.getInteger("arm2.maxSubtypes", MAX_SUBTYPES);
             int n = 0;
             for (JClass sub : hierarchy.getAllSubclassesOf(c)) {
@@ -554,7 +578,8 @@ public class LlmInferenceModel extends InferenceModel {
         // name matches the app id, so the LLM chooses an existing class instead of
         // hallucinating a plausible-but-absent name (which the sound gate would drop).
         String classHint = System.getProperty("arm2.classHint");
-        if ("llm-class".equals(kind) && classHint != null && !classHint.isBlank()) {
+        if (!ablated("grounding")
+                && "llm-class".equals(kind) && classHint != null && !classHint.isBlank()) {
             String h = classHint.toLowerCase();
             List<String> candidates = World.get().getClassHierarchy().applicationClasses()
                     .map(JClass::getName)
@@ -567,7 +592,15 @@ public class LlmInferenceModel extends InferenceModel {
         }
         prompt.append("Enclosing method body:\n").append(body(invoke));
         try {
-            List<String> lines = oracle.ask(new LlmQuery(kind, prompt.toString(), siteId)).asLines();
+            pta.llm.LlmResponse resp = oracle.ask(new LlmQuery(kind, prompt.toString(), siteId));
+            QUERIES.incrementAndGet();
+            if (!resp.fromCache()) {
+                LIVE_QUERIES.incrementAndGet();
+                synchronized (COST) {
+                    COST[0] += resp.estCostUsd();
+                }
+            }
+            List<String> lines = resp.asLines();
             logger.info("[arm2-llm] {} at {} → {}", kind, siteId, lines);
             return lines;
         } catch (RuntimeException e) {

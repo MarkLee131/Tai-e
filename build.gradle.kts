@@ -266,6 +266,11 @@ tasks.register<Test>("reflRecall") {
     (findProperty("reflBootstrapLog") as String?)?.let { systemProperty("refl.bootstrapLog", it) }
     (findProperty("reflExtraLog") as String?)?.let { systemProperty("arm2.extraLog", it) }
     (findProperty("reflProbe") as String?)?.let { systemProperty("refl.probe", it) }
+    (findProperty("reflContext") as String?)?.let { systemProperty("refl.context", it) }
+    (findProperty("reflAblate") as String?)?.let {
+        it.split(",").forEach { c -> systemProperty("arm2.ablate.${c.trim()}", "true") }
+    }
+    (findProperty("reflCacheSalt") as String?)?.let { systemProperty("arm2.cacheSalt", it) }
     jvmArgs("-Xss4m")
     outputs.upToDateWhen { false }
 

@@ -121,17 +121,22 @@ public class ReflectionRecallEval {
                 String llmCol = "—";
                 if (live) {
                     LlmInferenceModel.clearOracle(); // live ApiKeyResolver path
-                    // Feed the application identity (which we know) so the LLM can
-                    // propose convention-driven names (e.g. the benchmark harness class).
-                    System.setProperty("arm2.appContext",
-                            "This is the DaCapo-2006 benchmark suite; the program under "
-                                    + "analysis is the '" + id + "' benchmark. DaCapo launches "
-                                    + "each benchmark through a wrapper class named "
-                                    + "dacapo.<id>.<CapitalizedId>Harness (e.g. the '" + id
-                                    + "' benchmark's harness is dacapo." + id + "."
-                                    + Character.toUpperCase(id.charAt(0)) + id.substring(1)
-                                    + "Harness).");
-                    System.setProperty("arm2.classHint", id);
+                    // Context level (-PreflContext=none|id|full, default full) — the RQ2
+                    // ablation: none = no out-of-band context at all; id = identity only;
+                    // full = identity + the launcher naming convention.
+                    String ctxLevel = System.getProperty("refl.context", "full");
+                    if (!"none".equals(ctxLevel)) {
+                        String idCtx = "This is the DaCapo-2006 benchmark suite; the program "
+                                + "under analysis is the '" + id + "' benchmark.";
+                        String fullCtx = idCtx + " DaCapo launches each benchmark through a "
+                                + "wrapper class named dacapo.<id>.<CapitalizedId>Harness "
+                                + "(e.g. the '" + id + "' benchmark's harness is dacapo."
+                                + id + "." + Character.toUpperCase(id.charAt(0))
+                                + id.substring(1) + "Harness).";
+                        System.setProperty("arm2.appContext",
+                                "id".equals(ctxLevel) ? idCtx : fullCtx);
+                        System.setProperty("arm2.classHint", id);
+                    }
                     Set<String> llm;
                     try {
                         // arm2.extraLog: supply extra reflective targets alongside the LLM
@@ -152,6 +157,10 @@ public class ReflectionRecallEval {
                     double prec = reflAdded.isEmpty() ? 1.0 : (double) hit / reflAdded.size();
                     int extra = minus(llm, log).size();
                     llmCol = String.format("r=%.3f p=%.3f +%d", recall(llm, gt), prec, extra);
+                    // Cost report (C): oracle queries / live (non-cache) / USD this run.
+                    String[] st = LlmInferenceModel.oracleStats().split(",");
+                    System.out.printf("     [oracle] queries=%s live=%s cost=$%.4f%n",
+                            st[0], st[1], Double.parseDouble(st[2]));
                     String probes = System.getProperty("refl.probe");
                     if (probes != null) {
                         for (String p : probes.split(",")) {
