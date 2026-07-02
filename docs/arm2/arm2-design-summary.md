@@ -201,6 +201,20 @@ Per-component switches (`-PreflAblate=…`) + context tiers (`-PreflContext=none
   ≤8 queries, <半美分 per benchmark.
 - **Bootstrap substitution re-verified** on this version: +bootstrap → lucene 350/350,
   recall 0.006→1.000.
+- **Stability (E):** 4 independent fresh-oracle runs (cache bypassed via salt) on
+  luindex/antlr/pmd → **identical recall in all 12 measurements**; only jitter = 3 extra
+  methods on one pmd run (precision 0.983↔0.990). Temperature-0 + realizability makes the
+  pipeline deterministic-in-practice.
+- **Context sensitivity (F):** 2-obj spot check (luindex/antlr/hsqldb) reproduces the
+  identical recall/precision values, llm analyses sub-second — conclusions do not hinge on
+  the CI setting.
+- **Site granularity (G, all 11):** per-site forName-target aggregate = recall 0.29
+  (app-visible callers) at precision 0.35 — deliberately reported: method-level recall
+  concentrates in cascade-GATING sites (luindex resolves 9/11 sites yet method recall is
+  1.00 — the two misses gate nothing), and site precision is depressed by sound expansions
+  the dynamic log never exercises. The claim is reachability recovery, not per-site
+  completeness. Full per-benchmark table in the experiment archive (`persite.py` over
+  `expG.xml`).
 
 ## 5. Lessons & experience — improving reflection in a pointer analysis
 
