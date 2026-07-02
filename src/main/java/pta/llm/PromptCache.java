@@ -32,6 +32,12 @@ public class PromptCache {
         } catch (IOException e) { throw new UncheckedIOException(e); }
     }
     public void put(String model, String prompt, String response) {
+        // Never cache blank responses: a transient safety-block / empty-candidate reply
+        // would otherwise be replayed at zero cost in every future run (poisoned entry),
+        // permanently suppressing a query that a fresh call could answer.
+        if (response == null || response.isBlank()) {
+            return;
+        }
         String json = "{\"model\":\"" + encode(model) + "\",\"prompt\":\"" + encode(prompt)
             + "\",\"response\":\"" + encode(response) + "\"}";
         try { Files.writeString(file(model, prompt), json, StandardCharsets.UTF_8); }

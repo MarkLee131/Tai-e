@@ -8,7 +8,9 @@ class GeminiOracleTest {
     @Test
     void servesFromCacheWithoutNetwork(@TempDir Path dir) {
         PromptCache cache = new PromptCache(dir);
-        cache.put("gemini-2.0-flash", "PROMPT", "cached-answer");
+        // seed under the oracle's versioned cache key (model + generation config, so
+        // config changes invalidate stale — possibly truncated — entries)
+        cache.put(GeminiOracle.cacheKeyFor("gemini-2.0-flash"), "PROMPT", "cached-answer");
         CostMeter meter = new CostMeter(100.0, 1e-7, 3e-7);
         GeminiOracle o = new GeminiOracle("gemini-2.0-flash", "FAKE_KEY", cache, meter);
         LlmResponse r = o.ask(new LlmQuery("k", "PROMPT", "Lx;"));
@@ -42,7 +44,8 @@ class GeminiOracleTest {
         assertFalse(r.fromCache());
         assertFalse(r.raw().isBlank());
         assertTrue(meter.spent() > 0.0 && meter.spent() < 0.01);
-        assertTrue(cache.get("gemini-2.0-flash", "Reply with the single word OK").isPresent());
+        assertTrue(cache.get(GeminiOracle.cacheKeyFor("gemini-2.0-flash"),
+                "Reply with the single word OK").isPresent());
         System.out.println("[live] model=gemini-2.0-flash latency=" + ms + "ms"
             + " spent=$" + meter.spent() + " reply=" + r.raw().trim());
     }
