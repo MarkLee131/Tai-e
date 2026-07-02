@@ -100,17 +100,50 @@ public class LlmInferenceModel extends InferenceModel {
     private static final Set<String> GAP =
             java.util.Collections.synchronizedSet(Sets.newLinkedSet());
 
-    /** Read-only snapshot of the unresolved-site gap report for the last run. */
+    /**
+     * Sites whose subtype expansion overflowed κ (G1): they DID resolve targets but the
+     * expansion is knowingly incomplete, so the flag must survive {@link #markResolution}
+     * — kept separate from the unresolved ledger.
+     */
+    private static final Set<String> OVERFLOW =
+            java.util.Collections.synchronizedSet(Sets.newLinkedSet());
+
+    /** Read-only snapshot of the residual gap report (unresolved ∪ overflow). */
     public static java.util.List<String> gapReport() {
+        java.util.List<String> out = new ArrayList<>();
         synchronized (GAP) {
-            return java.util.List.copyOf(GAP);
+            out.addAll(GAP);
         }
+        synchronized (OVERFLOW) {
+            OVERFLOW.stream().filter(s -> !out.contains(s)).forEach(out::add);
+        }
+        return java.util.List.copyOf(out);
     }
 
     private final LlmOracle oracle;
 
     /** Sites already queried (dedup the LLM call across pts-change re-fires). */
     private final Set<Invoke> queried = Sets.newSet();
+
+    /**
+     * Sites whose name var has been OBSERVED to carry an Unknown (non-constant) string
+     * in some fire — the latched residual predicate ⊤ ∈ Ŝ(n). Latching makes the
+     * trigger monotone: a co-present constant in the same (or another) delta batch can
+     * never suppress the residual, and an empty/transient pts never burns the query.
+     */
+    private final Set<Invoke> unknownNames = Sets.newSet();
+
+    /**
+     * Cached LLM proposals per queried site. Handlers re-fire with the DELTA of the
+     * changed var (and full pts of the others), so classes arriving after the one-shot
+     * query must have the cached proposals re-injected — injection is per-fire,
+     * querying is once.
+     */
+    private final java.util.Map<Invoke, List<String>> proposals =
+            pascal.taie.util.collection.Maps.newMap();
+
+    /** Sites that resolved ≥1 loaded target in ANY fire (cumulative, monotone). */
+    private final Set<Invoke> resolvedSites = Sets.newSet();
 
     /** Name-bearing reflective sites seen (for the empty-points-to trigger). */
     private final Set<Invoke> reflSites = Sets.newSet();
@@ -124,12 +157,25 @@ public class LlmInferenceModel extends InferenceModel {
         super(solver, helper, invokesWithLog);
         this.oracle = resolveOracle();
         GAP.clear();
+        OVERFLOW.clear();
     }
 
-    /** Records {@code invoke} as unresolved (SOLAR-N3) unless it resolved a target. */
-    private void flagIfUnresolved(Invoke invoke, boolean resolvedAny) {
-        if (!resolvedAny) {
-            GAP.add(invoke.getContainer().getSignature() + "@" + invoke.getIndex());
+    /** Canonical site id used for the gap report and prompts. */
+    private static String siteId(Invoke invoke) {
+        return invoke.getContainer().getSignature() + "@" + invoke.getIndex();
+    }
+
+    /**
+     * SOLAR-N3 ledger update, cumulative across fires: once any fire resolves a loaded
+     * target the site stays resolved (and is un-flagged); it is flagged only while no
+     * fire has resolved anything.
+     */
+    private void markResolution(Invoke invoke, boolean resolvedAnyThisFire) {
+        if (resolvedAnyThisFire) {
+            resolvedSites.add(invoke);
+            GAP.remove(siteId(invoke));
+        } else if (!resolvedSites.contains(invoke)) {
+            GAP.add(siteId(invoke));
         }
     }
 
@@ -183,7 +229,7 @@ public class LlmInferenceModel extends InferenceModel {
                     resolvedAny = true;
                 }
             }
-            flagIfUnresolved(invoke, resolvedAny);
+            markResolution(invoke, resolvedAny);
         }
     }
 
@@ -207,30 +253,44 @@ public class LlmInferenceModel extends InferenceModel {
                 classes.add(clazz);
             }
         });
-        boolean[] knownName = {false};
+        // Resolve constants and LATCH Unknown observation (a co-present constant — in
+        // this or any other delta batch — must not suppress the residual; an empty or
+        // transient pts must not burn the one-shot query).
         classes.forEach(clazz -> nameObjs.forEach(no -> {
             String name = CSObjs.toString(no);
             if (name != null) {
                 classGetMethodKnown(context, invoke, clazz, name);
-                knownName[0] = true;
             }
         }));
-        // Residual: method name input-dependent and at least one class is known.
-        if (!knownName[0] && !classes.isEmpty() && oracle != null && queried.add(invoke)) {
-            boolean resolvedAny = false;
-            for (String name : askLlm("llm-method", invoke,
-                    "A reflective getMethod(...) has a non-constant method name. "
-                            + "Given the surrounding code, list the method name(s) it may "
-                            + "retrieve, one per line.")) {
-                for (JClass clazz : classes) {
-                    if (pascal.taie.language.classes.Reflections
-                            .getMethods(clazz, name.trim()).findAny().isPresent()) {
-                        resolvedAny = true;
-                    }
-                    classGetMethodKnown(context, invoke, clazz, name.trim());
-                }
+        nameObjs.forEach(no -> {
+            if (CSObjs.toString(no) == null) {
+                unknownNames.add(invoke);
             }
-            flagIfUnresolved(invoke, resolvedAny);
+        });
+        // Residual (⊤ ∈ Ŝ(n), latched): query once, but RE-INJECT the cached proposals
+        // on every fire — handlers receive the DELTA of the changed var, so classes
+        // arriving after the first query would otherwise never get the proposals.
+        if (unknownNames.contains(invoke) && !classes.isEmpty() && oracle != null) {
+            List<String> props = proposals.get(invoke);
+            if (props == null && queried.add(invoke)) {
+                props = askLlm("llm-method", invoke,
+                        "A reflective getMethod(...) has a non-constant method name. "
+                                + "Given the surrounding code, list the method name(s) it may "
+                                + "retrieve, one per line.");
+                proposals.put(invoke, props);
+            }
+            if (props != null) {
+                boolean resolvedAny = false;
+                for (String name : props) {
+                    for (JClass clazz : classes) {
+                        if (memberExists(invoke, clazz, name.trim())) {
+                            resolvedAny = true;
+                        }
+                        classGetMethodKnown(context, invoke, clazz, name.trim());
+                    }
+                }
+                markResolution(invoke, resolvedAny);
+            }
         }
     }
 
@@ -254,30 +314,60 @@ public class LlmInferenceModel extends InferenceModel {
                 classes.add(clazz);
             }
         });
-        boolean[] knownName = {false};
+        // Same latched-residual + cached-proposal protocol as classGetMethod (S3/S4).
         classes.forEach(clazz -> nameObjs.forEach(no -> {
             String name = CSObjs.toString(no);
             if (name != null) {
                 classGetFieldKnown(context, invoke, clazz, name);
-                knownName[0] = true;
             }
         }));
-        if (!knownName[0] && !classes.isEmpty() && oracle != null && queried.add(invoke)) {
-            boolean resolvedAny = false;
-            for (String name : askLlm("llm-field", invoke,
-                    "A reflective getField(...) has a non-constant field name. "
-                            + "Given the surrounding code, list the field name(s) it may "
-                            + "retrieve, one per line.")) {
-                for (JClass clazz : classes) {
-                    if (pascal.taie.language.classes.Reflections
-                            .getFields(clazz, name.trim()).findAny().isPresent()) {
-                        resolvedAny = true;
-                    }
-                    classGetFieldKnown(context, invoke, clazz, name.trim());
-                }
+        nameObjs.forEach(no -> {
+            if (CSObjs.toString(no) == null) {
+                unknownNames.add(invoke);
             }
-            flagIfUnresolved(invoke, resolvedAny);
+        });
+        if (unknownNames.contains(invoke) && !classes.isEmpty() && oracle != null) {
+            List<String> props = proposals.get(invoke);
+            if (props == null && queried.add(invoke)) {
+                props = askLlm("llm-field", invoke,
+                        "A reflective getField(...) has a non-constant field name. "
+                                + "Given the surrounding code, list the field name(s) it may "
+                                + "retrieve, one per line.");
+                proposals.put(invoke, props);
+            }
+            if (props != null) {
+                boolean resolvedAny = false;
+                for (String name : props) {
+                    for (JClass clazz : classes) {
+                        if (memberExists(invoke, clazz, name.trim())) {
+                            resolvedAny = true;
+                        }
+                        classGetFieldKnown(context, invoke, clazz, name.trim());
+                    }
+                }
+                markResolution(invoke, resolvedAny);
+            }
         }
+    }
+
+    /**
+     * S6: the "did a proposal resolve?" probe must use the SAME lookup variant as the
+     * injection ({@code getDeclared*} searches the class only; the public variants
+     * search the hierarchy) — otherwise a site can be reported resolved while injecting
+     * nothing (or vice versa), corrupting the SOLAR-N3 ledger.
+     */
+    private static boolean memberExists(Invoke invoke, JClass clazz, String name) {
+        return switch (invoke.getMethodRef().getName()) {
+            case "getMethod" -> pascal.taie.language.classes.Reflections
+                    .getMethods(clazz, name).findAny().isPresent();
+            case "getDeclaredMethod" -> pascal.taie.language.classes.Reflections
+                    .getDeclaredMethods(clazz, name).findAny().isPresent();
+            case "getField" -> pascal.taie.language.classes.Reflections
+                    .getFields(clazz, name).findAny().isPresent();
+            case "getDeclaredField" -> pascal.taie.language.classes.Reflections
+                    .getDeclaredFields(clazz, name).findAny().isPresent();
+            default -> false;
+        };
     }
 
     // -----------------------------------------------------------------------
@@ -396,11 +486,10 @@ public class LlmInferenceModel extends InferenceModel {
                         // choice (and SOLAR's own behaviour for high-target calls) is to
                         // FLAG the site as an under-approximated residual — explicit, not
                         // silent, and bounded.
-                        GAP.add(invoke.getContainer().getSignature() + "@" + invoke.getIndex());
-                        logger.info("[arm2-llm] subtype expansion of {} exceeded κ={} at "
-                                + "{}@{}; flagged as under-approximated residual (not silently "
-                                + "truncated)", name, cap,
-                                invoke.getContainer().getSignature(), invoke.getIndex());
+                        OVERFLOW.add(siteId(invoke));
+                        logger.info("[arm2-llm] subtype expansion of {} exceeded κ={} at {}; "
+                                + "flagged as under-approximated residual (not silently "
+                                + "truncated)", name, cap, siteId(invoke));
                         break;
                     }
                 }

@@ -172,6 +172,7 @@ public class ReflectionRecallEval {
 
     private static Set<String> reach(BenchmarkInfo info, String appCp, String libCp,
                                      String reflInference, String reflLog) {
+        long t0 = System.currentTimeMillis();
         List<String> args = new ArrayList<>(Arrays.asList(
                 "-java", String.valueOf(info.jdk()), "-acp", appCp));
         if (libCp != null && !libCp.isEmpty()) {
@@ -189,8 +190,12 @@ public class ReflectionRecallEval {
         args.addAll(Arrays.asList("-a", "pta=" + pta));
         Main.main(args.toArray(new String[0]));
         PointerAnalysisResult r = World.get().getResult(PointerAnalysis.ID);
-        return r.getCallGraph().reachableMethods()
+        Set<String> reachable = r.getCallGraph().reachableMethods()
                 .map(m -> m.getSignature()).collect(Collectors.toSet());
+        System.out.printf("     [time] %-16s %6d ms  (%s%s)%n", info.main(),
+                System.currentTimeMillis() - t0, reflInference,
+                reflLog != null ? "+log" : "");
+        return reachable;
     }
 
     /** Evidence: package histogram of GT + probe-class reachability per config. */
