@@ -169,6 +169,9 @@ public class LlmInferenceModel extends InferenceModel {
         OVERFLOW.clear();
         QUERIES.set(0);
         LIVE_QUERIES.set(0);
+        PROPOSED.set(0);
+        PHI_REJECT.set(0);
+        INJECTED.set(0);
         synchronized (COST) {
             COST[0] = 0.0;
         }
@@ -186,11 +189,27 @@ public class LlmInferenceModel extends InferenceModel {
             new java.util.concurrent.atomic.AtomicInteger();
     private static final double[] COST = {0.0};
 
+    // ---- failure-mode accounting: how the sound disposer treats LLM proposals ----
+    /** class-name proposals received from the oracle (forName sites). */
+    private static final java.util.concurrent.atomic.AtomicInteger PROPOSED =
+            new java.util.concurrent.atomic.AtomicInteger();
+    /** proposals dropped by Phi realizability (name loads no class on the classpath). */
+    private static final java.util.concurrent.atomic.AtomicInteger PHI_REJECT =
+            new java.util.concurrent.atomic.AtomicInteger();
+    /** proposals that resolved to a loaded class and were injected. */
+    private static final java.util.concurrent.atomic.AtomicInteger INJECTED =
+            new java.util.concurrent.atomic.AtomicInteger();
+
     /** {@code queries,liveQueries,costUsd} of the current/last analysis run. */
     public static String oracleStats() {
         synchronized (COST) {
             return QUERIES.get() + "," + LIVE_QUERIES.get() + "," + COST[0];
         }
+    }
+
+    /** {@code proposed,phiRejected,injected} class-name proposals (failure-mode RQ). */
+    public static String disposerStats() {
+        return PROPOSED.get() + "," + PHI_REJECT.get() + "," + INJECTED.get();
     }
 
     /** Canonical site id used for the gap report and prompts. */
@@ -220,7 +239,8 @@ public class LlmInferenceModel extends InferenceModel {
         if (key.isEmpty()) {
             return null; // no key, no override → resolves only constants (sound no-op for LLM)
         }
-        return new pta.llm.GeminiOracle("gemini-2.5-flash", key,
+        String model = System.getProperty("arm2.model", "gemini-2.5-flash");
+        return new pta.llm.GeminiOracle(model, key,
                 new pta.llm.PromptCache(java.nio.file.Path.of(".llm-cache")),
                 new pta.llm.CostMeter(100.0, 3e-7, 2.5e-6));
     }
@@ -515,11 +535,14 @@ public class LlmInferenceModel extends InferenceModel {
      * runtime object is a subtype). Returns whether the name resolved to a known class.
      */
     private boolean injectClassAndSubtypes(Context context, Invoke invoke, String name) {
+        PROPOSED.incrementAndGet();
         classForNameKnown(context, invoke, name);
         JClass c = hierarchy.getClass(name);
         if (c == null) {
+            PHI_REJECT.incrementAndGet(); // Phi: proposed name loads no class (hallucination)
             return false;
         }
+        INJECTED.incrementAndGet();
         if ((c.isAbstract() || c.isInterface()) && !ablated("subtypeExpansion")) {
             int cap = Integer.getInteger("arm2.maxSubtypes", MAX_SUBTYPES);
             int n = 0;

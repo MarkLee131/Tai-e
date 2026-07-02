@@ -161,6 +161,10 @@ public class ReflectionRecallEval {
                     String[] st = LlmInferenceModel.oracleStats().split(",");
                     System.out.printf("     [oracle] queries=%s live=%s cost=$%.4f%n",
                             st[0], st[1], Double.parseDouble(st[2]));
+                    // Failure-mode report: proposed / Phi-rejected / injected.
+                    String[] ds = LlmInferenceModel.disposerStats().split(",");
+                    System.out.printf("     [disposer] proposed=%s phiRejected=%s injected=%s%n",
+                            ds[0], ds[1], ds[2]);
                     String probes = System.getProperty("refl.probe");
                     if (probes != null) {
                         for (String p : probes.split(",")) {
@@ -201,6 +205,11 @@ public class ReflectionRecallEval {
         PointerAnalysisResult r = World.get().getResult(PointerAnalysis.ID);
         Set<String> reachable = r.getCallGraph().reachableMethods()
                 .map(m -> m.getSignature()).collect(Collectors.toSet());
+        // Call-graph completeness (downstream RQ): absolute reachable-method and
+        // call-edge counts per configuration.
+        System.out.printf("     [cg] %-16s methods=%d edges=%d  (%s%s)%n", info.main(),
+                reachable.size(), r.getCallGraph().getNumberOfEdges(), reflInference,
+                reflLog != null ? "+log" : "");
         System.out.printf("     [time] %-16s %6d ms  (%s%s)%n", info.main(),
                 System.currentTimeMillis() - t0, reflInference,
                 reflLog != null ? "+log" : "");
