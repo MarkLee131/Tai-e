@@ -67,8 +67,42 @@ public class ServiceLoaderModel extends AnalysisModelPlugin {
     /** ServiceLoader/Iterator mock obj → its provider impl objects. */
     private final MultiMap<Obj, Obj> providers = Maps.newMultiMap();
 
+    /**
+     * Monotone-completion links: providers can be recorded AFTER iterator()/next()
+     * already fired (the interface Class objs arrive across solver iterations, but the
+     * mock loader/iterator objs never change, so those handlers never re-fire). We keep
+     * the delivery graph — loader → iterators, iterator → next()-result vars — and push
+     * late providers through it eagerly instead of snapshotting.
+     */
+    private final MultiMap<Obj, Obj> slIters = Maps.newMultiMap();
+
+    private final MultiMap<Obj, pascal.taie.util.collection.Pair<Context, Var>> nextSites =
+            Maps.newMultiMap();
+
     ServiceLoaderModel(Solver solver) {
         super(solver);
+    }
+
+    private static boolean isMock(Obj obj, Descriptor desc) {
+        return obj instanceof pascal.taie.analysis.pta.core.heap.MockObj m
+                && m.getDescriptor().equals(desc);
+    }
+
+    /** Push a provider that just appeared under {@code sl} to all linked iterators. */
+    private void deliverToIters(Obj sl, Obj p) {
+        for (Obj it : slIters.get(sl)) {
+            if (providers.put(it, p)) {
+                deliverToNextSites(it, p);
+            }
+        }
+    }
+
+    /** Push a provider that just appeared under iterator {@code it} to next() results. */
+    private void deliverToNextSites(Obj it, Obj p) {
+        for (var site : nextSites.get(it)) {
+            solver.addVarPointsTo(site.first(), site.second(),
+                    solver.getCSManager().getCSObj(site.first(), p));
+        }
     }
 
     @InvokeHandler(signature = {
@@ -97,7 +131,12 @@ public class ServiceLoaderModel extends AnalysisModelPlugin {
                 solver.initializeClass(c);
                 Obj p = solver.getHeapModel().getMockObj(SL_PROVIDER, "service:" + impl,
                         c.getType(), invoke.getContainer());
-                providers.put(sl, p);
+                if (providers.put(sl, p)) {
+                    // late provider (iface Class arrived after iterator()/next() fired):
+                    // push through the delivery graph instead of relying on a re-fire
+                    // that will never come.
+                    deliverToIters(sl, p);
+                }
             }
         });
         solver.addVarPointsTo(context, result, sl);
@@ -112,13 +151,19 @@ public class ServiceLoaderModel extends AnalysisModelPlugin {
         }
         loaders.forEach(csLoader -> {
             Obj loader = csLoader.getObject();
-            if (!providers.containsKey(loader)) {
+            if (!isMock(loader, SL_OBJ)) {
                 return; // not a ServiceLoader we created
             }
             Obj it = solver.getHeapModel().getMockObj(SL_ITR, invoke,
                     World.get().getTypeSystem().getType("java.util.Iterator"),
                     invoke.getContainer());
-            providers.get(loader).forEach(p -> providers.put(it, p));
+            if (slIters.put(loader, it)) {
+                providers.get(loader).forEach(p -> {
+                    if (providers.put(it, p)) {
+                        deliverToNextSites(it, p);
+                    }
+                });
+            }
             solver.addVarPointsTo(context, result, it);
         });
     }
@@ -132,6 +177,12 @@ public class ServiceLoaderModel extends AnalysisModelPlugin {
         }
         iterators.forEach(csIt -> {
             Obj it = csIt.getObject();
+            if (!isMock(it, SL_ITR)) {
+                return; // not a ServiceLoader iterator
+            }
+            // Record the delivery point FIRST, so providers arriving later are pushed
+            // here by deliverToNextSites; then deliver the current set.
+            nextSites.put(it, new pascal.taie.util.collection.Pair<>(context, result));
             providers.get(it).forEach(p ->
                     solver.addVarPointsTo(context, result, solver.getCSManager().getCSObj(context, p)));
         });

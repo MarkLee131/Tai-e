@@ -101,19 +101,32 @@ public final class Reflections {
     }
 
     public static Stream<JField> getFields(JClass jclass, String fieldName) {
+        // Class.getField's lookup order: this class, then superinterfaces (recursively),
+        // then superclass — so interface constants are found and a declaration nearer in
+        // the order shadows farther ones.
         List<JField> fields = new ArrayList<>();
         Set<String> names = Sets.newHybridSet();
-        while (jclass != null) {
-            jclass.getDeclaredFields()
-                    .stream()
-                    .filter(f -> f.isPublic() && f.getName().equals(fieldName))
-                    .filter(f -> !names.contains(f.getName()))
-                    .forEach(f -> {
-                        fields.add(f);
-                        names.add(f.getName());
-                    });
-            jclass = jclass.getSuperClass();
-        }
+        Set<JClass> visited = Sets.newHybridSet();
+        collectPublicFields(jclass, fieldName, fields, names, visited);
         return fields.stream();
+    }
+
+    private static void collectPublicFields(JClass jclass, String fieldName,
+                                            List<JField> fields, Set<String> names,
+                                            Set<JClass> visited) {
+        if (jclass == null || !visited.add(jclass)) {
+            return;
+        }
+        jclass.getDeclaredFields()
+                .stream()
+                .filter(f -> f.isPublic() && f.getName().equals(fieldName))
+                .filter(f -> !names.contains(f.getName()))
+                .forEach(f -> {
+                    fields.add(f);
+                    names.add(f.getName());
+                });
+        jclass.getInterfaces()
+                .forEach(i -> collectPublicFields(i, fieldName, fields, names, visited));
+        collectPublicFields(jclass.getSuperClass(), fieldName, fields, names, visited);
     }
 }

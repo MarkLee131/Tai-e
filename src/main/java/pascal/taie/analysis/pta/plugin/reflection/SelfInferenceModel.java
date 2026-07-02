@@ -23,6 +23,7 @@
 package pascal.taie.analysis.pta.plugin.reflection;
 
 import pascal.taie.analysis.pta.core.cs.context.Context;
+import pascal.taie.analysis.pta.core.cs.element.CSMethod;
 import pascal.taie.analysis.pta.core.heap.Descriptor;
 import pascal.taie.analysis.pta.core.heap.Obj;
 import pascal.taie.analysis.pta.core.solver.Solver;
@@ -32,8 +33,15 @@ import pascal.taie.analysis.pta.plugin.util.InvokeHandler;
 import pascal.taie.analysis.pta.pts.PointsToSet;
 import pascal.taie.ir.exp.StringLiteral;
 import pascal.taie.ir.exp.Var;
+import pascal.taie.ir.proginfo.MethodRef;
 import pascal.taie.ir.stmt.Invoke;
+import pascal.taie.ir.stmt.Stmt;
 import pascal.taie.language.classes.JClass;
+import pascal.taie.language.classes.JMethod;
+import pascal.taie.util.collection.Sets;
+
+import java.util.List;
+import java.util.Set;
 
 import static pascal.taie.analysis.pta.plugin.util.InvokeUtils.BASE;
 
@@ -67,8 +75,60 @@ public class SelfInferenceModel extends AnalysisModelPlugin {
     /** ⊤ for G7: an Unknown string (a runtime property value could be anything). */
     private static final Descriptor UNKNOWN_PROP = () -> "UnknownRuntimeProperty";
 
+    /**
+     * Two-arg {@code getProperty} sites awaiting the SITE-LEVEL ⊤ (S5). The ⊤ must not be
+     * gated on the default argument's points-to (the arg-indexed handler never fires when
+     * the default is opaque, e.g. a StringBuilder result) — it is emitted once per
+     * reachable site, from {@link #onPhaseFinish()}.
+     */
+    private final Set<Invoke> propSites = Sets.newSet();
+
+    private final Set<Invoke> topSeeded = Sets.newSet();
+
     SelfInferenceModel(Solver solver) {
         super(solver);
+    }
+
+    @Override
+    public void onNewStmt(Stmt stmt, JMethod container) {
+        super.onNewStmt(stmt, container);
+        if (stmt instanceof Invoke invoke && !invoke.isDynamic()
+                && invoke.getResult() != null) {
+            MethodRef ref = invoke.getMethodRef();
+            if (ref.getName().equals("getProperty")
+                    && ref.getDeclaringClass().getName().equals("java.lang.System")
+                    && ref.getParameterTypes().size() == 2) {
+                propSites.add(invoke);
+            }
+        }
+    }
+
+    @Override
+    public void onPhaseFinish() {
+        for (Invoke site : propSites) {
+            if (!topSeeded.contains(site)) {
+                seedTop(site);
+            }
+        }
+    }
+
+    /** Emits the ⊤ Unknown string at a reachable two-arg getProperty site (G7/S5). */
+    private void seedTop(Invoke site) {
+        JMethod container = site.getContainer();
+        List<Context> ctxs = solver.getCallGraph().reachableMethods()
+                .filter(m -> m.getMethod().equals(container))
+                .map(CSMethod::getContext)
+                .toList();
+        if (ctxs.isEmpty()) {
+            return; // container not reachable yet; retry next phase
+        }
+        Obj top = solver.getHeapModel().getMockObj(UNKNOWN_PROP, site,
+                solver.getTypeSystem().stringType(), container);
+        for (Context c : ctxs) {
+            solver.addVarPointsTo(c, site.getResult(),
+                    solver.getCSManager().getCSObj(c, top));
+        }
+        topSeeded.add(site);
     }
 
     @InvokeHandler(signature = "<java.lang.Class: java.lang.String getName()>",
@@ -101,14 +161,10 @@ public class SelfInferenceModel extends AnalysisModelPlugin {
         if (result == null) {
             return;
         }
-        // Flow the default (the value when the property is unset)...
+        // Flow the default (the value when the property is unset). The G7 ⊤ — "the
+        // property may be SET at runtime to any value" — is emitted SITE-LEVEL from
+        // onPhaseFinish (seedTop), NOT here: this handler fires only when the default
+        // arg's pts is non-empty, which is exactly false for opaque defaults (S5).
         defaults.forEach(d -> solver.addVarPointsTo(context, result, d));
-        // ...and ⊤ (G7): the property may be SET at runtime to any value, so emit an
-        // Unknown string (non-constant allocation → CSObjs.toString == null) that routes a
-        // downstream forName to the residual/oracle instead of under-approximating to the
-        // default alone. Sound: only adds a candidate.
-        Obj top = solver.getHeapModel().getMockObj(UNKNOWN_PROP, invoke,
-                solver.getTypeSystem().stringType(), invoke.getContainer());
-        solver.addVarPointsTo(context, result, top);
     }
 }
