@@ -177,6 +177,31 @@ The wave's value lands on the *soundness/robustness plane*, not DaCapo's recall 
 the T1-vs-T3 decomposition's prediction: correctness fixes protect the guarantees; recall
 moves only with evidence/context quality.
 
+### 4.2 The ablation battery (2026-07-02, same code version as the table)
+
+Per-component switches (`-PreflAblate=…`) + context tiers (`-PreflContext=none|id|full`)
++ cold-cache salt (`-PreflCacheSalt`), all runs archived:
+
+- **Necessity (antlr):** −seeding → 0.562; −subtypeExpansion → 0.565; full → 1.000/0.943.
+  −serviceLoader → no change (honest null: DaCapo app code doesn't use it).
+- **REFUTED claim:** "self-inference is necessary" — −selfInference held luindex at
+  1.000: the emptied name vars were *seeded*, fell through to the **oracle** (+2 live
+  queries, \$0.0006), and the LLM read the class-constant default out of the prompt's
+  method body. Correct statement: **mutual redundancy / defense in depth** — self-inference
+  buys determinism and zero marginal cost, not recall exclusivity.
+- **Grounding:** not load-bearing under full context on luindex/antlr (antlr even gained
+  precision without it: the model proposed concrete generators directly); it earns its keep
+  at the id-only tier.
+- **Context staircase (none/id/full, recall(precision)):** bloat 0.004(0.833) /
+  0.004(0.667) / **1.000**(0.996); chart 0.003 / 0.018(0.776) / **0.984**; hsqldb
+  0.051 / 0.061(**0.090** — wrong-but-loadable proposal at a B=⊤ site injects: the
+  documented unfenced case; full restores 0.990) / **0.970**; fop 0.005 / 0.010 / **0.930**.
+  Context quality is the recall *and* precision dial.
+- **Cold-cache cost:** luindex 4 queries/\$0.0009, antlr 3/\$0.0008, pmd 8/\$0.0045 —
+  ≤8 queries, <半美分 per benchmark.
+- **Bootstrap substitution re-verified** on this version: +bootstrap → lucene 350/350,
+  recall 0.006→1.000.
+
 ## 5. Lessons & experience — improving reflection in a pointer analysis
 
 1. **The bottleneck is *evidence*, not cleverness.** The LLM helps exactly to the extent it is
