@@ -271,6 +271,7 @@ tasks.register<Test>("reflRecall") {
         it.split(",").forEach { c -> systemProperty("arm2.ablate.${c.trim()}", "true") }
     }
     (findProperty("reflCacheSalt") as String?)?.let { systemProperty("arm2.cacheSalt", it) }
+    (findProperty("reflCs") as String?)?.let { systemProperty("refl.cs", it) }
     jvmArgs("-Xss4m")
     outputs.upToDateWhen { false }
 
