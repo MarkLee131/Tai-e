@@ -249,6 +249,30 @@ oracle switch, `[disposer]` proposed/Φ-rejected/injected counters.
   work. Mechanism: `@InvokeHandler` registration is per-plugin-instance, so two InferenceModel
   plugins coexist (forName double-fires, both add-only) with no conflict.
 
+### 4.4 Generalization to real-world applications (RQ7, 2026-07-02)
+
+Ran the Elf/SOLAR real-world suite (all with TamiFlex GT; harness generalized so real
+apps get generic identity + their actual main class, no DaCapo launcher trick):
+
+| app | structure | GT | sc-rec | Reflex r/p |
+|---|---|---|---|---|
+| columba | gated | 975 | 0.000 | **0.991** / 0.989 |
+| gruntspud | gated | 80 | 0.338 | **0.625** / 0.417 |
+| freecol | direct | 239 | 0.912 | 0.925 / 0.718 |
+| jedit | direct | 15 | 0.800 | 0.800 / 0.750 |
+| briss | direct | 10 | 0.300 | 0.300 / 1.000 |
+| soot | direct | 1 | 1.000 | 1.000 / 0.500 |
+| findbugs | lib-internal | 307 | 0.059 | 0.059 / 0.900 |
+
+**The DaCapo where-it-helps 3-way taxonomy TRANSFERS to real apps:** (1) reflectively-GATED
+(columba 0→0.991 — sc reaches 41 methods, Reflex 1018; gruntspud 0.338→0.625) = the DaCapo
+win reappears; (2) DIRECT-entry (jedit/freecol/briss/soot) = small residual (GT 1-239),
+baseline already captures it, Reflex ~neutral; (3) LIBRARY-internal (findbugs 0.059) = same
+boundary as pmd/xalan/eclipse, name resolution has no leverage. Φ hallucination-reject also
+generalizes (columba 3/29, gruntspud 4/30, freecol 2/8). CONCLUSION: value is a function of
+PROGRAM STRUCTURE not benchmark vintage — kills the "only-DaCapo-2006" external-validity
+threat. columba is the headline real-world win (a real app that is DaCapo-like harness-gated).
+
 ## 5. Lessons & experience — improving reflection in a pointer analysis
 
 1. **The bottleneck is *evidence*, not cleverness.** The LLM helps exactly to the extent it is
