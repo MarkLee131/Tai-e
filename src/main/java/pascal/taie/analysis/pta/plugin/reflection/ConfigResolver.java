@@ -58,21 +58,34 @@ final class ConfigResolver {
     private ConfigResolver() {
     }
 
+    /**
+     * Memoized results (E2): a full classpath walk (dirs to depth 6 + every jar's
+     * .properties) per LLM query is pure repeated I/O — the classpath and files are
+     * fixed for the run. Keyed by (classpath entries, requested keys).
+     */
+    private static final java.util.Map<String, List<String>> CACHE =
+            java.util.Collections.synchronizedMap(
+                    pascal.taie.util.collection.Maps.newMap());
+
     /** Values mapped to any of {@code keys} across all .properties on the classpath. */
     static List<String> valuesForKeys(Collection<String> keys) {
         if (keys == null || keys.isEmpty()) {
             return List.of();
         }
-        Set<String> values = Sets.newLinkedSet();
-        for (String entry : classpathEntries()) {
-            File f = new File(entry);
-            if (f.isDirectory()) {
-                scanDir(f, keys, values);
-            } else if (f.isFile() && f.getName().endsWith(".jar")) {
-                scanJar(f, keys, values);
+        List<String> entries = classpathEntries();
+        String cacheKey = String.join("|", entries) + "##" + String.join(",", keys);
+        return CACHE.computeIfAbsent(cacheKey, k -> {
+            Set<String> values = Sets.newLinkedSet();
+            for (String entry : entries) {
+                File f = new File(entry);
+                if (f.isDirectory()) {
+                    scanDir(f, keys, values);
+                } else if (f.isFile() && f.getName().endsWith(".jar")) {
+                    scanJar(f, keys, values);
+                }
             }
-        }
-        return new ArrayList<>(values);
+            return new ArrayList<>(values);
+        });
     }
 
     private static List<String> classpathEntries() {

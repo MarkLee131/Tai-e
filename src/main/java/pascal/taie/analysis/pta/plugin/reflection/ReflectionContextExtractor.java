@@ -86,6 +86,18 @@ final class ReflectionContextExtractor {
         boolean[] fromConfig = {false};
         boolean[] fromResource = {false};
 
+        // Def-index (E4): one pass over the IR instead of a full re-scan per worklist
+        // var (large generated methods have thousands of statements).
+        java.util.Map<Var, java.util.List<Stmt>> defs =
+                pascal.taie.util.collection.Maps.newMap();
+        for (Stmt s : ir.getStmts()) {
+            s.getDef().ifPresent(d -> {
+                if (d instanceof Var dv) {
+                    defs.computeIfAbsent(dv, k -> new ArrayList<>()).add(s);
+                }
+            });
+        }
+
         Deque<Var> work = new ArrayDeque<>();
         Set<Var> seen = Sets.newSet();
         work.add(nameVar);
@@ -93,10 +105,7 @@ final class ReflectionContextExtractor {
         int steps = 0;
         while (!work.isEmpty() && steps++ < MAX_STEPS) {
             Var v = work.poll();
-            for (Stmt s : ir.getStmts()) {
-                if (s.getDef().filter(d -> d.equals(v)).isEmpty()) {
-                    continue;
-                }
+            for (Stmt s : defs.getOrDefault(v, java.util.List.of())) {
                 if (s instanceof AssignLiteral al
                         && al.getRValue() instanceof StringLiteral sl) {
                     addFragment(fragments, sl.getString());

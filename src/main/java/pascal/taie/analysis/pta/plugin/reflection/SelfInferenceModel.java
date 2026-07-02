@@ -105,20 +105,34 @@ public class SelfInferenceModel extends AnalysisModelPlugin {
 
     @Override
     public void onPhaseFinish() {
+        // One indexed pass over the reachable set per phase (E1), not one scan per site.
+        Set<JMethod> pending = Sets.newSet();
         for (Invoke site : propSites) {
             if (!topSeeded.contains(site)) {
-                seedTop(site);
+                pending.add(site.getContainer());
+            }
+        }
+        if (pending.isEmpty()) {
+            return;
+        }
+        java.util.Map<JMethod, List<Context>> ctxIndex =
+                pascal.taie.util.collection.Maps.newMap();
+        solver.getCallGraph().reachableMethods().forEach(m -> {
+            if (pending.contains(m.getMethod())) {
+                ctxIndex.computeIfAbsent(m.getMethod(), k -> new java.util.ArrayList<>())
+                        .add(m.getContext());
+            }
+        });
+        for (Invoke site : propSites) {
+            if (!topSeeded.contains(site)) {
+                seedTop(site, ctxIndex.getOrDefault(site.getContainer(), List.of()));
             }
         }
     }
 
     /** Emits the ⊤ Unknown string at a reachable two-arg getProperty site (G7/S5). */
-    private void seedTop(Invoke site) {
+    private void seedTop(Invoke site, List<Context> ctxs) {
         JMethod container = site.getContainer();
-        List<Context> ctxs = solver.getCallGraph().reachableMethods()
-                .filter(m -> m.getMethod().equals(container))
-                .map(CSMethod::getContext)
-                .toList();
         if (ctxs.isEmpty()) {
             return; // container not reachable yet; retry next phase
         }
@@ -146,9 +160,12 @@ public class SelfInferenceModel extends AnalysisModelPlugin {
             // A mock obj whose ALLOCATION is a StringLiteral: CSObjs.toString reads it
             // back as the class name, so a downstream forName resolves it (bypasses the
             // string-constant merging that would otherwise hide a synthesized constant).
+            // Keyed by the name ONLY (container=null): one canonical obj per class name
+            // program-wide, instead of |classes| × |getName-containers| objects inflating
+            // downstream points-to sets.
             Obj nameObj = solver.getHeapModel().getMockObj(CLASS_NAME,
                     StringLiteral.get(c.getName()),
-                    solver.getTypeSystem().stringType(), invoke.getContainer());
+                    solver.getTypeSystem().stringType(), null);
             solver.addVarPointsTo(context, result, nameObj);
         });
     }

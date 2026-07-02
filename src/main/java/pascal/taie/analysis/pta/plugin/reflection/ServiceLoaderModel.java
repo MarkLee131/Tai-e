@@ -188,12 +188,26 @@ public class ServiceLoaderModel extends AnalysisModelPlugin {
         });
     }
 
+    /**
+     * Memoized per (classpath, iface) — E3: the service registry is fixed for the run;
+     * re-opening every jar per pts delta at every load() site is pure repeated I/O.
+     */
+    private static final java.util.Map<String, List<String>> SERVICE_CACHE =
+            java.util.Collections.synchronizedMap(Maps.newMap());
+
     /** Reads provider class names from {@code META-INF/services/<iface>} on the classpath. */
     private static List<String> readServiceFile(String iface) {
+        List<String> cp = classpathEntries();
+        String cacheKey = String.join("|", cp) + "##" + iface;
+        return SERVICE_CACHE.computeIfAbsent(cacheKey,
+                k -> readServiceFileUncached(iface, cp));
+    }
+
+    private static List<String> readServiceFileUncached(String iface, List<String> cp) {
         String resource = "META-INF/services/" + iface;
         List<String> impls = new ArrayList<>();
         Set<String> seen = Sets.newSet();
-        for (String entry : classpathEntries()) {
+        for (String entry : cp) {
             File f = new File(entry);
             if (f.isDirectory()) {
                 File sf = new File(f, resource);

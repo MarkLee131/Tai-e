@@ -417,21 +417,36 @@ public class LlmInferenceModel extends InferenceModel {
         if (oracle == null) {
             return;
         }
-        List<CSMethod> reachable = solver.getCallGraph().reachableMethods().toList();
+        // One pass over the reachable set per phase, indexed by the containers we
+        // actually care about — not a full-materialize-then-filter per site (E1).
+        Set<JMethod> pending = Sets.newSet();
         for (Invoke site : reflSites) {
             if (!placeholderDone.contains(site)) {
-                seedPlaceholderIfEmptyPts(site, reachable);
+                pending.add(site.getContainer());
+            }
+        }
+        if (pending.isEmpty()) {
+            return;
+        }
+        java.util.Map<JMethod, List<Context>> ctxIndex =
+                pascal.taie.util.collection.Maps.newMap();
+        solver.getCallGraph().reachableMethods().forEach(m -> {
+            if (pending.contains(m.getMethod())) {
+                ctxIndex.computeIfAbsent(m.getMethod(), k -> new ArrayList<>())
+                        .add(m.getContext());
+            }
+        });
+        for (Invoke site : reflSites) {
+            if (!placeholderDone.contains(site)) {
+                seedPlaceholderIfEmptyPts(site,
+                        ctxIndex.getOrDefault(site.getContainer(), List.of()));
             }
         }
     }
 
-    private void seedPlaceholderIfEmptyPts(Invoke site, List<CSMethod> reachable) {
+    private void seedPlaceholderIfEmptyPts(Invoke site, List<Context> ctxs) {
         Var nameVar = site.getInvokeExp().getArg(0);
         JMethod container = site.getContainer();
-        List<Context> ctxs = reachable.stream()
-                .filter(m -> m.getMethod().equals(container))
-                .map(CSMethod::getContext)
-                .toList();
         if (ctxs.isEmpty()) {
             return; // container not reachable yet; retry next phase
         }
