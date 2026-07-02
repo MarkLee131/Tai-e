@@ -94,13 +94,18 @@ public class ReflectionAnalysis extends CompositePlugin {
                 inferenceModel,
                 reflectiveActionModel,
                 new OthersModel(solver, helper));
-        // arm②'s always-on, deterministic add-ons (ServiceLoader + self-inference).
-        // -Darm2.noAddons disables them, to measure a PURE Tai-e baseline (string-constant
-        // / SOLAR as shipped) for an honest "how much do we improve" comparison.
-        if (System.getProperty("arm2.noAddons") == null) {
+        // arm②'s deterministic add-ons (ServiceLoader + self-inference) attach only for
+        // reflection-inference:llm (or explicit -Darm2.addons): the shipped baselines
+        // (null / string-constant / solar / log) keep VANILLA Tai-e semantics, so
+        // published-baseline comparisons and reproductions are uncontaminated.
+        if ("llm".equals(reflection) || System.getProperty("arm2.addons") != null) {
             addPlugin(new ServiceLoaderModel(solver),
                     new SelfInferenceModel(solver));
         }
+        // The SOLAR-N3 ledgers are static (read by the eval harness across runs): reset
+        // them on EVERY analysis construction, not just llm runs, so a baseline run never
+        // reports the previous llm run's residuals.
+        LlmInferenceModel.resetLedgers();
 
         if (World.get().getOptions().getJavaVersion() >= 5) {
             addPlugin(new AnnotationModel(solver, helper));

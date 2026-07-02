@@ -83,21 +83,13 @@ public class ReflectionRecallEval {
             String libCp = cp(info.libs());
             String refl = new File(HOME, info.reflectionLog()).toString();
             try {
-                // PURE Tai-e baselines (no arm② add-ons) for an honest comparison:
-                // string-constant (basic) and solar (Tai-e's complete reflection analysis).
-                System.setProperty("arm2.noAddons", "true");
-                Set<String> none;
-                Set<String> log;
-                Set<String> sc;
-                Set<String> solar;
-                try {
-                    none = reach(info, appCp, libCp, "null", null);
-                    log = reach(info, appCp, libCp, "null", refl);
-                    sc = reach(info, appCp, libCp, "string-constant", null);
-                    solar = reach(info, appCp, libCp, "solar", null);
-                } finally {
-                    System.clearProperty("arm2.noAddons");
-                }
+                // Baselines are PURE Tai-e by construction (H2): the arm② add-ons attach
+                // only for reflection-inference:llm, so null/string-constant/solar below
+                // measure Tai-e as shipped without any property juggling.
+                Set<String> none = reach(info, appCp, libCp, "null", null);
+                Set<String> log = reach(info, appCp, libCp, "null", refl);
+                Set<String> sc = reach(info, appCp, libCp, "string-constant", null);
+                Set<String> solar = reach(info, appCp, libCp, "solar", null);
                 Set<String> gt = minus(log, none); // reflection-reachable ground truth
                 double rSc = recall(sc, gt);
                 double rSolar = recall(solar, gt);
@@ -110,9 +102,16 @@ public class ReflectionRecallEval {
                     debugBreakdown(id, none, log, gt, sc);
                     String bootLog = System.getProperty("refl.bootstrapLog");
                     if (bootLog != null && new File(bootLog).isFile()) {
-                        // string-constant + ONLY the findClass→Harness bootstrap (no lucene
-                        // log lines): does SelfInferenceModel cascade the lucene subtree in?
-                        Set<String> boot = reach(info, appCp, libCp, "string-constant", bootLog);
+                        // string-constant + add-ons + ONLY the findClass→Harness bootstrap:
+                        // does SelfInferenceModel cascade the lucene subtree in? (add-ons
+                        // are llm-only by default, so opt in for this diagnostic)
+                        System.setProperty("arm2.addons", "true");
+                        Set<String> boot;
+                        try {
+                            boot = reach(info, appCp, libCp, "string-constant", bootLog);
+                        } finally {
+                            System.clearProperty("arm2.addons");
+                        }
                         System.out.printf("     [bootstrap] lucene reachable: string-const=%d  "
                                         + "+bootstrap=%d  (GT lucene=%d)  recall +bootstrap=%.3f%n",
                                 count(sc, "lucene"), count(boot, "lucene"), count(gt, "lucene"),

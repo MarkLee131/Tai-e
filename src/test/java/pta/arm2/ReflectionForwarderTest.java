@@ -22,8 +22,15 @@ public class ReflectionForwarderTest {
 
     @Test
     void resolvesGetPropertyDefaultClassNameIdiom() {
-        Tests.testPTA(false, "reflection", "ArmReflectionForwarder",
-                "reflection-inference:string-constant");
+        // the add-ons are llm-mode-only by default (H2); opt in explicitly to test the
+        // deterministic self-inference capability under the string-constant resolver
+        System.setProperty("arm2.addons", "true");
+        try {
+            Tests.testPTA(false, "reflection", "ArmReflectionForwarder",
+                    "reflection-inference:string-constant");
+        } finally {
+            System.clearProperty("arm2.addons");
+        }
         PointerAnalysisResult r = World.get().getResult(PointerAnalysis.ID);
         Set<String> reachable = r.getCallGraph().reachableMethods()
                 .map(m -> m.getDeclaringClass().getName() + "." + m.getName())

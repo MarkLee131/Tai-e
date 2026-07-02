@@ -156,6 +156,15 @@ public class LlmInferenceModel extends InferenceModel {
     LlmInferenceModel(Solver solver, MetaObjHelper helper, Set<Invoke> invokesWithLog) {
         super(solver, helper, invokesWithLog);
         this.oracle = resolveOracle();
+        resetLedgers();
+    }
+
+    /**
+     * Clears the static SOLAR-N3 ledgers. Called from every
+     * {@code ReflectionAnalysis.setSolver} (any mode), so a run never reports a previous
+     * run's residuals in the same JVM.
+     */
+    public static void resetLedgers() {
         GAP.clear();
         OVERFLOW.clear();
     }

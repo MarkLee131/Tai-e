@@ -20,6 +20,7 @@ public class ServiceLoaderModelTest {
     @Test
     void resolvesServiceProviderMethods() {
         System.setProperty("arm2.configRoot", "src/test/resources/pta/reflection");
+        System.setProperty("arm2.addons", "true"); // llm-mode-only by default (H2)
         try {
             Tests.testPTA(false, "reflection", "ArmReflectionService",
                     "reflection-inference:string-constant");
@@ -34,6 +35,7 @@ public class ServiceLoaderModelTest {
                     "the provider's method body must be analyzed → done() reachable");
         } finally {
             System.clearProperty("arm2.configRoot");
+            System.clearProperty("arm2.addons");
         }
     }
 }

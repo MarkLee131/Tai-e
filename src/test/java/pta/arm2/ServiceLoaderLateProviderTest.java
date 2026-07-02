@@ -20,6 +20,7 @@ public class ServiceLoaderLateProviderTest {
     @Test
     void lateInterfaceProvidersReachTheLoop() {
         System.setProperty("arm2.configRoot", "src/test/resources/pta/reflection");
+        System.setProperty("arm2.addons", "true"); // llm-mode-only by default (H2)
         Set<String> reachable;
         try {
             Tests.testPTA(false, "reflection", "ArmReflectionLateProvider",
@@ -30,6 +31,7 @@ public class ServiceLoaderLateProviderTest {
                     .collect(Collectors.toSet());
         } finally {
             System.clearProperty("arm2.configRoot");
+            System.clearProperty("arm2.addons");
         }
         assertTrue(reachable.contains("ProvA.aHit"),
                 "sanity: the first-round interface SvcA must deliver ProvA; got " + reachable);
