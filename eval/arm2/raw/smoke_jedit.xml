@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pascal.taie.analysis.pta.ReflectionRecallEval" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-07-02T13:20:33.180Z" hostname="csl-conti-dell7859" time="9.35">
+  <properties/>
+  <testcase name="measureReflectionRecall()" classname="pascal.taie.analysis.pta.ReflectionRecallEval" time="9.334"/>
+  <system-out><![CDATA[
+==== Reflection-recall (GT = log-reachable \ no-reflection) ====
+bench      |       GT |   sc-rec | SOLAR (Tai-e full)   | arm②: recall/prec/extra   
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 1.19s; CPU usage: start 6.86%, peak 28.58%, end 65.95%; Memory usage: start 53MB, peak 397MB, end 494MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.84s; CPU usage: start 7.03%, peak 20.00%, end 12.01%; Memory usage: start 545MB, peak 545MB, end 644MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7109 (insens) / 7109 (sens)
+#objects:                     716 (insens) / 716 (sens)
+#var points-to:               1,1853 (insens) / 1,1853 (sens)
+#static field points-to:      311 (sens)
+#instance field points-to:    2109 (sens)
+#array points-to:             187 (sens)
+#reachable methods:           1310 (insens) / 1310 (sens)
+#call graph edges:            5245 (insens) / 5245 (sens)
+----------------------------------------
+[pta] elapsed time: 1.48s; CPU usage: start 18.75%, peak 7.55%, end 16.53%; Memory usage: start 494MB, peak 595MB, end 184MB
+[Tai-e] elapsed time: 3.06s; CPU usage: start 0.00%, peak 15.94%, end 14.29%; Memory usage: start 95MB, peak 545MB, end 184MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1310 edges=5245  (null)
+     [time] org.gjt.sp.jedit.jEdit   3503 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+6728 classes with 65611 methods in the world
+[WorldBuilder] elapsed time: 0.44s; CPU usage: start 7.30%, peak 0.00%, end 41.32%; Memory usage: start 185MB, peak 185MB, end 349MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/refl.log
+[Pointer analysis] elapsed time: 0.30s; CPU usage: start 11.31%, peak 21.43%, end 19.05%; Memory usage: start 381MB, peak 381MB, end 281MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7119 (insens) / 7119 (sens)
+#objects:                     756 (insens) / 756 (sens)
+#var points-to:               1,2392 (insens) / 1,2392 (sens)
+#static field points-to:      332 (sens)
+#instance field points-to:    2129 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1325 (insens) / 1325 (sens)
+#call graph edges:            5279 (insens) / 5279 (sens)
+----------------------------------------
+[pta] elapsed time: 0.50s; CPU usage: start 10.00%, peak 25.00%, end 16.52%; Memory usage: start 349MB, peak 349MB, end 329MB
+[Tai-e] elapsed time: 1.06s; CPU usage: start 8.62%, peak 17.99%, end 14.29%; Memory usage: start 184MB, peak 297MB, end 329MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1325 edges=5279  (null+log)
+     [time] org.gjt.sp.jedit.jEdit   1069 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 0.25s; CPU usage: start 18.11%, peak 20.00%, end 33.02%; Memory usage: start 329MB, peak 329MB, end 503MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.23s; CPU usage: start 3.30%, peak 0.00%, end 10.61%; Memory usage: start 503MB, peak 503MB, end 584MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7113 (insens) / 7113 (sens)
+#objects:                     759 (insens) / 759 (sens)
+#var points-to:               1,3304 (insens) / 1,3304 (sens)
+#static field points-to:      425 (sens)
+#instance field points-to:    2121 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1325 (insens) / 1325 (sens)
+#call graph edges:            5275 (insens) / 5275 (sens)
+----------------------------------------
+[pta] elapsed time: 0.37s; CPU usage: start 9.09%, peak 7.69%, end 4.35%; Memory usage: start 503MB, peak 503MB, end 632MB
+[Tai-e] elapsed time: 0.66s; CPU usage: start 17.72%, peak 11.11%, end 0.00%; Memory usage: start 329MB, peak 329MB, end 632MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1325 edges=5275  (string-constant)
+     [time] org.gjt.sp.jedit.jEdit    668 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 0.25s; CPU usage: start 7.19%, peak 0.00%, end 32.12%; Memory usage: start 632MB, peak 632MB, end 630MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.17s; CPU usage: start 1.69%, peak 0.00%, end 2.63%; Memory usage: start 646MB, peak 646MB, end 727MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7113 (insens) / 7113 (sens)
+#objects:                     759 (insens) / 759 (sens)
+#var points-to:               1,3304 (insens) / 1,3304 (sens)
+#static field points-to:      425 (sens)
+#instance field points-to:    2121 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1325 (insens) / 1325 (sens)
+#call graph edges:            5275 (insens) / 5275 (sens)
+----------------------------------------
+[pta] elapsed time: 0.29s; CPU usage: start 0.00%, peak 0.00%, end 2.51%; Memory usage: start 630MB, peak 630MB, end 759MB
+[Tai-e] elapsed time: 0.58s; CPU usage: start 5.56%, peak 0.00%, end 7.14%; Memory usage: start 632MB, peak 632MB, end 759MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1325 edges=5275  (solar)
+     [time] org.gjt.sp.jedit.jEdit    586 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 0.24s; CPU usage: start 10.19%, peak 0.00%, end 32.83%; Memory usage: start 775MB, peak 775MB, end 429MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-field at <org.gjt.sp.jedit.gui.DefaultInputHandler: javax.swing.KeyStroke parseKeyStroke(java.lang.String)>@66 → [VK_A, VK_B, VK_C, VK_D, VK_E, VK_F, VK_G, VK_H, VK_I, VK_J, VK_K, VK_L, VK_M, VK_N, VK_O, VK_P, VK_Q, VK_R, VK_S, VK_T, VK_U, VK_V, VK_W, VK_X, VK_Y, VK_Z]
+[Pointer analysis] elapsed time: 2.27s; CPU usage: start 5.60%, peak 0.03%, end 0.43%; Memory usage: start 399MB, peak 532MB, end 531MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7118 (insens) / 7118 (sens)
+#objects:                     826 (insens) / 826 (sens)
+#var points-to:               1,3464 (insens) / 1,3464 (sens)
+#static field points-to:      425 (sens)
+#instance field points-to:    2124 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1326 (insens) / 1326 (sens)
+#call graph edges:            5279 (insens) / 5279 (sens)
+----------------------------------------
+[pta] elapsed time: 2.71s; CPU usage: start 0.00%, peak 1.35%, end 3.92%; Memory usage: start 429MB, peak 532MB, end 579MB
+[Tai-e] elapsed time: 2.98s; CPU usage: start 8.00%, peak 14.29%, end 7.69%; Memory usage: start 775MB, peak 775MB, end 579MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1326 edges=5279  (llm)
+     [time] org.gjt.sp.jedit.jEdit   2988 ms  (llm)
+     [oracle] queries=1 live=1 cost=$0.0003
+     [disposer] proposed=0 phiRejected=0 injected=0
+jedit-3.0  |       15 |    0.800 | r=0.800 p=0.800      | r=0.800 p=0.750 +4        
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

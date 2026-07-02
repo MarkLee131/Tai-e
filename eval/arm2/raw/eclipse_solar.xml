@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pascal.taie.analysis.pta.ReflectionRecallEval" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-07-01T16:30:25.843Z" hostname="csl-conti-dell7859" time="8.116">
+  <properties/>
+  <testcase name="measureReflectionRecall()" classname="pascal.taie.analysis.pta.ReflectionRecallEval" time="8.089"/>
+  <system-out><![CDATA[
+==== Reflection-recall (GT = log-reachable \ no-reflection) ====
+bench      |       GT |   sc-rec | SOLAR (Tai-e full)   | arm²(skip)                
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: bc3b3103dc740429db7ca11f7cfa242265f70f28
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+2647 classes with 25161 methods in the world
+[WorldBuilder] elapsed time: 0.71s; CPU usage: start 8.06%, peak 0.00%, end 17.53%; Memory usage: start 70MB, peak 70MB, end 494MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.27s; CPU usage: start 7.78%, peak 0.00%, end 9.04%; Memory usage: start 528MB, peak 544MB, end 564MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     101 (insens) / 101 (sens)
+#var points-to:               1409 (insens) / 1409 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    111 (sens)
+#array points-to:             31 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.54s; CPU usage: start 14.93%, peak 20.00%, end 10.46%; Memory usage: start 494MB, peak 494MB, end 580MB
+[Tai-e] elapsed time: 1.57s; CPU usage: start 0.00%, peak 30.06%, end 12.50%; Memory usage: start 80MB, peak 494MB, end 580MB
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: bc3b3103dc740429db7ca11f7cfa242265f70f28
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+Cannot resolve class org.apache.xerces.jaxp.SAXParserFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xerces.parsers.XIncludeAwareParserConfiguration; treating it as phantom class.
+Cannot resolve class org.apache.xalan.processor.TransformerFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xalan.serialize.SerializerToXML; treating it as phantom class.
+Cannot resolve class org.apache.xerces.parsers.ObjectFactory; treating it as phantom class.
+Cannot resolve class org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xerces.jaxp.DocumentBuilderFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xalan.serialize.CharInfo; treating it as phantom class.
+Cannot resolve class org.eclipse.jdt.core.tests.util.Util; treating it as phantom class.
+Cannot resolve class org.eclipse.jdt.core.tests.util.AbstractCompilerTest; treating it as phantom class.
+Cannot resolve class org.eclipse.jdi.Bootstrap; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.Connector$Argument; treating it as phantom class.
+Cannot resolve class com.sun.jdi.VirtualMachineManager; treating it as phantom class.
+Cannot resolve class org.eclipse.jdt.debug.core.JDIDebugModel; treating it as phantom class.
+Cannot resolve class org.eclipse.jdi.TimeoutException; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.AttachingConnector; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.Connector$IntegerArgument; treating it as phantom class.
+Cannot resolve class com.sun.jdi.VMDisconnectedException; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.IllegalConnectorArgumentsException; treating it as phantom class.
+Cannot resolve class com.sun.jdi.VirtualMachine; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.ListeningConnector; treating it as phantom class.
+4898 classes with 50461 methods in the world
+[WorldBuilder] elapsed time: 0.32s; CPU usage: start 12.52%, peak 0.00%, end 35.15%; Memory usage: start 581MB, peak 581MB, end 318MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse-refl.log
+Reflective target 'java.lang.String[]' for Class.forName is not found
+No matched invokes found for org.apache.xalan.processor.TransformerFactoryImpl.class$/162
+Reflective caller class 'org.apache.xalan.serialize.Encodings' is absent
+Reflective caller class 'org.apache.xalan.templates.OutputProperties' is absent
+No matched invokes found for org.apache.xalan.serialize.CharInfo.class$/150
+Reflective caller class 'org.apache.xalan.serialize.SerializerFactory' is absent
+No matched invokes found for org.apache.xerces.parsers.ObjectFactory.class$/-1
+Reflective caller class 'org.apache.xerces.impl.dv.ObjectFactory' is absent
+No matched invokes found for org.apache.xerces.parsers.ObjectFactory.newInstance/-1
+Reflective target '<org.apache.xalan.processor.TransformerFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xalan.serialize.SerializerToXML: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.jaxp.DocumentBuilderFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.jaxp.SAXParserFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.parsers.XIncludeAwareParserConfiguration: void <init>()>' for Constructor.newInstance is not found
+No matched invokes found for org.apache.xalan.processor.TransformerFactoryImpl.<clinit>/164
+[Pointer analysis] elapsed time: 3.37s; CPU usage: start 16.94%, peak 20.00%, end 1.30%; Memory usage: start 385MB, peak 690MB, end 643MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                8,8708 (insens) / 8,8708 (sens)
+#objects:                     8426 (insens) / 8426 (sens)
+#var points-to:               102,2322 (insens) / 102,2322 (sens)
+#static field points-to:      1447 (sens)
+#instance field points-to:    21,2448 (sens)
+#array points-to:             2,4461 (sens)
+#reachable methods:           1,1302 (insens) / 1,1302 (sens)
+#call graph edges:            8,9618 (insens) / 8,9618 (sens)
+----------------------------------------
+[pta] elapsed time: 4.46s; CPU usage: start 9.09%, peak 16.17%, end 2.45%; Memory usage: start 319MB, peak 771MB, end 899MB
+[Tai-e] elapsed time: 4.86s; CPU usage: start 9.88%, peak 16.52%, end 0.00%; Memory usage: start 580MB, peak 668MB, end 899MB
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: bc3b3103dc740429db7ca11f7cfa242265f70f28
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+2647 classes with 25161 methods in the world
+[WorldBuilder] elapsed time: 0.21s; CPU usage: start 4.42%, peak 0.00%, end 30.10%; Memory usage: start 916MB, peak 916MB, end 1140MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 14.95%, peak 20.00%, end 8.51%; Memory usage: start 1156MB, peak 1156MB, end 1173MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     107 (insens) / 107 (sens)
+#var points-to:               1463 (insens) / 1463 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    111 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.07s; CPU usage: start 0.00%, peak 20.00%, end 4.20%; Memory usage: start 1140MB, peak 1156MB, end 1173MB
+[Tai-e] elapsed time: 0.31s; CPU usage: start 3.68%, peak 8.33%, end 12.50%; Memory usage: start 899MB, peak 915MB, end 1173MB
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: bc3b3103dc740429db7ca11f7cfa242265f70f28
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+2647 classes with 25161 methods in the world
+[WorldBuilder] elapsed time: 0.20s; CPU usage: start 8.17%, peak 0.00%, end 32.91%; Memory usage: start 1189MB, peak 1189MB, end 639MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 4.03%, peak 0.00%, end 3.19%; Memory usage: start 639MB, peak 655MB, end 671MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     123 (insens) / 123 (sens)
+#var points-to:               1616 (insens) / 1616 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    113 (sens)
+#array points-to:             36 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.05s; CPU usage: start 11.11%, peak 0.00%, end 5.43%; Memory usage: start 639MB, peak 639MB, end 671MB
+[Tai-e] elapsed time: 0.28s; CPU usage: start 8.33%, peak 0.00%, end 14.29%; Memory usage: start 1173MB, peak 1189MB, end 671MB
+eclipse    |    11076 |    0.000 | r=0.001 p=0.267      | —                         
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

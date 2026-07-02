@@ -1,0 +1,2095 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pascal.taie.analysis.pta.ReflectionRecallEval" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-07-02T13:21:35.266Z" hostname="csl-conti-dell7859" time="57.051">
+  <properties/>
+  <testcase name="measureReflectionRecall()" classname="pascal.taie.analysis.pta.ReflectionRecallEval" time="57.033"/>
+  <system-out><![CDATA[
+==== Reflection-recall (GT = log-reachable \ no-reflection) ====
+bench      |       GT |   sc-rec | SOLAR (Tai-e full)   | arm②: recall/prec/extra   
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/lib/findbugs.jar ... 839 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin ... 0 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin/coreplugin.jar ... 192 classes
+Duplicate classes (total 18) introduced by findbugs.jar and annotations.jar,
+[edu.umd.cs.findbugs.annotations.DefaultAnnotation, edu.umd.cs.findbugs.annotations.Priority, net.jcip.annotations.ThreadSafe, edu.umd.cs.findbugs.annotations.CheckReturnValue] ... (14 more) is founded in both containers
+Duplicate classes (total 4) introduced by findbugs.jar and findbugs-ant.jar,
+[edu.umd.cs.findbugs.anttask.FindBugsViewerTask, edu.umd.cs.findbugs.anttask.FindBugsTask, edu.umd.cs.findbugs.anttask.FindBugsTask$SystemProperty, edu.umd.cs.findbugs.anttask.FindBugsTask$ClassLocation] is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.taskdefs.Java; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Task; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant$Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline$Argument; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.CommandlineJava; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Location; treating it as phantom class.
+Cannot resolve class junit.framework.TestCase; treating it as phantom class.
+Cannot resolve class edu.umd.cs.findbugs.TigerSubstitutesTest; treating it as phantom class.
+Cannot resolve class junit.framework.Assert; treating it as phantom class.
+7483 classes with 67766 methods in the world
+[WorldBuilder] elapsed time: 1.31s; CPU usage: start 8.98%, peak 14.50%, end 70.18%; Memory usage: start 54MB, peak 459MB, end 623MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.67s; CPU usage: start 11.86%, peak 10.00%, end 15.77%; Memory usage: start 674MB, peak 674MB, end 249MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7708 (insens) / 7708 (sens)
+#objects:                     870 (insens) / 870 (sens)
+#var points-to:               7564 (insens) / 7564 (sens)
+#static field points-to:      73 (sens)
+#instance field points-to:    782 (sens)
+#array points-to:             109 (sens)
+#reachable methods:           1666 (insens) / 1666 (sens)
+#call graph edges:            4729 (insens) / 4729 (sens)
+----------------------------------------
+[pta] elapsed time: 1.02s; CPU usage: start 16.39%, peak 16.29%, end 12.42%; Memory usage: start 623MB, peak 623MB, end 282MB
+[Tai-e] elapsed time: 2.61s; CPU usage: start 0.00%, peak 13.27%, end 0.00%; Memory usage: start 96MB, peak 693MB, end 282MB
+     [cg] edu.umd.cs.findbugs.FindBugs2 methods=1666 edges=4729  (null)
+     [time] edu.umd.cs.findbugs.FindBugs2   3018 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/lib/findbugs.jar ... 839 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin ... 0 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin/coreplugin.jar ... 192 classes
+Duplicate classes (total 4) introduced by findbugs.jar and findbugs-ant.jar,
+[edu.umd.cs.findbugs.anttask.FindBugsViewerTask, edu.umd.cs.findbugs.anttask.FindBugsTask, edu.umd.cs.findbugs.anttask.FindBugsTask$SystemProperty, edu.umd.cs.findbugs.anttask.FindBugsTask$ClassLocation] is founded in both containers
+Duplicate classes (total 18) introduced by findbugs.jar and annotations.jar,
+[edu.umd.cs.findbugs.annotations.DefaultAnnotation, edu.umd.cs.findbugs.annotations.Priority, net.jcip.annotations.ThreadSafe, edu.umd.cs.findbugs.annotations.CheckReturnValue] ... (14 more) is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant$Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Java; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline$Argument; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Task; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Location; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.CommandlineJava; treating it as phantom class.
+Cannot resolve class junit.framework.TestCase; treating it as phantom class.
+Cannot resolve class edu.umd.cs.findbugs.TigerSubstitutesTest; treating it as phantom class.
+Cannot resolve class junit.framework.Assert; treating it as phantom class.
+8174 classes with 75037 methods in the world
+[WorldBuilder] elapsed time: 0.63s; CPU usage: start 9.37%, peak 0.00%, end 22.71%; Memory usage: start 284MB, peak 284MB, end 384MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/refl.log
+[Pointer analysis] elapsed time: 0.30s; CPU usage: start 15.34%, peak 16.67%, end 16.32%; Memory usage: start 318MB, peak 334MB, end 412MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                8607 (insens) / 8607 (sens)
+#objects:                     1021 (insens) / 1021 (sens)
+#var points-to:               9721 (insens) / 9721 (sens)
+#static field points-to:      287 (sens)
+#instance field points-to:    1081 (sens)
+#array points-to:             122 (sens)
+#reachable methods:           1973 (insens) / 1973 (sens)
+#call graph edges:            5723 (insens) / 5723 (sens)
+----------------------------------------
+[pta] elapsed time: 0.51s; CPU usage: start 0.00%, peak 0.00%, end 15.52%; Memory usage: start 384MB, peak 384MB, end 445MB
+[Tai-e] elapsed time: 1.22s; CPU usage: start 12.00%, peak 16.40%, end 14.29%; Memory usage: start 283MB, peak 364MB, end 445MB
+     [cg] edu.umd.cs.findbugs.FindBugs2 methods=1973 edges=5723  (null+log)
+     [time] edu.umd.cs.findbugs.FindBugs2   1230 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/lib/findbugs.jar ... 839 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin ... 0 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin/coreplugin.jar ... 192 classes
+Duplicate classes (total 4) introduced by findbugs.jar and findbugs-ant.jar,
+[edu.umd.cs.findbugs.anttask.FindBugsViewerTask, edu.umd.cs.findbugs.anttask.FindBugsTask, edu.umd.cs.findbugs.anttask.FindBugsTask$SystemProperty, edu.umd.cs.findbugs.anttask.FindBugsTask$ClassLocation] is founded in both containers
+Duplicate classes (total 18) introduced by findbugs.jar and annotations.jar,
+[edu.umd.cs.findbugs.annotations.DefaultAnnotation, edu.umd.cs.findbugs.annotations.Priority, net.jcip.annotations.ThreadSafe, edu.umd.cs.findbugs.annotations.CheckReturnValue] ... (14 more) is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant$Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Java; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline$Argument; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Task; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Location; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.CommandlineJava; treating it as phantom class.
+Cannot resolve class junit.framework.TestCase; treating it as phantom class.
+Cannot resolve class edu.umd.cs.findbugs.TigerSubstitutesTest; treating it as phantom class.
+Cannot resolve class junit.framework.Assert; treating it as phantom class.
+7483 classes with 67766 methods in the world
+[WorldBuilder] elapsed time: 0.29s; CPU usage: start 7.29%, peak 0.00%, end 36.09%; Memory usage: start 446MB, peak 446MB, end 600MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.15s; CPU usage: start 1.65%, peak 0.00%, end 8.61%; Memory usage: start 616MB, peak 616MB, end 696MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7752 (insens) / 7752 (sens)
+#objects:                     920 (insens) / 920 (sens)
+#var points-to:               8317 (insens) / 8317 (sens)
+#static field points-to:      274 (sens)
+#instance field points-to:    925 (sens)
+#array points-to:             113 (sens)
+#reachable methods:           1686 (insens) / 1686 (sens)
+#call graph edges:            4786 (insens) / 4786 (sens)
+----------------------------------------
+[pta] elapsed time: 0.25s; CPU usage: start 9.09%, peak 0.00%, end 5.68%; Memory usage: start 600MB, peak 600MB, end 728MB
+[Tai-e] elapsed time: 0.58s; CPU usage: start 11.11%, peak 0.00%, end 0.00%; Memory usage: start 445MB, peak 445MB, end 728MB
+     [cg] edu.umd.cs.findbugs.FindBugs2 methods=1686 edges=4786  (string-constant)
+     [time] edu.umd.cs.findbugs.FindBugs2    586 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/lib/findbugs.jar ... 839 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin ... 0 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin/coreplugin.jar ... 192 classes
+Duplicate classes (total 18) introduced by findbugs.jar and annotations.jar,
+[edu.umd.cs.findbugs.annotations.DefaultAnnotation, edu.umd.cs.findbugs.annotations.Priority, net.jcip.annotations.ThreadSafe, edu.umd.cs.findbugs.annotations.CheckReturnValue] ... (14 more) is founded in both containers
+Duplicate classes (total 4) introduced by findbugs.jar and findbugs-ant.jar,
+[edu.umd.cs.findbugs.anttask.FindBugsViewerTask, edu.umd.cs.findbugs.anttask.FindBugsTask, edu.umd.cs.findbugs.anttask.FindBugsTask$SystemProperty, edu.umd.cs.findbugs.anttask.FindBugsTask$ClassLocation] is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant$Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Java; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline$Argument; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Task; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Location; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.CommandlineJava; treating it as phantom class.
+Cannot resolve class junit.framework.TestCase; treating it as phantom class.
+Cannot resolve class edu.umd.cs.findbugs.TigerSubstitutesTest; treating it as phantom class.
+Cannot resolve class junit.framework.Assert; treating it as phantom class.
+7483 classes with 67766 methods in the world
+[WorldBuilder] elapsed time: 0.26s; CPU usage: start 5.91%, peak 4.55%, end 35.53%; Memory usage: start 729MB, peak 745MB, end 763MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.14s; CPU usage: start 1.45%, peak 0.00%, end 10.56%; Memory usage: start 779MB, peak 779MB, end 535MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7752 (insens) / 7752 (sens)
+#objects:                     920 (insens) / 920 (sens)
+#var points-to:               8317 (insens) / 8317 (sens)
+#static field points-to:      274 (sens)
+#instance field points-to:    925 (sens)
+#array points-to:             113 (sens)
+#reachable methods:           1686 (insens) / 1686 (sens)
+#call graph edges:            4786 (insens) / 4786 (sens)
+----------------------------------------
+[pta] elapsed time: 0.23s; CPU usage: start 0.00%, peak 0.00%, end 2.62%; Memory usage: start 763MB, peak 763MB, end 567MB
+[Tai-e] elapsed time: 0.51s; CPU usage: start 7.02%, peak 0.00%, end 0.00%; Memory usage: start 728MB, peak 728MB, end 583MB
+     [cg] edu.umd.cs.findbugs.FindBugs2 methods=1686 edges=4786  (solar)
+     [time] edu.umd.cs.findbugs.FindBugs2    523 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/lib/findbugs.jar ... 839 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin ... 0 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/findbugs/3.0/plugin/coreplugin.jar ... 192 classes
+Duplicate classes (total 18) introduced by findbugs.jar and annotations.jar,
+[edu.umd.cs.findbugs.annotations.DefaultAnnotation, edu.umd.cs.findbugs.annotations.Priority, net.jcip.annotations.ThreadSafe, edu.umd.cs.findbugs.annotations.CheckReturnValue] ... (14 more) is founded in both containers
+Duplicate classes (total 4) introduced by findbugs.jar and findbugs-ant.jar,
+[edu.umd.cs.findbugs.anttask.FindBugsViewerTask, edu.umd.cs.findbugs.anttask.FindBugsTask, edu.umd.cs.findbugs.anttask.FindBugsTask$SystemProperty, edu.umd.cs.findbugs.anttask.FindBugsTask$ClassLocation] is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline$Argument; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Commandline; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Task; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Ant$Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Reference; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.Java; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.CommandlineJava; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Location; treating it as phantom class.
+Cannot resolve class junit.framework.TestCase; treating it as phantom class.
+Cannot resolve class edu.umd.cs.findbugs.TigerSubstitutesTest; treating it as phantom class.
+Cannot resolve class junit.framework.Assert; treating it as phantom class.
+7483 classes with 67766 methods in the world
+[WorldBuilder] elapsed time: 0.29s; CPU usage: start 5.67%, peak 0.00%, end 36.70%; Memory usage: start 584MB, peak 584MB, end 715MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <org.saxpath.helpers.XPathReaderFactory: org.saxpath.XPathReader createReader(java.lang.String)>@11 → [org.saxpath.XPathReader]
+[arm2-llm] llm-class at <org.dom4j.DocumentFactory: org.dom4j.DocumentFactory createSingleton(java.lang.String)>@10 → [org.dom4j.DocumentFactory]
+[Pointer analysis] elapsed time: 2.60s; CPU usage: start 3.38%, peak 0.06%, end 0.18%; Memory usage: start 768MB, peak 885MB, end 884MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7755 (insens) / 7755 (sens)
+#objects:                     927 (insens) / 927 (sens)
+#var points-to:               8330 (insens) / 8330 (sens)
+#static field points-to:      275 (sens)
+#instance field points-to:    925 (sens)
+#array points-to:             113 (sens)
+#reachable methods:           1686 (insens) / 1686 (sens)
+#call graph edges:            4787 (insens) / 4787 (sens)
+----------------------------------------
+[pta] elapsed time: 2.93s; CPU usage: start 0.00%, peak 0.44%, end 1.48%; Memory usage: start 715MB, peak 885MB, end 916MB
+[Tai-e] elapsed time: 3.25s; CPU usage: start 3.09%, peak 3.98%, end 0.00%; Memory usage: start 583MB, peak 885MB, end 916MB
+     [cg] edu.umd.cs.findbugs.FindBugs2 methods=1686 edges=4787  (llm)
+     [time] edu.umd.cs.findbugs.FindBugs2   3279 ms  (llm)
+     [oracle] queries=2 live=2 cost=$0.0008
+     [disposer] proposed=2 phiRejected=0 injected=2
+findbugs-3.0 |      307 |    0.059 | r=0.059 p=0.900      | r=0.059 p=0.900 +2        
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/columba/1.4/columba.jar ... 1701 classes
+Duplicate classes (total 20) introduced by commons-cli-1.0.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.cli.PatternOptionBuilder, org.apache.commons.cli.UnrecognizedOptionException, org.apache.commons.cli.CommandLineParser, org.apache.commons.cli.Options] ... (16 more) is founded in both containers
+Duplicate classes (total 100) introduced by jcoverage.jar and junit.jar,
+[junit.extensions.ExceptionTestCase, junit.extensions.TestSetup$1, junit.swingui.TestSelector$ParallelSwapper, junit.textui.TestRunner] ... (96 more) is founded in both containers
+Duplicate classes (total 17) introduced by commons-logging.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.logging.impl.SimpleLog, org.apache.commons.logging.impl.NoOpLog, org.apache.commons.logging.LogFactory$3, org.apache.commons.logging.impl.Log4JLogger] ... (13 more) is founded in both containers
+Duplicate classes (total 18) introduced by jcoverage.jar and jython-2.2a1.jar,
+[org.apache.oro.text.regex.StringSubstitution, org.apache.oro.text.regex.Perl5Debug, org.apache.oro.text.regex.Perl5Repetition, org.apache.oro.text.regex.Perl5Substitution] ... (14 more) is founded in both containers
+
+Cannot resolve class javax.persistence.EntityManagerFactory; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityManager; treating it as phantom class.
+Cannot resolve class javax.persistence.PersistenceException; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityTransaction; treating it as phantom class.
+Cannot resolve class javax.persistence.Query; treating it as phantom class.
+Cannot resolve class javax.persistence.Persistence; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.SystemTray; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.TrayIcon; treating it as phantom class.
+Cannot resolve class javax.persistence.Id; treating it as phantom class.
+Cannot resolve class javax.persistence.GeneratedValue; treating it as phantom class.
+Cannot resolve class javax.persistence.Entity; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKey; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKeyValues; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.browser.WebBrowser; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.AssociationService; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.DesktopException; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.Desktop; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Association; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Action; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.SkinLookAndFeel; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.Skin; treating it as phantom class.
+Cannot resolve class org.apache.commons.lang.NumberUtils; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassWriter; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassVisitor; treating it as phantom class.
+Cannot resolve class com.thoughtworks.xstream.XStream; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Opcodes; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.MethodVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Label; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.AnnotationVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.FieldVisitor; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.OutputFormat; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.XMLSerializer; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.DOMSerializer; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Type; treating it as phantom class.
+10858 classes with 100359 methods in the world
+[WorldBuilder] elapsed time: 2.17s; CPU usage: start 6.75%, peak 6.08%, end 70.18%; Memory usage: start 933MB, peak 965MB, end 1016MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.00s; CPU usage: start 1.34%, peak 0.00%, end 0.00%; Memory usage: start 1048MB, peak 1048MB, end 1048MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                37 (insens) / 37 (sens)
+#objects:                     16 (insens) / 16 (sens)
+#var points-to:               25 (insens) / 25 (sens)
+#static field points-to:      1 (sens)
+#instance field points-to:    1 (sens)
+#array points-to:             1 (sens)
+#reachable methods:           41 (insens) / 41 (sens)
+#call graph edges:            23 (insens) / 23 (sens)
+----------------------------------------
+[pta] elapsed time: 0.09s; CPU usage: start 10.00%, peak 0.00%, end 4.44%; Memory usage: start 1016MB, peak 1032MB, end 1048MB
+[Tai-e] elapsed time: 2.29s; CPU usage: start 3.00%, peak 5.30%, end 0.00%; Memory usage: start 917MB, peak 965MB, end 1048MB
+     [cg] org.columba.core.main.Main methods=41 edges=23  (null)
+     [time] org.columba.core.main.Main   2297 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/columba/1.4/columba.jar ... 1701 classes
+Duplicate classes (total 18) introduced by jcoverage.jar and jython-2.2a1.jar,
+[org.apache.oro.text.regex.StringSubstitution, org.apache.oro.text.regex.Perl5Debug, org.apache.oro.text.regex.Perl5Repetition, org.apache.oro.text.regex.Perl5Substitution] ... (14 more) is founded in both containers
+Duplicate classes (total 100) introduced by jcoverage.jar and junit.jar,
+[junit.extensions.ExceptionTestCase, junit.extensions.TestSetup$1, junit.swingui.TestSelector$ParallelSwapper, junit.textui.TestRunner] ... (96 more) is founded in both containers
+Duplicate classes (total 20) introduced by commons-cli-1.0.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.cli.PatternOptionBuilder, org.apache.commons.cli.UnrecognizedOptionException, org.apache.commons.cli.CommandLineParser, org.apache.commons.cli.Options] ... (16 more) is founded in both containers
+Duplicate classes (total 17) introduced by commons-logging.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.logging.impl.SimpleLog, org.apache.commons.logging.impl.NoOpLog, org.apache.commons.logging.LogFactory$3, org.apache.commons.logging.impl.Log4JLogger] ... (13 more) is founded in both containers
+
+Cannot resolve class com.sun.crypto.provider.BlowfishCipher; treating it as phantom class.
+Cannot resolve class com.sun.crypto.provider.SunJCE; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.SystemTray; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.TrayIcon; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.browser.WebBrowser; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityManagerFactory; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityTransaction; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityManager; treating it as phantom class.
+Cannot resolve class javax.persistence.Persistence; treating it as phantom class.
+Cannot resolve class javax.persistence.PersistenceException; treating it as phantom class.
+Cannot resolve class javax.persistence.Query; treating it as phantom class.
+Cannot resolve class javax.persistence.Id; treating it as phantom class.
+Cannot resolve class javax.persistence.GeneratedValue; treating it as phantom class.
+Cannot resolve class javax.persistence.Entity; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKey; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKeyValues; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.AssociationService; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.DesktopException; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Association; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.Desktop; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Action; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.SkinLookAndFeel; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.Skin; treating it as phantom class.
+Cannot resolve class org.apache.commons.lang.NumberUtils; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassWriter; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassVisitor; treating it as phantom class.
+Cannot resolve class com.thoughtworks.xstream.XStream; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Opcodes; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.MethodVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Label; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.FieldVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.AnnotationVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Type; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.OutputFormat; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.DOMSerializer; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.XMLSerializer; treating it as phantom class.
+12431 classes with 116202 methods in the world
+[WorldBuilder] elapsed time: 0.61s; CPU usage: start 7.85%, peak 12.50%, end 30.69%; Memory usage: start 1048MB, peak 1064MB, end 1203MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/columba/1.4/refl.log
+Reflective target 'byte[]' for Class.forName is not found
+Reflective target 'java.lang.String[]' for Class.forName is not found
+Reflective target 'sun.security.pkcs.SignerInfo[]' for Class.forName is not found
+Reflective target '<com.sun.crypto.provider.BlowfishCipher: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<com.sun.crypto.provider.SunJCE: void <init>()>' for Constructor.newInstance is not found
+[Pointer analysis] elapsed time: 0.08s; CPU usage: start 12.51%, peak 25.00%, end 7.85%; Memory usage: start 897MB, peak 897MB, end 929MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                4766 (insens) / 4766 (sens)
+#objects:                     634 (insens) / 634 (sens)
+#var points-to:               5048 (insens) / 5048 (sens)
+#static field points-to:      64 (sens)
+#instance field points-to:    487 (sens)
+#array points-to:             38 (sens)
+#reachable methods:           1016 (insens) / 1016 (sens)
+#call graph edges:            2936 (insens) / 2936 (sens)
+----------------------------------------
+[pta] elapsed time: 0.27s; CPU usage: start 0.00%, peak 0.00%, end 7.73%; Memory usage: start 1203MB, peak 1203MB, end 961MB
+[Tai-e] elapsed time: 0.93s; CPU usage: start 7.69%, peak 0.00%, end 14.29%; Memory usage: start 1048MB, peak 1048MB, end 961MB
+     [cg] org.columba.core.main.Main methods=1016 edges=2936  (null+log)
+     [time] org.columba.core.main.Main    935 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/columba/1.4/columba.jar ... 1701 classes
+Duplicate classes (total 20) introduced by commons-cli-1.0.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.cli.PatternOptionBuilder, org.apache.commons.cli.UnrecognizedOptionException, org.apache.commons.cli.CommandLineParser, org.apache.commons.cli.Options] ... (16 more) is founded in both containers
+Duplicate classes (total 100) introduced by jcoverage.jar and junit.jar,
+[junit.extensions.ExceptionTestCase, junit.extensions.TestSetup$1, junit.swingui.TestSelector$ParallelSwapper, junit.textui.TestRunner] ... (96 more) is founded in both containers
+Duplicate classes (total 18) introduced by jcoverage.jar and jython-2.2a1.jar,
+[org.apache.oro.text.regex.StringSubstitution, org.apache.oro.text.regex.Perl5Debug, org.apache.oro.text.regex.Perl5Repetition, org.apache.oro.text.regex.Perl5Substitution] ... (14 more) is founded in both containers
+Duplicate classes (total 17) introduced by commons-logging.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.logging.impl.SimpleLog, org.apache.commons.logging.impl.NoOpLog, org.apache.commons.logging.LogFactory$3, org.apache.commons.logging.impl.Log4JLogger] ... (13 more) is founded in both containers
+
+Cannot resolve class javax.persistence.EntityManager; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityManagerFactory; treating it as phantom class.
+Cannot resolve class javax.persistence.Query; treating it as phantom class.
+Cannot resolve class javax.persistence.PersistenceException; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityTransaction; treating it as phantom class.
+Cannot resolve class javax.persistence.Persistence; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.SystemTray; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.TrayIcon; treating it as phantom class.
+Cannot resolve class javax.persistence.Id; treating it as phantom class.
+Cannot resolve class javax.persistence.GeneratedValue; treating it as phantom class.
+Cannot resolve class javax.persistence.Entity; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKey; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKeyValues; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.browser.WebBrowser; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.AssociationService; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.DesktopException; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Association; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.Desktop; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Action; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.SkinLookAndFeel; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.Skin; treating it as phantom class.
+Cannot resolve class org.apache.commons.lang.NumberUtils; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassWriter; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassVisitor; treating it as phantom class.
+Cannot resolve class com.thoughtworks.xstream.XStream; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Opcodes; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.MethodVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Label; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.FieldVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.AnnotationVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Type; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.OutputFormat; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.XMLSerializer; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.DOMSerializer; treating it as phantom class.
+10858 classes with 100359 methods in the world
+[WorldBuilder] elapsed time: 0.39s; CPU usage: start 8.75%, peak 0.00%, end 37.41%; Memory usage: start 978MB, peak 978MB, end 1219MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.00s; CPU usage: start 1.23%, peak 0.00%, end 0.00%; Memory usage: start 1235MB, peak 1235MB, end 1235MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                37 (insens) / 37 (sens)
+#objects:                     16 (insens) / 16 (sens)
+#var points-to:               25 (insens) / 25 (sens)
+#static field points-to:      1 (sens)
+#instance field points-to:    1 (sens)
+#array points-to:             1 (sens)
+#reachable methods:           41 (insens) / 41 (sens)
+#call graph edges:            23 (insens) / 23 (sens)
+----------------------------------------
+[pta] elapsed time: 0.08s; CPU usage: start 9.09%, peak 25.00%, end 3.03%; Memory usage: start 1219MB, peak 1219MB, end 1235MB
+[Tai-e] elapsed time: 0.49s; CPU usage: start 6.12%, peak 22.22%, end 0.00%; Memory usage: start 961MB, peak 961MB, end 1235MB
+     [cg] org.columba.core.main.Main methods=41 edges=23  (string-constant)
+     [time] org.columba.core.main.Main    499 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/columba/1.4/columba.jar ... 1701 classes
+Duplicate classes (total 18) introduced by jcoverage.jar and jython-2.2a1.jar,
+[org.apache.oro.text.regex.StringSubstitution, org.apache.oro.text.regex.Perl5Debug, org.apache.oro.text.regex.Perl5Repetition, org.apache.oro.text.regex.Perl5Substitution] ... (14 more) is founded in both containers
+Duplicate classes (total 20) introduced by commons-cli-1.0.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.cli.PatternOptionBuilder, org.apache.commons.cli.UnrecognizedOptionException, org.apache.commons.cli.CommandLineParser, org.apache.commons.cli.Options] ... (16 more) is founded in both containers
+Duplicate classes (total 17) introduced by commons-logging.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.logging.impl.SimpleLog, org.apache.commons.logging.impl.NoOpLog, org.apache.commons.logging.LogFactory$3, org.apache.commons.logging.impl.Log4JLogger] ... (13 more) is founded in both containers
+Duplicate classes (total 100) introduced by jcoverage.jar and junit.jar,
+[junit.extensions.ExceptionTestCase, junit.extensions.TestSetup$1, junit.swingui.TestSelector$ParallelSwapper, junit.textui.TestRunner] ... (96 more) is founded in both containers
+
+Cannot resolve class javax.persistence.EntityManagerFactory; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityTransaction; treating it as phantom class.
+Cannot resolve class javax.persistence.PersistenceException; treating it as phantom class.
+Cannot resolve class javax.persistence.Persistence; treating it as phantom class.
+Cannot resolve class javax.persistence.Query; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityManager; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.SystemTray; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.TrayIcon; treating it as phantom class.
+Cannot resolve class javax.persistence.Entity; treating it as phantom class.
+Cannot resolve class javax.persistence.Id; treating it as phantom class.
+Cannot resolve class javax.persistence.GeneratedValue; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKey; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKeyValues; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.AssociationService; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.DesktopException; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.browser.WebBrowser; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Association; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.Desktop; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Action; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.SkinLookAndFeel; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.Skin; treating it as phantom class.
+Cannot resolve class org.apache.commons.lang.NumberUtils; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassWriter; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassVisitor; treating it as phantom class.
+Cannot resolve class com.thoughtworks.xstream.XStream; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Opcodes; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.MethodVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Label; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.FieldVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.AnnotationVisitor; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.OutputFormat; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.XMLSerializer; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Type; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.DOMSerializer; treating it as phantom class.
+10858 classes with 100359 methods in the world
+[WorldBuilder] elapsed time: 0.38s; CPU usage: start 5.00%, peak 0.00%, end 37.04%; Memory usage: start 1236MB, peak 1236MB, end 1234MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.00s; CPU usage: start 1.15%, peak 0.00%, end 0.00%; Memory usage: start 1251MB, peak 1251MB, end 1251MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                37 (insens) / 37 (sens)
+#objects:                     16 (insens) / 16 (sens)
+#var points-to:               25 (insens) / 25 (sens)
+#static field points-to:      1 (sens)
+#instance field points-to:    1 (sens)
+#array points-to:             1 (sens)
+#reachable methods:           41 (insens) / 41 (sens)
+#call graph edges:            23 (insens) / 23 (sens)
+----------------------------------------
+[pta] elapsed time: 0.09s; CPU usage: start 14.29%, peak 0.00%, end 2.56%; Memory usage: start 1234MB, peak 1234MB, end 1251MB
+[Tai-e] elapsed time: 0.49s; CPU usage: start 2.50%, peak 0.00%, end 12.50%; Memory usage: start 1235MB, peak 1235MB, end 1251MB
+     [cg] org.columba.core.main.Main methods=41 edges=23  (solar)
+     [time] org.columba.core.main.Main    492 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/columba/1.4/columba.jar ... 1701 classes
+Duplicate classes (total 17) introduced by commons-logging.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.logging.impl.SimpleLog, org.apache.commons.logging.impl.NoOpLog, org.apache.commons.logging.LogFactory$3, org.apache.commons.logging.impl.Log4JLogger] ... (13 more) is founded in both containers
+Duplicate classes (total 100) introduced by jcoverage.jar and junit.jar,
+[junit.extensions.ExceptionTestCase, junit.extensions.TestSetup$1, junit.swingui.TestSelector$ParallelSwapper, junit.textui.TestRunner] ... (96 more) is founded in both containers
+Duplicate classes (total 20) introduced by commons-cli-1.0.jar and checkstyle-all-3.4.jar,
+[org.apache.commons.cli.PatternOptionBuilder, org.apache.commons.cli.UnrecognizedOptionException, org.apache.commons.cli.CommandLineParser, org.apache.commons.cli.Options] ... (16 more) is founded in both containers
+Duplicate classes (total 18) introduced by jcoverage.jar and jython-2.2a1.jar,
+[org.apache.oro.text.regex.StringSubstitution, org.apache.oro.text.regex.Perl5Debug, org.apache.oro.text.regex.Perl5Repetition, org.apache.oro.text.regex.Perl5Substitution] ... (14 more) is founded in both containers
+
+Cannot resolve class javax.persistence.EntityManager; treating it as phantom class.
+Cannot resolve class javax.persistence.Query; treating it as phantom class.
+Cannot resolve class javax.persistence.Persistence; treating it as phantom class.
+Cannot resolve class javax.persistence.PersistenceException; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityTransaction; treating it as phantom class.
+Cannot resolve class javax.persistence.EntityManagerFactory; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.SystemTray; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.tray.TrayIcon; treating it as phantom class.
+Cannot resolve class javax.persistence.Id; treating it as phantom class.
+Cannot resolve class javax.persistence.Entity; treating it as phantom class.
+Cannot resolve class javax.persistence.GeneratedValue; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKey; treating it as phantom class.
+Cannot resolve class com.jniwrapper.win32.registry.RegistryKeyValues; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.browser.WebBrowser; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.DesktopException; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.AssociationService; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Association; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.desktop.Desktop; treating it as phantom class.
+Cannot resolve class org.jdesktop.jdic.filetypes.Action; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.SkinLookAndFeel; treating it as phantom class.
+Cannot resolve class com.l2fprod.gui.plaf.skin.Skin; treating it as phantom class.
+Cannot resolve class org.apache.commons.lang.NumberUtils; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.ClassWriter; treating it as phantom class.
+Cannot resolve class com.thoughtworks.xstream.XStream; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Opcodes; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.MethodVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Label; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.FieldVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.AnnotationVisitor; treating it as phantom class.
+Cannot resolve class org.objectweb.asm.Type; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.OutputFormat; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.XMLSerializer; treating it as phantom class.
+Cannot resolve class org.apache.xml.serialize.DOMSerializer; treating it as phantom class.
+10858 classes with 100359 methods in the world
+[WorldBuilder] elapsed time: 0.37s; CPU usage: start 4.17%, peak 0.00%, end 37.05%; Memory usage: start 1251MB, peak 1267MB, end 605MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <org.columba.core.association.AssociationStore: void init()>@39 → [org.hsqldb.jdbcDriver]
+[arm2-llm] llm-class at <org.jdom.input.SAXBuilder: org.xml.sax.XMLReader createParser()>@24 → [org.jdom.input.JAXPParserFactory]
+[arm2-llm] llm-class at <org.jdom.JDOMException: java.lang.Throwable getNestedException(java.lang.Throwable,java.lang.String,java.lang.String)>@1 → [java.lang.Exception, java.lang.Throwable, java.lang.Error]
+[arm2-llm] llm-class at <javax.help.NavigatorView: javax.help.NavigatorView create(javax.help.HelpSet,java.lang.String,java.lang.String,java.util.Locale,java.lang.String,java.util.Hashtable)>@60 → [javax.help.NavigatorView]
+[arm2-llm] llm-class at <javax.help.NavigatorView: javax.help.NavigatorView create(javax.help.HelpSet,java.lang.String,java.lang.String,java.util.Locale,java.lang.String,java.util.Hashtable)>@62 → [javax.help.NavigatorView]
+[arm2-llm] llm-class at <javax.help.HelpSet: javax.help.HelpBroker createHelpBroker(java.lang.String)>@11 → [javax.help.DefaultHelpBroker]
+[arm2-llm] llm-class at <javax.help.HelpSet: javax.help.HelpBroker createHelpBroker(java.lang.String)>@13 → [javax.help.DefaultHelpBroker]
+[arm2-llm] llm-class at <javax.help.CSH$DisplayHelpFromFocus: void <init>(javax.help.HelpSet,java.lang.String,java.lang.String)>@12 → [javax.help.HelpSet, javax.help.HelpBroker]
+[arm2-llm] llm-class at <javax.help.CSH$DisplayHelpFromFocus: void <init>(javax.help.HelpSet,java.lang.String,java.lang.String)>@14 → [org.columba.core.gui.menu.IMenu, org.columba.core.gui.docking.DockableView$CloseIcon, org.columba.core.gui.docking.DockableView$PinAction, org.columba.core.gui.htmlviewer.JavaHTMLViewerPlugin$AsynchronousHTMLDocument, org.columba.core.gui.search.SearchBar, org.columba.core.gui.statusbar.TaskManagerDialog, org.columba.core.command.TaskManagerListener, org.columba.core.context.base.api.IMappingFactory, org.columba.core.filter.FilterRule, org.columba.core.search.ResultEvent, org.columba.core.search.SearchHistoryList$1, org.columba.core.search.SearchResult, org.columba.core.tagging.api.ITagManager, org.columba.core.base.TextUtil, org.columba.api.plugin.PluginHandlerNotFoundException, org.columba.addressbook.gui.table.model.TableModelDecorator, org.columba.calendar.facade.DialogFacade, org.columba.calendar]
+[Pointer analysis] elapsed time: 9.06s; CPU usage: start 2.76%, peak 0.20%, end 0.23%; Memory usage: start 637MB, peak 669MB, end 669MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                4737 (insens) / 4737 (sens)
+#objects:                     632 (insens) / 632 (sens)
+#var points-to:               5016 (insens) / 5016 (sens)
+#static field points-to:      69 (sens)
+#instance field points-to:    461 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           1018 (insens) / 1018 (sens)
+#call graph edges:            2930 (insens) / 2930 (sens)
+----------------------------------------
+[pta] elapsed time: 9.21s; CPU usage: start 0.00%, peak 0.65%, end 2.95%; Memory usage: start 605MB, peak 669MB, end 717MB
+[Tai-e] elapsed time: 9.59s; CPU usage: start 4.35%, peak 0.59%, end 0.00%; Memory usage: start 1251MB, peak 1251MB, end 717MB
+     [cg] org.columba.core.main.Main methods=1018 edges=2930  (llm)
+     [time] org.columba.core.main.Main   9601 ms  (llm)
+     [oracle] queries=9 live=9 cost=$0.0040
+     [disposer] proposed=29 phiRejected=3 injected=26
+columba-1.4 |      975 |    0.000 | r=0.000 p=1.000      | r=0.991 p=0.989 +11       
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 0.21s; CPU usage: start 6.08%, peak 20.00%, end 32.23%; Memory usage: start 718MB, peak 718MB, end 1022MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.15s; CPU usage: start 2.88%, peak 0.00%, end 5.94%; Memory usage: start 1038MB, peak 1038MB, end 1119MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7109 (insens) / 7109 (sens)
+#objects:                     716 (insens) / 716 (sens)
+#var points-to:               1,1853 (insens) / 1,1853 (sens)
+#static field points-to:      311 (sens)
+#instance field points-to:    2109 (sens)
+#array points-to:             187 (sens)
+#reachable methods:           1310 (insens) / 1310 (sens)
+#call graph edges:            5245 (insens) / 5245 (sens)
+----------------------------------------
+[pta] elapsed time: 0.26s; CPU usage: start 0.00%, peak 0.00%, end 7.74%; Memory usage: start 1022MB, peak 1022MB, end 1151MB
+[Tai-e] elapsed time: 0.50s; CPU usage: start 6.85%, peak 12.50%, end 25.00%; Memory usage: start 718MB, peak 718MB, end 1151MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1310 edges=5245  (null)
+     [time] org.gjt.sp.jedit.jEdit    512 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+6728 classes with 65611 methods in the world
+[WorldBuilder] elapsed time: 0.24s; CPU usage: start 8.62%, peak 18.18%, end 37.33%; Memory usage: start 1167MB, peak 1167MB, end 1519MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/refl.log
+[Pointer analysis] elapsed time: 0.14s; CPU usage: start 1.74%, peak 0.00%, end 8.43%; Memory usage: start 1535MB, peak 1535MB, end 1615MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7119 (insens) / 7119 (sens)
+#objects:                     756 (insens) / 756 (sens)
+#var points-to:               1,2392 (insens) / 1,2392 (sens)
+#static field points-to:      332 (sens)
+#instance field points-to:    2129 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1325 (insens) / 1325 (sens)
+#call graph edges:            5279 (insens) / 5279 (sens)
+----------------------------------------
+[pta] elapsed time: 0.26s; CPU usage: start 0.00%, peak 0.00%, end 4.93%; Memory usage: start 1519MB, peak 1519MB, end 1664MB
+[Tai-e] elapsed time: 0.53s; CPU usage: start 7.81%, peak 0.00%, end 16.67%; Memory usage: start 1151MB, peak 1151MB, end 1664MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1325 edges=5279  (null+log)
+     [time] org.gjt.sp.jedit.jEdit    532 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 0.25s; CPU usage: start 4.48%, peak 0.00%, end 35.63%; Memory usage: start 1664MB, peak 1664MB, end 739MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.12s; CPU usage: start 1.05%, peak 0.00%, end 2.09%; Memory usage: start 739MB, peak 739MB, end 835MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7113 (insens) / 7113 (sens)
+#objects:                     759 (insens) / 759 (sens)
+#var points-to:               1,3304 (insens) / 1,3304 (sens)
+#static field points-to:      425 (sens)
+#instance field points-to:    2121 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1325 (insens) / 1325 (sens)
+#call graph edges:            5275 (insens) / 5275 (sens)
+----------------------------------------
+[pta] elapsed time: 0.22s; CPU usage: start 0.00%, peak 0.00%, end 1.87%; Memory usage: start 739MB, peak 739MB, end 867MB
+[Tai-e] elapsed time: 0.48s; CPU usage: start 2.08%, peak 40.00%, end 0.00%; Memory usage: start 1664MB, peak 1664MB, end 867MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1325 edges=5275  (string-constant)
+     [time] org.gjt.sp.jedit.jEdit    496 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 0.23s; CPU usage: start 3.45%, peak 16.67%, end 37.11%; Memory usage: start 867MB, peak 867MB, end 1171MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.17s; CPU usage: start 3.21%, peak 0.00%, end 2.62%; Memory usage: start 1187MB, peak 1187MB, end 1268MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7113 (insens) / 7113 (sens)
+#objects:                     759 (insens) / 759 (sens)
+#var points-to:               1,3304 (insens) / 1,3304 (sens)
+#static field points-to:      425 (sens)
+#instance field points-to:    2121 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1325 (insens) / 1325 (sens)
+#call graph edges:            5275 (insens) / 5275 (sens)
+----------------------------------------
+[pta] elapsed time: 0.27s; CPU usage: start 10.00%, peak 0.00%, end 1.50%; Memory usage: start 1171MB, peak 1187MB, end 1316MB
+[Tai-e] elapsed time: 0.52s; CPU usage: start 2.97%, peak 0.00%, end 0.00%; Memory usage: start 867MB, peak 867MB, end 1316MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1325 edges=5275  (solar)
+     [time] org.gjt.sp.jedit.jEdit    530 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/jedit/3.0/jedit.jar ... 415 classes
+
+5811 classes with 55067 methods in the world
+[WorldBuilder] elapsed time: 0.23s; CPU usage: start 7.64%, peak 0.00%, end 34.56%; Memory usage: start 1316MB, peak 1316MB, end 1620MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-field at <org.gjt.sp.jedit.gui.DefaultInputHandler: javax.swing.KeyStroke parseKeyStroke(java.lang.String)>@66 → [VK_A, VK_B, VK_C, VK_D, VK_E, VK_F, VK_G, VK_H, VK_I, VK_J, VK_K, VK_L, VK_M, VK_N, VK_O, VK_P, VK_Q, VK_R, VK_S, VK_T, VK_U, VK_V, VK_W, VK_X, VK_Y, VK_Z]
+[Pointer analysis] elapsed time: 0.16s; CPU usage: start 1.09%, peak 0.00%, end 2.08%; Memory usage: start 1636MB, peak 1636MB, end 1716MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7118 (insens) / 7118 (sens)
+#objects:                     826 (insens) / 826 (sens)
+#var points-to:               1,3464 (insens) / 1,3464 (sens)
+#static field points-to:      425 (sens)
+#instance field points-to:    2124 (sens)
+#array points-to:             198 (sens)
+#reachable methods:           1326 (insens) / 1326 (sens)
+#call graph edges:            5279 (insens) / 5279 (sens)
+----------------------------------------
+[pta] elapsed time: 0.27s; CPU usage: start 0.00%, peak 20.00%, end 1.93%; Memory usage: start 1620MB, peak 1620MB, end 1764MB
+[Tai-e] elapsed time: 0.52s; CPU usage: start 3.95%, peak 0.00%, end 0.00%; Memory usage: start 1316MB, peak 1316MB, end 1764MB
+     [cg] org.gjt.sp.jedit.jEdit methods=1326 edges=5279  (llm)
+     [time] org.gjt.sp.jedit.jEdit    532 ms  (llm)
+     [oracle] queries=1 live=0 cost=$0.0000
+     [disposer] proposed=0 phiRejected=0 injected=0
+jedit-3.0  |       15 |    0.800 | r=0.800 p=0.800      | r=0.800 p=0.750 +4        
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/freecol/0.10.3/FreeCol.jar ... 1225 classes
+Duplicate classes (total 37) introduced by jsr173_1.0_api.jar and rt.jar,
+[javax.xml.stream.util.StreamReaderDelegate, javax.xml.stream.XMLInputFactory, javax.xml.stream.util.XMLEventAllocator, javax.xml.stream.FactoryFinder] ... (33 more) is founded in both containers
+
+7285 classes with 67757 methods in the world
+[WorldBuilder] elapsed time: 0.77s; CPU usage: start 4.12%, peak 25.00%, end 15.20%; Memory usage: start 1765MB, peak 1765MB, end 944MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.14s; CPU usage: start 1.15%, peak 25.00%, end 2.62%; Memory usage: start 960MB, peak 960MB, end 1055MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                7553 (insens) / 7553 (sens)
+#objects:                     1420 (insens) / 1420 (sens)
+#var points-to:               9293 (insens) / 9293 (sens)
+#static field points-to:      243 (sens)
+#instance field points-to:    2214 (sens)
+#array points-to:             179 (sens)
+#reachable methods:           1499 (insens) / 1499 (sens)
+#call graph edges:            4734 (insens) / 4734 (sens)
+----------------------------------------
+[pta] elapsed time: 0.25s; CPU usage: start 0.00%, peak 0.00%, end 5.04%; Memory usage: start 960MB, peak 960MB, end 1087MB
+[Tai-e] elapsed time: 1.05s; CPU usage: start 1.23%, peak 20.00%, end 9.09%; Memory usage: start 1764MB, peak 1764MB, end 1087MB
+     [cg] net.sf.freecol.FreeCol methods=1499 edges=4734  (null)
+     [time] net.sf.freecol.FreeCol   1059 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/freecol/0.10.3/FreeCol.jar ... 1225 classes
+Duplicate classes (total 37) introduced by jsr173_1.0_api.jar and rt.jar,
+[javax.xml.stream.util.StreamReaderDelegate, javax.xml.stream.XMLInputFactory, javax.xml.stream.util.XMLEventAllocator, javax.xml.stream.FactoryFinder] ... (33 more) is founded in both containers
+
+Cannot resolve class sun.util.resources.LocaleNames_zh; treating it as phantom class.
+Cannot resolve class sun.util.resources.LocaleNames_iw; treating it as phantom class.
+Cannot resolve class sun.util.resources.LocaleNames_ja; treating it as phantom class.
+Cannot resolve class sun.util.resources.LocaleNames_ar; treating it as phantom class.
+10079 classes with 95950 methods in the world
+[WorldBuilder] elapsed time: 0.53s; CPU usage: start 6.94%, peak 0.00%, end 27.01%; Memory usage: start 1089MB, peak 1089MB, end 1633MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/freecol/0.10.3/refl.log
+Reflective target 'byte[]' for Class.forName is not found
+Reflective target 'char[]' for Class.forName is not found
+No matched invokes found for javax.xml.stream.FactoryFinder.newInstance/154
+No matched invokes found for javax.xml.stream.FactoryFinder.newInstance/154
+Reflective target '<sun.util.resources.LocaleNames_ar: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<sun.util.resources.LocaleNames_iw: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<sun.util.resources.LocaleNames_ja: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<sun.util.resources.LocaleNames_zh: void <init>()>' for Constructor.newInstance is not found
+[Pointer analysis] elapsed time: 0.23s; CPU usage: start 1.90%, peak 0.00%, end 3.88%; Memory usage: start 1665MB, peak 1665MB, end 1777MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                9224 (insens) / 9224 (sens)
+#objects:                     1808 (insens) / 1808 (sens)
+#var points-to:               1,2318 (insens) / 1,2318 (sens)
+#static field points-to:      300 (sens)
+#instance field points-to:    3060 (sens)
+#array points-to:             229 (sens)
+#reachable methods:           1738 (insens) / 1738 (sens)
+#call graph edges:            5707 (insens) / 5707 (sens)
+----------------------------------------
+[pta] elapsed time: 0.44s; CPU usage: start 16.67%, peak 0.00%, end 2.75%; Memory usage: start 1633MB, peak 1633MB, end 1809MB
+[Tai-e] elapsed time: 1.03s; CPU usage: start 8.16%, peak 3.10%, end 9.09%; Memory usage: start 1087MB, peak 1793MB, end 1809MB
+     [cg] net.sf.freecol.FreeCol methods=1738 edges=5707  (null+log)
+     [time] net.sf.freecol.FreeCol   1041 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/freecol/0.10.3/FreeCol.jar ... 1225 classes
+Duplicate classes (total 37) introduced by jsr173_1.0_api.jar and rt.jar,
+[javax.xml.stream.util.StreamReaderDelegate, javax.xml.stream.XMLInputFactory, javax.xml.stream.util.XMLEventAllocator, javax.xml.stream.FactoryFinder] ... (33 more) is founded in both containers
+
+7285 classes with 67757 methods in the world
+[WorldBuilder] elapsed time: 0.28s; CPU usage: start 7.38%, peak 0.00%, end 35.63%; Memory usage: start 1810MB, peak 1810MB, end 978MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.25s; CPU usage: start 1.50%, peak 0.00%, end 2.35%; Memory usage: start 994MB, peak 994MB, end 1106MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                9777 (insens) / 9777 (sens)
+#objects:                     1929 (insens) / 1929 (sens)
+#var points-to:               1,3531 (insens) / 1,3531 (sens)
+#static field points-to:      319 (sens)
+#instance field points-to:    3640 (sens)
+#array points-to:             245 (sens)
+#reachable methods:           1797 (insens) / 1797 (sens)
+#call graph edges:            6027 (insens) / 6027 (sens)
+----------------------------------------
+[pta] elapsed time: 0.37s; CPU usage: start 0.00%, peak 0.00%, end 1.09%; Memory usage: start 994MB, peak 994MB, end 1154MB
+[Tai-e] elapsed time: 0.66s; CPU usage: start 4.92%, peak 0.00%, end 16.67%; Memory usage: start 1809MB, peak 1809MB, end 1154MB
+     [cg] net.sf.freecol.FreeCol methods=1797 edges=6027  (string-constant)
+     [time] net.sf.freecol.FreeCol    670 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/freecol/0.10.3/FreeCol.jar ... 1225 classes
+Duplicate classes (total 37) introduced by jsr173_1.0_api.jar and rt.jar,
+[javax.xml.stream.util.StreamReaderDelegate, javax.xml.stream.XMLInputFactory, javax.xml.stream.util.XMLEventAllocator, javax.xml.stream.FactoryFinder] ... (33 more) is founded in both containers
+
+7285 classes with 67757 methods in the world
+[WorldBuilder] elapsed time: 0.28s; CPU usage: start 2.75%, peak 0.00%, end 35.92%; Memory usage: start 1154MB, peak 1154MB, end 1554MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.15s; CPU usage: start 1.28%, peak 0.00%, end 1.25%; Memory usage: start 1554MB, peak 1570MB, end 1666MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                9777 (insens) / 9777 (sens)
+#objects:                     1929 (insens) / 1929 (sens)
+#var points-to:               1,3531 (insens) / 1,3531 (sens)
+#static field points-to:      319 (sens)
+#instance field points-to:    3640 (sens)
+#array points-to:             245 (sens)
+#reachable methods:           1797 (insens) / 1797 (sens)
+#call graph edges:            6027 (insens) / 6027 (sens)
+----------------------------------------
+[pta] elapsed time: 0.26s; CPU usage: start 0.00%, peak 0.00%, end 2.34%; Memory usage: start 1554MB, peak 1554MB, end 1714MB
+[Tai-e] elapsed time: 0.56s; CPU usage: start 3.92%, peak 0.00%, end 0.00%; Memory usage: start 1154MB, peak 1154MB, end 1714MB
+     [cg] net.sf.freecol.FreeCol methods=1797 edges=6027  (solar)
+     [time] net.sf.freecol.FreeCol    564 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/freecol/0.10.3/FreeCol.jar ... 1225 classes
+Duplicate classes (total 37) introduced by jsr173_1.0_api.jar and rt.jar,
+[javax.xml.stream.util.StreamReaderDelegate, javax.xml.stream.XMLInputFactory, javax.xml.stream.util.XMLEventAllocator, javax.xml.stream.FactoryFinder] ... (33 more) is founded in both containers
+
+7285 classes with 67757 methods in the world
+[WorldBuilder] elapsed time: 0.26s; CPU usage: start 3.06%, peak 0.00%, end 35.94%; Memory usage: start 1714MB, peak 1714MB, end 862MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <javax.xml.stream.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader)>@1 → [javax.xml.stream.XMLInputFactory, javax.xml.stream.XMLOutputFactory, javax.xml.stream.XMLEventFactory]
+[arm2-llm] llm-class at <javax.xml.stream.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader)>@3 → [javax.xml.stream.XMLInputFactory, javax.xml.stream.XMLOutputFactory, javax.xml.stream.XMLEventFactory]
+[arm2-llm] llm-method at <net.sf.freecol.common.util.Introspector: java.lang.reflect.Method getGetMethod()>@16 → [get*]
+[arm2-llm] llm-class at <net.sf.freecol.server.model.ServerGame: java.lang.Object makeServerObject(java.lang.String,java.lang.String)>@13 → [net.sf.freecol.server.model.ServerBuilding]
+[arm2-llm] llm-method at <net.sf.freecol.common.util.Introspector: java.lang.reflect.Method getSetMethod(java.lang.Class)>@17 → [set]
+[arm2-llm] llm-class at <javax.xml.stream.FactoryFinder: java.lang.ClassLoader findClassLoader()>@15 → [javax.xml.stream.FactoryFinder$ClassLoaderFinderConcrete]
+[arm2-llm] llm-field at <net.sf.freecol.common.resources.ColorResource: java.awt.Color getColor(java.lang.String)>@19 → [black, blue, cyan, darkGray, gray, green, lightGray, magenta, orange, pink, red, white, yellow]
+[Pointer analysis] elapsed time: 6.90s; CPU usage: start 1.18%, peak 1.44%, end 0.12%; Memory usage: start 862MB, peak 973MB, end 972MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                9927 (insens) / 9927 (sens)
+#objects:                     2085 (insens) / 2085 (sens)
+#var points-to:               1,3775 (insens) / 1,3775 (sens)
+#static field points-to:      319 (sens)
+#instance field points-to:    3653 (sens)
+#array points-to:             245 (sens)
+#reachable methods:           1807 (insens) / 1807 (sens)
+#call graph edges:            6049 (insens) / 6049 (sens)
+----------------------------------------
+[pta] elapsed time: 7.05s; CPU usage: start 0.00%, peak 10.00%, end 1.35%; Memory usage: start 862MB, peak 1004MB, end 1020MB
+[Tai-e] elapsed time: 7.32s; CPU usage: start 2.08%, peak 10.00%, end 0.00%; Memory usage: start 1714MB, peak 1714MB, end 1020MB
+     [cg] net.sf.freecol.FreeCol methods=1807 edges=6049  (llm)
+     [time] net.sf.freecol.FreeCol   7331 ms  (llm)
+     [oracle] queries=7 live=7 cost=$0.0027
+     [disposer] proposed=8 phiRejected=2 injected=6
+freecol-0.10.3 |      239 |    0.912 | r=0.912 p=0.732      | r=0.925 p=0.718 +87       
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/gruntspud/0.4.6/GruntspudSA.jar ... 1460 classes
+
+Cannot resolve class org.gjt.sp.jedit.View; treating it as phantom class.
+Cannot resolve class console.Console; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.OptionsDialog; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBMessage; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionGroup; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBPlugin; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.DockableWindowManager; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.GUIUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.Buffer; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource; treating it as phantom class.
+Cannot resolve class console.Shell; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.jEdit; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionPane; treating it as phantom class.
+Cannot resolve class javax.mail.Message; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetAddress; treating it as phantom class.
+Cannot resolve class javax.mail.MessagingException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.AddressException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeBodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMessage; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMultipart; treating it as phantom class.
+Cannot resolve class javax.mail.Session; treating it as phantom class.
+Cannot resolve class javax.mail.Message$RecipientType; treating it as phantom class.
+Cannot resolve class javax.mail.Address; treating it as phantom class.
+Cannot resolve class javax.mail.Transport; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.textarea.TextAreaExtension; treating it as phantom class.
+Cannot resolve class javax.mail.Multipart; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource$Error; treating it as phantom class.
+Cannot resolve class javax.mail.BodyPart; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditBus; treating it as phantom class.
+Cannot resolve class javax.mail.Authenticator; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.VFSUpdate; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSourceUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.BufferUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.PropertiesChanged; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.EditorExiting; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.help.HelpViewer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBComponent; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.StatusBar; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.MiscUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFSManager; treating it as phantom class.
+Cannot resolve class jdiff.DualDiff; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS$DirectoryEntry; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditPane; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnection; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSession; treating it as phantom class.
+Cannot resolve class javax.jms.TopicPublisher; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnectionFactory; treating it as phantom class.
+Cannot resolve class javax.jms.Topic; treating it as phantom class.
+Cannot resolve class javax.jms.Connection; treating it as phantom class.
+Cannot resolve class javax.jms.Session; treating it as phantom class.
+Cannot resolve class javax.jms.ObjectMessage; treating it as phantom class.
+Cannot resolve class javax.jms.Message; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.AbstractOptionPane; treating it as phantom class.
+Cannot resolve class javax.jms.JMSException; treating it as phantom class.
+Cannot resolve class javax.jms.MessageListener; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSubscriber; treating it as phantom class.
+Cannot resolve class javax.jms.MessageConsumer; treating it as phantom class.
+Cannot resolve class console.Output; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.HtmlAdaptorServer; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.CommunicatorServer; treating it as phantom class.
+7200 classes with 64774 methods in the world
+[WorldBuilder] elapsed time: 0.60s; CPU usage: start 2.99%, peak 0.00%, end 18.72%; Memory usage: start 1021MB, peak 1021MB, end 1405MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.06s; CPU usage: start 1.24%, peak 20.00%, end 1.76%; Memory usage: start 1405MB, peak 1405MB, end 1453MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                5403 (insens) / 5403 (sens)
+#objects:                     680 (insens) / 680 (sens)
+#var points-to:               5758 (insens) / 5758 (sens)
+#static field points-to:      105 (sens)
+#instance field points-to:    1421 (sens)
+#array points-to:             25 (sens)
+#reachable methods:           980 (insens) / 980 (sens)
+#call graph edges:            3596 (insens) / 3596 (sens)
+----------------------------------------
+[pta] elapsed time: 0.14s; CPU usage: start 11.11%, peak 0.00%, end 2.48%; Memory usage: start 1405MB, peak 1405MB, end 1485MB
+[Tai-e] elapsed time: 0.76s; CPU usage: start 3.45%, peak 0.00%, end 11.11%; Memory usage: start 1020MB, peak 1020MB, end 1485MB
+     [cg] gruntspud.standalone.JDK13GruntspudHost methods=980 edges=3596  (null)
+     [time] gruntspud.standalone.JDK13GruntspudHost    767 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/gruntspud/0.4.6/GruntspudSA.jar ... 1460 classes
+
+Cannot resolve class org.gjt.sp.jedit.EBMessage; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.textarea.TextAreaExtension; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditBus; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSourceUpdate; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnection; treating it as phantom class.
+Cannot resolve class javax.jms.TopicPublisher; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSession; treating it as phantom class.
+Cannot resolve class javax.jms.Topic; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnectionFactory; treating it as phantom class.
+Cannot resolve class javax.jms.Session; treating it as phantom class.
+Cannot resolve class javax.jms.ObjectMessage; treating it as phantom class.
+Cannot resolve class javax.jms.Connection; treating it as phantom class.
+Cannot resolve class javax.jms.Message; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.VFSUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.View; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.BufferUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.PropertiesChanged; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.EditorExiting; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.help.HelpViewer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS$DirectoryEntry; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBComponent; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.jEdit; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.Buffer; treating it as phantom class.
+Cannot resolve class console.Console; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.StatusBar; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.GUIUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFSManager; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditPane; treating it as phantom class.
+Cannot resolve class jdiff.DualDiff; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.MiscUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.OptionsDialog; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionGroup; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBPlugin; treating it as phantom class.
+Cannot resolve class console.Shell; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionPane; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.DockableWindowManager; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.AbstractOptionPane; treating it as phantom class.
+Cannot resolve class javax.mail.Message; treating it as phantom class.
+Cannot resolve class javax.mail.MessagingException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMessage; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetAddress; treating it as phantom class.
+Cannot resolve class javax.mail.internet.AddressException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMultipart; treating it as phantom class.
+Cannot resolve class javax.mail.Authenticator; treating it as phantom class.
+Cannot resolve class javax.mail.Address; treating it as phantom class.
+Cannot resolve class javax.mail.Message$RecipientType; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeBodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.BodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Session; treating it as phantom class.
+Cannot resolve class javax.mail.Transport; treating it as phantom class.
+Cannot resolve class javax.mail.Multipart; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource$Error; treating it as phantom class.
+Cannot resolve class javax.jms.JMSException; treating it as phantom class.
+Cannot resolve class javax.jms.MessageListener; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSubscriber; treating it as phantom class.
+Cannot resolve class javax.jms.MessageConsumer; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.HtmlAdaptorServer; treating it as phantom class.
+Cannot resolve class console.Output; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.CommunicatorServer; treating it as phantom class.
+9498 classes with 86230 methods in the world
+[WorldBuilder] elapsed time: 0.34s; CPU usage: start 4.93%, peak 0.00%, end 36.31%; Memory usage: start 1502MB, peak 1502MB, end 805MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/gruntspud/0.4.6/refl.log
+Reflective target 'byte[]' for Class.forName is not found
+Reflective target 'char[]' for Class.forName is not found
+[Pointer analysis] elapsed time: 0.06s; CPU usage: start 1.40%, peak 25.00%, end 1.80%; Memory usage: start 853MB, peak 853MB, end 901MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                5726 (insens) / 5726 (sens)
+#objects:                     850 (insens) / 850 (sens)
+#var points-to:               6667 (insens) / 6667 (sens)
+#static field points-to:      265 (sens)
+#instance field points-to:    1567 (sens)
+#array points-to:             36 (sens)
+#reachable methods:           1060 (insens) / 1060 (sens)
+#call graph edges:            3836 (insens) / 3836 (sens)
+----------------------------------------
+[pta] elapsed time: 0.19s; CPU usage: start 14.29%, peak 0.00%, end 2.08%; Memory usage: start 805MB, peak 805MB, end 949MB
+[Tai-e] elapsed time: 0.55s; CPU usage: start 1.82%, peak 0.00%, end 0.00%; Memory usage: start 1501MB, peak 1501MB, end 949MB
+     [cg] gruntspud.standalone.JDK13GruntspudHost methods=1060 edges=3836  (null+log)
+     [time] gruntspud.standalone.JDK13GruntspudHost    558 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/gruntspud/0.4.6/GruntspudSA.jar ... 1460 classes
+
+Cannot resolve class org.gjt.sp.jedit.View; treating it as phantom class.
+Cannot resolve class console.Console; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.DockableWindowManager; treating it as phantom class.
+Cannot resolve class console.Shell; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.GUIUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBPlugin; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.Buffer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionGroup; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBMessage; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionPane; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.OptionsDialog; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSourceUpdate; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetAddress; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMessage; treating it as phantom class.
+Cannot resolve class javax.mail.MessagingException; treating it as phantom class.
+Cannot resolve class javax.mail.Message; treating it as phantom class.
+Cannot resolve class javax.mail.internet.AddressException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMultipart; treating it as phantom class.
+Cannot resolve class javax.mail.Authenticator; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.textarea.TextAreaExtension; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditBus; treating it as phantom class.
+Cannot resolve class javax.mail.Address; treating it as phantom class.
+Cannot resolve class javax.mail.Multipart; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.jEdit; treating it as phantom class.
+Cannot resolve class javax.mail.BodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Transport; treating it as phantom class.
+Cannot resolve class javax.mail.Message$RecipientType; treating it as phantom class.
+Cannot resolve class javax.mail.Session; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource$Error; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeBodyPart; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.BufferUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.VFSUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.PropertiesChanged; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.EditorExiting; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.help.HelpViewer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBComponent; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS$DirectoryEntry; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFSManager; treating it as phantom class.
+Cannot resolve class jdiff.DualDiff; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditPane; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.StatusBar; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.MiscUtilities; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnection; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSession; treating it as phantom class.
+Cannot resolve class javax.jms.TopicPublisher; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnectionFactory; treating it as phantom class.
+Cannot resolve class javax.jms.Topic; treating it as phantom class.
+Cannot resolve class javax.jms.Connection; treating it as phantom class.
+Cannot resolve class javax.jms.Session; treating it as phantom class.
+Cannot resolve class javax.jms.Message; treating it as phantom class.
+Cannot resolve class javax.jms.ObjectMessage; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.AbstractOptionPane; treating it as phantom class.
+Cannot resolve class javax.jms.JMSException; treating it as phantom class.
+Cannot resolve class javax.jms.MessageListener; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSubscriber; treating it as phantom class.
+Cannot resolve class javax.jms.MessageConsumer; treating it as phantom class.
+Cannot resolve class console.Output; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.HtmlAdaptorServer; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.CommunicatorServer; treating it as phantom class.
+7200 classes with 64774 methods in the world
+[WorldBuilder] elapsed time: 0.26s; CPU usage: start 5.21%, peak 0.00%, end 35.75%; Memory usage: start 949MB, peak 949MB, end 1317MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.07s; CPU usage: start 1.42%, peak 0.00%, end 1.35%; Memory usage: start 1333MB, peak 1333MB, end 1381MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                5861 (insens) / 5861 (sens)
+#objects:                     810 (insens) / 810 (sens)
+#var points-to:               6894 (insens) / 6894 (sens)
+#static field points-to:      291 (sens)
+#instance field points-to:    1467 (sens)
+#array points-to:             49 (sens)
+#reachable methods:           1037 (insens) / 1037 (sens)
+#call graph edges:            3878 (insens) / 3878 (sens)
+----------------------------------------
+[pta] elapsed time: 0.17s; CPU usage: start 0.00%, peak 0.00%, end 2.43%; Memory usage: start 1317MB, peak 1317MB, end 1429MB
+[Tai-e] elapsed time: 0.44s; CPU usage: start 2.78%, peak 0.00%, end 0.00%; Memory usage: start 949MB, peak 949MB, end 1429MB
+     [cg] gruntspud.standalone.JDK13GruntspudHost methods=1037 edges=3878  (string-constant)
+     [time] gruntspud.standalone.JDK13GruntspudHost    450 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/gruntspud/0.4.6/GruntspudSA.jar ... 1460 classes
+
+Cannot resolve class org.gjt.sp.jedit.View; treating it as phantom class.
+Cannot resolve class console.Shell; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.GUIUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.DockableWindowManager; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.Buffer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBPlugin; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionPane; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.jEdit; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionGroup; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBMessage; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.textarea.TextAreaExtension; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSourceUpdate; treating it as phantom class.
+Cannot resolve class javax.mail.Message; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditBus; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.OptionsDialog; treating it as phantom class.
+Cannot resolve class console.Console; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeBodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.internet.AddressException; treating it as phantom class.
+Cannot resolve class javax.mail.MessagingException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetAddress; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMultipart; treating it as phantom class.
+Cannot resolve class javax.mail.Session; treating it as phantom class.
+Cannot resolve class javax.mail.Authenticator; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMessage; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource; treating it as phantom class.
+Cannot resolve class javax.mail.BodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Multipart; treating it as phantom class.
+Cannot resolve class javax.mail.Transport; treating it as phantom class.
+Cannot resolve class javax.mail.Message$RecipientType; treating it as phantom class.
+Cannot resolve class javax.mail.Address; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource$Error; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.VFSUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.BufferUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.EditorExiting; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.PropertiesChanged; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.help.HelpViewer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBComponent; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS$DirectoryEntry; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFSManager; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.StatusBar; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditPane; treating it as phantom class.
+Cannot resolve class jdiff.DualDiff; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.MiscUtilities; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnection; treating it as phantom class.
+Cannot resolve class javax.jms.Topic; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnectionFactory; treating it as phantom class.
+Cannot resolve class javax.jms.TopicPublisher; treating it as phantom class.
+Cannot resolve class javax.jms.Connection; treating it as phantom class.
+Cannot resolve class javax.jms.Session; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSession; treating it as phantom class.
+Cannot resolve class javax.jms.Message; treating it as phantom class.
+Cannot resolve class javax.jms.ObjectMessage; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.AbstractOptionPane; treating it as phantom class.
+Cannot resolve class javax.jms.MessageListener; treating it as phantom class.
+Cannot resolve class javax.jms.JMSException; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSubscriber; treating it as phantom class.
+Cannot resolve class javax.jms.MessageConsumer; treating it as phantom class.
+Cannot resolve class console.Output; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.HtmlAdaptorServer; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.CommunicatorServer; treating it as phantom class.
+7200 classes with 64774 methods in the world
+[WorldBuilder] elapsed time: 0.28s; CPU usage: start 4.85%, peak 0.00%, end 36.88%; Memory usage: start 1429MB, peak 1429MB, end 1797MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.09s; CPU usage: start 1.39%, peak 0.00%, end 1.66%; Memory usage: start 1813MB, peak 1813MB, end 1861MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                5861 (insens) / 5861 (sens)
+#objects:                     810 (insens) / 810 (sens)
+#var points-to:               6892 (insens) / 6892 (sens)
+#static field points-to:      291 (sens)
+#instance field points-to:    1467 (sens)
+#array points-to:             49 (sens)
+#reachable methods:           1037 (insens) / 1037 (sens)
+#call graph edges:            3878 (insens) / 3878 (sens)
+----------------------------------------
+[pta] elapsed time: 0.19s; CPU usage: start 0.00%, peak 0.00%, end 1.51%; Memory usage: start 1797MB, peak 1797MB, end 1893MB
+[Tai-e] elapsed time: 0.50s; CPU usage: start 2.56%, peak 0.00%, end 54.10%; Memory usage: start 1429MB, peak 1429MB, end 722MB
+     [cg] gruntspud.standalone.JDK13GruntspudHost methods=1037 edges=3878  (solar)
+     [time] gruntspud.standalone.JDK13GruntspudHost    501 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/gruntspud/0.4.6/GruntspudSA.jar ... 1460 classes
+
+Cannot resolve class console.Console; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBMessage; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.View; treating it as phantom class.
+Cannot resolve class console.Shell; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.DockableWindowManager; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBPlugin; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.GUIUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionGroup; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.Buffer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.jEdit; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.OptionPane; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.OptionsDialog; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.textarea.TextAreaExtension; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditBus; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSourceUpdate; treating it as phantom class.
+Cannot resolve class javax.mail.Message; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetAddress; treating it as phantom class.
+Cannot resolve class javax.mail.internet.AddressException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMultipart; treating it as phantom class.
+Cannot resolve class javax.mail.Session; treating it as phantom class.
+Cannot resolve class javax.mail.Authenticator; treating it as phantom class.
+Cannot resolve class javax.mail.Address; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeBodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Message$RecipientType; treating it as phantom class.
+Cannot resolve class javax.mail.MessagingException; treating it as phantom class.
+Cannot resolve class javax.mail.Transport; treating it as phantom class.
+Cannot resolve class errorlist.ErrorSource$Error; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMessage; treating it as phantom class.
+Cannot resolve class javax.mail.Multipart; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.VFSUpdate; treating it as phantom class.
+Cannot resolve class javax.mail.BodyPart; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.PropertiesChanged; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.EditorExiting; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.msg.BufferUpdate; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.help.HelpViewer; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.gui.StatusBar; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EBComponent; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.MiscUtilities; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFS$DirectoryEntry; treating it as phantom class.
+Cannot resolve class jdiff.DualDiff; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.io.VFSManager; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.EditPane; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnection; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSession; treating it as phantom class.
+Cannot resolve class javax.jms.TopicPublisher; treating it as phantom class.
+Cannot resolve class javax.jms.TopicConnectionFactory; treating it as phantom class.
+Cannot resolve class javax.jms.Topic; treating it as phantom class.
+Cannot resolve class javax.jms.Session; treating it as phantom class.
+Cannot resolve class javax.jms.ObjectMessage; treating it as phantom class.
+Cannot resolve class javax.jms.Message; treating it as phantom class.
+Cannot resolve class javax.jms.Connection; treating it as phantom class.
+Cannot resolve class org.gjt.sp.jedit.AbstractOptionPane; treating it as phantom class.
+Cannot resolve class javax.jms.JMSException; treating it as phantom class.
+Cannot resolve class javax.jms.MessageListener; treating it as phantom class.
+Cannot resolve class javax.jms.MessageConsumer; treating it as phantom class.
+Cannot resolve class javax.jms.TopicSubscriber; treating it as phantom class.
+Cannot resolve class console.Output; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.HtmlAdaptorServer; treating it as phantom class.
+Cannot resolve class com.sun.jdmk.comm.CommunicatorServer; treating it as phantom class.
+7200 classes with 64774 methods in the world
+[WorldBuilder] elapsed time: 0.26s; CPU usage: start 4.30%, peak 12.50%, end 37.29%; Memory usage: start 722MB, peak 722MB, end 1106MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <org.apache.log4j.helpers.Loader: java.lang.Class loadClass(java.lang.String)>@5 → [gruntspud.standalone.JDK13GruntspudHost]
+[arm2-llm] llm-class at <org.apache.log4j.helpers.Loader: java.lang.Class loadClass(java.lang.String)>@8 → [gruntspud.standalone.JDK13GruntspudHost]
+[arm2-llm] llm-class at <org.apache.log4j.helpers.Loader: java.lang.Class loadClass(java.lang.String)>@11 → [gruntspud.help.GruntspudHelpUI$IdChangeListener, gruntspud.standalone.JDK13GruntspudHost$ToolAction, gruntspud.ui.ModuleExplorerPane$3, gruntspud.ui.ModuleExplorerPane$1, gruntspud.ui.ModuleExplorerPane$2, gruntspud.standalone.TabToolBar$TabButton, gruntspud.GruntspudTransmitTextFilePreprocessor, gruntspud.ui.IconTableCellRenderer, gruntspud.ui.report.EditorsFileInfoPane$1, gruntspud.ui.ColorComboBox, gruntspud.standalone.TabToolBar$ContextPanel, gruntspud.ui.OptionDialog$Option, gruntspud.actions.NewFileAction$AddFileOptionsPane, gruntspud.ui.preferences.ConnectionProfileTable, gruntspud.ui.ListSearch$1, gruntspud.ui.ListSearch$3, gruntspud.ui.ListSearch$2, gruntspud.ui.CharSetComboBox, gruntspud.jedit.ConflictTextAreaExtension, gruntspud.ui.view.FlatCVSView, gruntspud.standalone.OtherOptionsTab, gruntsp]
+[arm2-llm] llm-field at <gruntspud.ResourceUtil: javax.swing.KeyStroke getResourceKeyStroke(java.util.ResourceBundle,java.lang.String)>@41 → [VK_A, VK_B, VK_C, VK_D, VK_E, VK_F, VK_G, VK_H, VK_I, VK_J, VK_K, VK_L, VK_M, VK_N, VK_O, VK_P, VK_Q, VK_R, VK_S, VK_T, VK_U, VK_V, VK_W, VK_X, VK_Y, VK_Z, VK_0, VK_1, VK_2, VK_3, VK_4, VK_5, VK_6, VK_7, VK_8, VK_9, VK_F1, VK_F2, VK_F3, VK_F4, VK_F5, VK_F6, VK_F7, VK_F8, VK_F9, VK_F10, VK_F11, VK_F12, VK_ENTER, VK_ESCAPE, VK_SPACE, VK_TAB, VK_BACK_SPACE, VK_DELETE, VK_INSERT, VK_HOME, VK_END, VK_PAGE_UP, VK_PAGE_DOWN]
+[arm2-llm] llm-class at <plugspud.PluginManager: void loadPlugins(java.net.URL,java.lang.ClassLoader,boolean)>@162 → [gruntspud.connection.pserver.PServerConnectionPlugin]
+[arm2-llm] llm-class at <gruntspud.standalone.JDK13GruntspudHost: void setLookAndFeel(gruntspud.GruntspudContext,java.lang.String)>@2 → [javax.swing.plaf.metal.MetalLookAndFeel, javax.swing.plaf.nimbus.NimbusLookAndFeel, com.sun.java.swing.plaf.gtk.GTKLookAndFeel, com.sun.java.swing.plaf.windows.WindowsLookAndFeel, com.sun.java.swing.plaf.motif.MotifLookAndFeel]
+[Pointer analysis] elapsed time: 7.82s; CPU usage: start 1.40%, peak 0.00%, end 0.28%; Memory usage: start 1106MB, peak 1170MB, end 1169MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                6081 (insens) / 6081 (sens)
+#objects:                     1021 (insens) / 1021 (sens)
+#var points-to:               7673 (insens) / 7673 (sens)
+#static field points-to:      301 (sens)
+#instance field points-to:    1523 (sens)
+#array points-to:             52 (sens)
+#reachable methods:           1100 (insens) / 1100 (sens)
+#call graph edges:            4047 (insens) / 4047 (sens)
+----------------------------------------
+[pta] elapsed time: 7.97s; CPU usage: start 0.00%, peak 0.14%, end 1.79%; Memory usage: start 1106MB, peak 1170MB, end 1217MB
+[Tai-e] elapsed time: 8.24s; CPU usage: start 4.08%, peak 0.35%, end 0.00%; Memory usage: start 722MB, peak 1170MB, end 1217MB
+     [cg] gruntspud.standalone.JDK13GruntspudHost methods=1100 edges=4047  (llm)
+     [time] gruntspud.standalone.JDK13GruntspudHost   8248 ms  (llm)
+     [oracle] queries=6 live=6 cost=$0.0027
+     [disposer] proposed=30 phiRejected=4 injected=26
+gruntspud-0.4.6 |       80 |    0.338 | r=0.338 p=0.474      | r=0.625 p=0.417 +70       
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/briss/0.9/briss-0.9.jar ... 37 classes
+
+7562 classes with 72684 methods in the world
+[WorldBuilder] elapsed time: 0.85s; CPU usage: start 4.55%, peak 0.00%, end 14.68%; Memory usage: start 1218MB, peak 1218MB, end 1633MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.31s; CPU usage: start 1.19%, peak 0.00%, end 2.97%; Memory usage: start 1649MB, peak 1649MB, end 1841MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,0099 (insens) / 2,0099 (sens)
+#objects:                     3472 (insens) / 3472 (sens)
+#var points-to:               4,4449 (insens) / 4,4449 (sens)
+#static field points-to:      1418 (sens)
+#instance field points-to:    5349 (sens)
+#array points-to:             834 (sens)
+#reachable methods:           2499 (insens) / 2499 (sens)
+#call graph edges:            1,2693 (insens) / 1,2693 (sens)
+----------------------------------------
+[pta] elapsed time: 0.50s; CPU usage: start 14.29%, peak 0.00%, end 10.12%; Memory usage: start 1633MB, peak 1633MB, end 820MB
+[Tai-e] elapsed time: 1.37s; CPU usage: start 3.70%, peak 1.91%, end 11.11%; Memory usage: start 1217MB, peak 1697MB, end 820MB
+     [cg] at.laborg.briss.Briss methods=2499 edges=12693  (null)
+     [time] at.laborg.briss.Briss   1376 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/briss/0.9/briss-0.9.jar ... 37 classes
+
+8529 classes with 83786 methods in the world
+[WorldBuilder] elapsed time: 0.35s; CPU usage: start 3.85%, peak 0.00%, end 35.58%; Memory usage: start 836MB, peak 836MB, end 1316MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/briss/0.9/refl.log
+Reflective target 'byte[]' for Class.forName is not found
+Reflective target 'char[]' for Class.forName is not found
+Reflective caller class 'sun.security.provider.DSAParameters' is absent
+[Pointer analysis] elapsed time: 0.39s; CPU usage: start 1.38%, peak 0.00%, end 2.58%; Memory usage: start 1396MB, peak 1396MB, end 1605MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,0132 (insens) / 2,0132 (sens)
+#objects:                     4210 (insens) / 4210 (sens)
+#var points-to:               4,7458 (insens) / 4,7458 (sens)
+#static field points-to:      1418 (sens)
+#instance field points-to:    5349 (sens)
+#array points-to:             835 (sens)
+#reachable methods:           2509 (insens) / 2509 (sens)
+#call graph edges:            1,2725 (insens) / 1,2725 (sens)
+----------------------------------------
+[pta] elapsed time: 0.69s; CPU usage: start 0.00%, peak 0.00%, end 1.60%; Memory usage: start 1316MB, peak 1316MB, end 1685MB
+[Tai-e] elapsed time: 1.12s; CPU usage: start 2.22%, peak 1.22%, end 0.00%; Memory usage: start 820MB, peak 1605MB, end 1685MB
+     [cg] at.laborg.briss.Briss methods=2509 edges=12725  (null+log)
+     [time] at.laborg.briss.Briss   1126 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/briss/0.9/briss-0.9.jar ... 37 classes
+
+7562 classes with 72684 methods in the world
+[WorldBuilder] elapsed time: 0.27s; CPU usage: start 3.09%, peak 0.00%, end 38.45%; Memory usage: start 1685MB, peak 1685MB, end 2085MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.38s; CPU usage: start 2.36%, peak 0.00%, end 1.57%; Memory usage: start 2101MB, peak 2117MB, end 2325MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,0122 (insens) / 2,0122 (sens)
+#objects:                     3519 (insens) / 3519 (sens)
+#var points-to:               4,4670 (insens) / 4,4670 (sens)
+#static field points-to:      1418 (sens)
+#instance field points-to:    5349 (sens)
+#array points-to:             834 (sens)
+#reachable methods:           2502 (insens) / 2502 (sens)
+#call graph edges:            1,2714 (insens) / 1,2714 (sens)
+----------------------------------------
+[pta] elapsed time: 0.57s; CPU usage: start 10.00%, peak 0.00%, end 1.52%; Memory usage: start 2085MB, peak 2101MB, end 2389MB
+[Tai-e] elapsed time: 0.86s; CPU usage: start 4.08%, peak 0.00%, end 0.00%; Memory usage: start 1685MB, peak 1685MB, end 2389MB
+     [cg] at.laborg.briss.Briss methods=2502 edges=12714  (string-constant)
+     [time] at.laborg.briss.Briss    864 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/briss/0.9/briss-0.9.jar ... 37 classes
+
+7562 classes with 72684 methods in the world
+[WorldBuilder] elapsed time: 0.30s; CPU usage: start 3.16%, peak 0.00%, end 38.43%; Memory usage: start 2390MB, peak 2390MB, end 2806MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.37s; CPU usage: start 1.35%, peak 0.00%, end 1.35%; Memory usage: start 2822MB, peak 2838MB, end 3046MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,0122 (insens) / 2,0122 (sens)
+#objects:                     3519 (insens) / 3519 (sens)
+#var points-to:               4,4670 (insens) / 4,4670 (sens)
+#static field points-to:      1418 (sens)
+#instance field points-to:    5349 (sens)
+#array points-to:             834 (sens)
+#reachable methods:           2502 (insens) / 2502 (sens)
+#call graph edges:            1,2714 (insens) / 1,2714 (sens)
+----------------------------------------
+[pta] elapsed time: 0.55s; CPU usage: start 0.00%, peak 0.00%, end 1.83%; Memory usage: start 2806MB, peak 2822MB, end 3110MB
+[Tai-e] elapsed time: 0.86s; CPU usage: start 2.27%, peak 18.18%, end 0.00%; Memory usage: start 2389MB, peak 2389MB, end 3110MB
+     [cg] at.laborg.briss.Briss methods=2502 edges=12714  (solar)
+     [time] at.laborg.briss.Briss    870 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/briss/0.9/briss-0.9.jar ... 37 classes
+
+7562 classes with 72684 methods in the world
+[WorldBuilder] elapsed time: 0.30s; CPU usage: start 3.41%, peak 0.00%, end 36.29%; Memory usage: start 3110MB, peak 3110MB, end 867MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[Pointer analysis] elapsed time: 0.28s; CPU usage: start 1.28%, peak 0.00%, end 1.66%; Memory usage: start 899MB, peak 899MB, end 1091MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,0137 (insens) / 2,0137 (sens)
+#objects:                     3554 (insens) / 3554 (sens)
+#var points-to:               4,4876 (insens) / 4,4876 (sens)
+#static field points-to:      1418 (sens)
+#instance field points-to:    5349 (sens)
+#array points-to:             834 (sens)
+#reachable methods:           2502 (insens) / 2502 (sens)
+#call graph edges:            1,2714 (insens) / 1,2714 (sens)
+----------------------------------------
+[pta] elapsed time: 0.43s; CPU usage: start 0.00%, peak 0.00%, end 1.43%; Memory usage: start 867MB, peak 867MB, end 1171MB
+[Tai-e] elapsed time: 0.74s; CPU usage: start 1.41%, peak 0.00%, end 0.00%; Memory usage: start 3110MB, peak 3110MB, end 1171MB
+     [cg] at.laborg.briss.Briss methods=2502 edges=12714  (llm)
+     [time] at.laborg.briss.Briss    748 ms  (llm)
+     [oracle] queries=0 live=0 cost=$0.0000
+     [disposer] proposed=0 phiRejected=0 injected=0
+briss-0.9  |       10 |    0.300 | r=0.300 p=1.000      | r=0.300 p=1.000 +0        
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/soot/2.3.0/sootclasses-2.3.0.jar ... 2934 classes
+Duplicate classes (total 18) introduced by polyglot.jar and coffer.jar,
+[polyglot.ext.param.types.PClass, polyglot.ext.param.types.ParamTypeSystem_c, polyglot.ext.param.types.ParamTypeSystem, polyglot.ext.param.types.PClass_c] ... (14 more) is founded in both containers
+Duplicate classes (total 4) introduced by java_cup.jar and JFlex.jar,
+[java_cup.runtime.virtual_parse_stack, java_cup.runtime.lr_parser, java_cup.runtime.Symbol, java_cup.runtime.Scanner] is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.MatchingTask; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+8798 classes with 88277 methods in the world
+[WorldBuilder] elapsed time: 1.01s; CPU usage: start 3.61%, peak 40.43%, end 2.27%; Memory usage: start 1171MB, peak 1651MB, end 1651MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.27s; CPU usage: start 1.26%, peak 0.00%, end 1.36%; Memory usage: start 1667MB, peak 1683MB, end 1891MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,3839 (insens) / 2,3839 (sens)
+#objects:                     2001 (insens) / 2001 (sens)
+#var points-to:               8,3859 (insens) / 8,3859 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    2,7948 (sens)
+#array points-to:             1489 (sens)
+#reachable methods:           2833 (insens) / 2833 (sens)
+#call graph edges:            1,6755 (insens) / 1,6755 (sens)
+----------------------------------------
+[pta] elapsed time: 0.41s; CPU usage: start 0.00%, peak 25.00%, end 1.30%; Memory usage: start 1651MB, peak 1667MB, end 1939MB
+[Tai-e] elapsed time: 1.43s; CPU usage: start 1.67%, peak 13.27%, end 0.00%; Memory usage: start 1171MB, peak 1635MB, end 1939MB
+     [cg] soot.Main        methods=2833 edges=16755  (null)
+     [time] soot.Main          1440 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/soot/2.3.0/sootclasses-2.3.0.jar ... 2934 classes
+Duplicate classes (total 4) introduced by java_cup.jar and JFlex.jar,
+[java_cup.runtime.virtual_parse_stack, java_cup.runtime.lr_parser, java_cup.runtime.Symbol, java_cup.runtime.Scanner] is founded in both containers
+Duplicate classes (total 18) introduced by polyglot.jar and coffer.jar,
+[polyglot.ext.param.types.PClass, polyglot.ext.param.types.ParamTypeSystem_c, polyglot.ext.param.types.ParamTypeSystem, polyglot.ext.param.types.PClass_c] ... (14 more) is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.MatchingTask; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+8801 classes with 88285 methods in the world
+[WorldBuilder] elapsed time: 0.28s; CPU usage: start 3.30%, peak 0.00%, end 37.39%; Memory usage: start 1955MB, peak 1955MB, end 2435MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/soot/2.3.0/refl.log
+[Pointer analysis] elapsed time: 0.28s; CPU usage: start 2.38%, peak 16.67%, end 1.65%; Memory usage: start 2451MB, peak 2451MB, end 2675MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,3845 (insens) / 2,3845 (sens)
+#objects:                     2044 (insens) / 2044 (sens)
+#var points-to:               8,3925 (insens) / 8,3925 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    2,7948 (sens)
+#array points-to:             1489 (sens)
+#reachable methods:           2834 (insens) / 2834 (sens)
+#call graph edges:            1,6757 (insens) / 1,6757 (sens)
+----------------------------------------
+[pta] elapsed time: 0.43s; CPU usage: start 0.00%, peak 0.00%, end 1.53%; Memory usage: start 2435MB, peak 2435MB, end 2739MB
+[Tai-e] elapsed time: 0.72s; CPU usage: start 2.17%, peak 0.00%, end 0.00%; Memory usage: start 1939MB, peak 1955MB, end 2739MB
+     [cg] soot.Main        methods=2834 edges=16757  (null+log)
+     [time] soot.Main           728 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/soot/2.3.0/sootclasses-2.3.0.jar ... 2934 classes
+Duplicate classes (total 4) introduced by java_cup.jar and JFlex.jar,
+[java_cup.runtime.virtual_parse_stack, java_cup.runtime.lr_parser, java_cup.runtime.Symbol, java_cup.runtime.Scanner] is founded in both containers
+Duplicate classes (total 18) introduced by polyglot.jar and coffer.jar,
+[polyglot.ext.param.types.PClass, polyglot.ext.param.types.ParamTypeSystem_c, polyglot.ext.param.types.ParamTypeSystem, polyglot.ext.param.types.PClass_c] ... (14 more) is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.MatchingTask; treating it as phantom class.
+8798 classes with 88277 methods in the world
+[WorldBuilder] elapsed time: 0.31s; CPU usage: start 2.35%, peak 0.00%, end 38.67%; Memory usage: start 2739MB, peak 2739MB, end 3203MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.30s; CPU usage: start 1.15%, peak 0.00%, end 5.10%; Memory usage: start 3219MB, peak 3235MB, end 891MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,3845 (insens) / 2,3845 (sens)
+#objects:                     2044 (insens) / 2044 (sens)
+#var points-to:               8,3925 (insens) / 8,3925 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    2,7948 (sens)
+#array points-to:             1489 (sens)
+#reachable methods:           2834 (insens) / 2834 (sens)
+#call graph edges:            1,6757 (insens) / 1,6757 (sens)
+----------------------------------------
+[pta] elapsed time: 0.44s; CPU usage: start 0.00%, peak 0.00%, end 1.70%; Memory usage: start 3203MB, peak 3203MB, end 955MB
+[Tai-e] elapsed time: 0.77s; CPU usage: start 2.33%, peak 25.00%, end 9.09%; Memory usage: start 2739MB, peak 2739MB, end 955MB
+     [cg] soot.Main        methods=2834 edges=16757  (string-constant)
+     [time] soot.Main           772 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/soot/2.3.0/sootclasses-2.3.0.jar ... 2934 classes
+Duplicate classes (total 18) introduced by polyglot.jar and coffer.jar,
+[polyglot.ext.param.types.PClass, polyglot.ext.param.types.ParamTypeSystem_c, polyglot.ext.param.types.ParamTypeSystem, polyglot.ext.param.types.PClass_c] ... (14 more) is founded in both containers
+Duplicate classes (total 4) introduced by java_cup.jar and JFlex.jar,
+[java_cup.runtime.virtual_parse_stack, java_cup.runtime.lr_parser, java_cup.runtime.Symbol, java_cup.runtime.Scanner] is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.MatchingTask; treating it as phantom class.
+8798 classes with 88277 methods in the world
+[WorldBuilder] elapsed time: 0.30s; CPU usage: start 3.57%, peak 0.00%, end 36.81%; Memory usage: start 971MB, peak 971MB, end 1451MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.28s; CPU usage: start 1.30%, peak 0.00%, end 1.50%; Memory usage: start 1467MB, peak 1467MB, end 1691MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,3845 (insens) / 2,3845 (sens)
+#objects:                     2044 (insens) / 2044 (sens)
+#var points-to:               8,3925 (insens) / 8,3925 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    2,7948 (sens)
+#array points-to:             1489 (sens)
+#reachable methods:           2834 (insens) / 2834 (sens)
+#call graph edges:            1,6757 (insens) / 1,6757 (sens)
+----------------------------------------
+[pta] elapsed time: 0.42s; CPU usage: start 0.00%, peak 0.00%, end 1.35%; Memory usage: start 1451MB, peak 1451MB, end 1755MB
+[Tai-e] elapsed time: 0.73s; CPU usage: start 5.26%, peak 0.00%, end 0.00%; Memory usage: start 955MB, peak 955MB, end 1755MB
+     [cg] soot.Main        methods=2834 edges=16757  (solar)
+     [time] soot.Main           738 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: d169da05b74af90a28f789da7bb9591b377fad06
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/soot/2.3.0/sootclasses-2.3.0.jar ... 2934 classes
+Duplicate classes (total 4) introduced by java_cup.jar and JFlex.jar,
+[java_cup.runtime.virtual_parse_stack, java_cup.runtime.lr_parser, java_cup.runtime.Symbol, java_cup.runtime.Scanner] is founded in both containers
+Duplicate classes (total 18) introduced by polyglot.jar and coffer.jar,
+[polyglot.ext.param.types.PClass, polyglot.ext.param.types.ParamTypeSystem_c, polyglot.ext.param.types.ParamTypeSystem, polyglot.ext.param.types.PClass_c] ... (14 more) is founded in both containers
+
+Cannot resolve class org.apache.tools.ant.types.Path; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.BuildException; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.Project; treating it as phantom class.
+Cannot resolve class org.apache.tools.ant.taskdefs.MatchingTask; treating it as phantom class.
+8798 classes with 88277 methods in the world
+[WorldBuilder] elapsed time: 0.29s; CPU usage: start 3.49%, peak 0.00%, end 37.54%; Memory usage: start 1755MB, peak 1755MB, end 2235MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <soot.jimple.paddle.PaddleHook: java.lang.Object instantiate(java.lang.String)>@0 → [soot.options.PaddleOptions]
+[Pointer analysis] elapsed time: 1.16s; CPU usage: start 1.27%, peak 14.29%, end 1.67%; Memory usage: start 2267MB, peak 2363MB, end 2491MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,3848 (insens) / 2,3848 (sens)
+#objects:                     2050 (insens) / 2050 (sens)
+#var points-to:               8,3934 (insens) / 8,3934 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    2,7948 (sens)
+#array points-to:             1489 (sens)
+#reachable methods:           2835 (insens) / 2835 (sens)
+#call graph edges:            1,6760 (insens) / 1,6760 (sens)
+----------------------------------------
+[pta] elapsed time: 1.30s; CPU usage: start 0.00%, peak 0.00%, end 1.36%; Memory usage: start 2235MB, peak 2331MB, end 2539MB
+[Tai-e] elapsed time: 1.60s; CPU usage: start 1.69%, peak 0.23%, end 0.00%; Memory usage: start 1755MB, peak 2331MB, end 2555MB
+     [cg] soot.Main        methods=2835 edges=16760  (llm)
+     [time] soot.Main          1609 ms  (llm)
+     [oracle] queries=1 live=1 cost=$0.0004
+     [disposer] proposed=1 phiRejected=0 injected=1
+soot-2.3.0 |        1 |    1.000 | r=1.000 p=1.000      | r=1.000 p=0.500 +1        
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pascal.taie.analysis.pta.ReflectionRecallEval" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-07-02T01:54:15.953Z" hostname="csl-conti-dell7859" time="34.006">
+  <properties/>
+  <testcase name="measureReflectionRecall()" classname="pascal.taie.analysis.pta.ReflectionRecallEval" time="33.989"/>
+  <system-out><![CDATA[
+==== Reflection-recall (GT = log-reachable \ no-reflection) ====
+bench      |       GT |   sc-rec | SOLAR (Tai-e full)   | arm②: recall/prec/extra   
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/jython.jar ... 919 classes
+
+6665 classes with 64079 methods in the world
+[WorldBuilder] elapsed time: 0.94s; CPU usage: start 5.96%, peak 0.00%, end 65.23%; Memory usage: start 53MB, peak 53MB, end 559MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.28s; CPU usage: start 12.25%, peak 0.00%, end 8.73%; Memory usage: start 609MB, peak 625MB, end 642MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     108 (insens) / 108 (sens)
+#var points-to:               1671 (insens) / 1671 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    146 (sens)
+#array points-to:             38 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.59s; CPU usage: start 16.67%, peak 0.00%, end 9.82%; Memory usage: start 575MB, peak 575MB, end 659MB
+[Tai-e] elapsed time: 1.85s; CPU usage: start 0.00%, peak 32.61%, end 12.50%; Memory usage: start 95MB, peak 493MB, end 659MB
+     [time] Harness            2292 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/jython.jar ... 919 classes
+
+Cannot resolve class sre_parse$py; treating it as phantom class.
+Cannot resolve class Unicode$py; treating it as phantom class.
+Cannot resolve class Lookups$py; treating it as phantom class.
+Cannot resolve class org.python.pycode._pyx1; treating it as phantom class.
+Cannot resolve class org.python.pycode._pyx0; treating it as phantom class.
+Cannot resolve class Dict$py; treating it as phantom class.
+Cannot resolve class re$py; treating it as phantom class.
+Cannot resolve class stat$py; treating it as phantom class.
+Cannot resolve class Setup$py; treating it as phantom class.
+Cannot resolve class javaos$py; treating it as phantom class.
+Cannot resolve class NewInstances$py; treating it as phantom class.
+Cannot resolve class site$py; treating it as phantom class.
+Cannot resolve class Numbers$py; treating it as phantom class.
+Cannot resolve class package.submodule$py; treating it as phantom class.
+Cannot resolve class CommandLine$py; treating it as phantom class.
+Cannot resolve class fnmatch$py; treating it as phantom class.
+Cannot resolve class package$py; treating it as phantom class.
+Cannot resolve class Calls$py; treating it as phantom class.
+Cannot resolve class pybench$py; treating it as phantom class.
+Cannot resolve class getopt$py; treating it as phantom class.
+Cannot resolve class UserDict$py; treating it as phantom class.
+Cannot resolve class glob$py; treating it as phantom class.
+Cannot resolve class Constructs$py; treating it as phantom class.
+Cannot resolve class string$py; treating it as phantom class.
+Cannot resolve class Imports$py; treating it as phantom class.
+Cannot resolve class Exceptions$py; treating it as phantom class.
+Cannot resolve class Tuples$py; treating it as phantom class.
+Cannot resolve class Arithmetic$py; treating it as phantom class.
+Cannot resolve class sre_constants$py; treating it as phantom class.
+Cannot resolve class copy_reg$py; treating it as phantom class.
+Cannot resolve class Lists$py; treating it as phantom class.
+Cannot resolve class javapath$py; treating it as phantom class.
+Cannot resolve class traceback$py; treating it as phantom class.
+Cannot resolve class Strings$py; treating it as phantom class.
+Cannot resolve class linecache$py; treating it as phantom class.
+Cannot resolve class sre$py; treating it as phantom class.
+Cannot resolve class Instances$py; treating it as phantom class.
+Cannot resolve class sre_compile$py; treating it as phantom class.
+6720 classes with 64145 methods in the world
+[WorldBuilder] elapsed time: 0.35s; CPU usage: start 11.13%, peak 0.00%, end 44.81%; Memory usage: start 660MB, peak 660MB, end 467MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/jython-refl.log
+Reflective target 'java.lang.String[]' for Class.forName is not found
+Reflective target 'org.python.core.PyObject[]' for Class.forName is not found
+Reflective target '<Arithmetic$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Calls$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<CommandLine$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Constructs$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Dict$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Exceptions$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Imports$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Instances$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Lists$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Lookups$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<NewInstances$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Numbers$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Setup$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Strings$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Tuples$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<Unicode$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<UserDict$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<copy_reg$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<fnmatch$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<getopt$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<glob$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<javaos$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<javapath$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<linecache$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.python.pycode._pyx0: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.python.pycode._pyx1: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<package$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<package.submodule$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<pybench$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<re$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<site$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<sre$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<sre_compile$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<sre_constants$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<sre_parse$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<stat$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<string$py: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<traceback$py: void <init>()>' for Constructor.newInstance is not found
+[Pointer analysis] elapsed time: 4.07s; CPU usage: start 13.20%, peak 6.87%, end 1.12%; Memory usage: start 500MB, peak 681MB, end 697MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                3,3545 (insens) / 3,3545 (sens)
+#objects:                     3789 (insens) / 3789 (sens)
+#var points-to:               702,9677 (insens) / 702,9677 (sens)
+#static field points-to:      5,3565 (sens)
+#instance field points-to:    64,0946 (sens)
+#array points-to:             10,2044 (sens)
+#reachable methods:           5528 (insens) / 5528 (sens)
+#call graph edges:            7,2845 (insens) / 7,2845 (sens)
+----------------------------------------
+[pta] elapsed time: 5.51s; CPU usage: start 0.00%, peak 17.01%, end 2.36%; Memory usage: start 467MB, peak 761MB, end 825MB
+[Tai-e] elapsed time: 5.93s; CPU usage: start 8.16%, peak 14.97%, end 0.00%; Memory usage: start 659MB, peak 729MB, end 825MB
+     [time] Harness            5944 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/jython.jar ... 919 classes
+
+6665 classes with 64079 methods in the world
+[WorldBuilder] elapsed time: 0.41s; CPU usage: start 3.66%, peak 4.26%, end 42.56%; Memory usage: start 826MB, peak 826MB, end 1227MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.03s; CPU usage: start 11.54%, peak 0.00%, end 6.73%; Memory usage: start 414MB, peak 414MB, end 430MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     114 (insens) / 114 (sens)
+#var points-to:               1725 (insens) / 1725 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    146 (sens)
+#array points-to:             42 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.11s; CPU usage: start 10.00%, peak 45.98%, end 7.75%; Memory usage: start 1227MB, peak 398MB, end 430MB
+[Tai-e] elapsed time: 0.56s; CPU usage: start 3.57%, peak 5.56%, end 0.00%; Memory usage: start 826MB, peak 826MB, end 430MB
+     [time] Harness             562 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/jython.jar ... 919 classes
+
+6665 classes with 64079 methods in the world
+[WorldBuilder] elapsed time: 0.34s; CPU usage: start 9.05%, peak 0.00%, end 46.68%; Memory usage: start 449MB, peak 449MB, end 834MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.03s; CPU usage: start 3.44%, peak 0.00%, end 4.12%; Memory usage: start 834MB, peak 850MB, end 866MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     130 (insens) / 130 (sens)
+#var points-to:               1878 (insens) / 1878 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    148 (sens)
+#array points-to:             43 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.09s; CPU usage: start 6.25%, peak 0.00%, end 3.70%; Memory usage: start 834MB, peak 834MB, end 866MB
+[Tai-e] elapsed time: 0.47s; CPU usage: start 9.26%, peak 0.00%, end 14.29%; Memory usage: start 447MB, peak 447MB, end 866MB
+     [time] Harness             474 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/jython.jar ... 919 classes
+
+6665 classes with 64079 methods in the world
+[WorldBuilder] elapsed time: 0.40s; CPU usage: start 7.39%, peak 0.00%, end 40.41%; Memory usage: start 882MB, peak 882MB, end 764MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.jython.JythonHarness]
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.jython.JythonHarness]
+[arm2-llm] llm-class at <org.python.core.ReflectedArgs: java.lang.Class class$(java.lang.String)>@0 → [org.python.modules.JythonInternalFunctions, org.python.modules._jython, org.python.util.jython]
+[arm2-llm] llm-method at <org.python.core.PyType: java.lang.reflect.Method get_non_static_method(java.lang.Class,java.lang.String,java.lang.Class[])>@1 → [__call__]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class findClassEx(java.lang.String,java.lang.String)>@18 → [org.python.modules.JythonInternalFunctions, dacapo.jython.Main, org.python.modules._jython, dacapo.jython.JythonHarness, org.python.util.jython, org.python.util.JythoncAntTask]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class findClassEx(java.lang.String,java.lang.String)>@40 → [org.python.modules.JythonInternalFunctions, org.python.modules._jython, org.python.util.jython]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class findClassEx(java.lang.String,java.lang.String)>@55 → [dacapo.jython.Main, dacapo.jython.JythonHarness, org.python.modules.JythonInternalFunctions, org.python.modules._jython, org.python.util.jython, org.python.util.JythoncAntTask]
+[arm2-llm] llm-class at <org.python.util.jython: void main(java.lang.String[])>@36 → [org.python.util.InteractiveConsole]
+[arm2-llm] llm-class at <org.python.core.InternalTables: org.python.core.InternalTables tryImpl(java.lang.String)>@47 → [org.python.core.InternalTables]
+[arm2-llm] llm-field at <org.python.core.PyType: java.lang.Object exposed_decl_get_object(java.lang.Class,java.lang.String)>@6 → [exposed_decl_get_object]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class findClass(java.lang.String)>@5 → [org.python.modules.JythonInternalFunctions, org.python.modules._jython]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class findClass(java.lang.String)>@14 → [org.python.modules.JythonInternalFunctions, org.python.modules._jython]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class findClass(java.lang.String)>@16 → [org.python.modules.JythonInternalFunctions, org.python.modules._jython]
+[arm2-llm] llm-method at <org.python.compiler.ProxyMaker: void addSuperMethod(java.lang.String,java.lang.String,java.lang.String,java.lang.Class[],java.lang.Class,java.lang.String,int)>@5 → [The method name is `$1`., The value of `$1` is derived from the `addSuperMethod` method's first parameter., The code checks if `$1` starts with "super__". If it does, it attempts to retrieve a method using `$1` as the method name., Given the context of `org.python.compiler.ProxyMaker` and the `addSuperMethod` method, it's highly probable that `$1` represents a method name that is being proxied or overridden. The "super__" prefix suggests a convention for calling the superclass's method., Therefore, the method name(s) it may retrieve are:, * **Any method name that starts with "super__"** (as determined by the caller of `addSuperMethod`)., Without further information on how `addSuperMethod` is called within the 'jython' benchmark, we cannot determine specific method names. However, based on the provided code, the method name is directly the first argument `$1` to `addSuperMethod`, provided it starts with "super__".]
+[arm2-llm] llm-method at <org.python.core.PyGetSetDescr: void <init>(org.python.core.PyType,java.lang.String,java.lang.Class,java.lang.String,java.lang.String)>@27 → [set]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class relFindClass(java.lang.Class,java.lang.String)>@2 → [org.python.modules.JythonInternalFunctions, dacapo.jython.Main, org.python.modules._jython, dacapo.jython.JythonHarness, org.python.util.jython, org.python.util.JythoncAntTask]
+[arm2-llm] llm-class at <org.python.core.Py: java.lang.Class relFindClass(java.lang.Class,java.lang.String)>@4 → [org.python.modules.JythonInternalFunctions, org.python.modules._jython]
+[arm2-llm] llm-class at <org.python.core.PyInstance: void initializeIterators()>@27 → [org.python.core.CollectionIter, org.python.core.CollectionIter2]
+[arm2-llm] llm-field at <org.python.core.PyJavaClass: void addMethod(java.lang.reflect.Method)>@63 → [__doc__]
+[arm2-llm] llm-field at <org.python.core.PyBeanEventProperty: void initAdapter()>@9 → [__name__]
+[Pointer analysis] elapsed time: 3.23s; CPU usage: start 8.96%, peak 1.78%, end 2.69%; Memory usage: start 524MB, peak 1053MB, end 1133MB
+Imprecise reflective calls:
+[Method.invoke]<org.python.core.PyBeanProperty: org.python.core.PyObject _doget(org.python.core.PyObject)>[31@L0] %v28 = invokevirtual %v25.invoke(%v24, %v27), #targets: 478
+-------------- Pointer analysis statistics: --------------
+#var pointers:                2,9835 (insens) / 2,9835 (sens)
+#objects:                     4347 (insens) / 4347 (sens)
+#var points-to:               526,7591 (insens) / 526,7591 (sens)
+#static field points-to:      4,7073 (sens)
+#instance field points-to:    69,6408 (sens)
+#array points-to:             8,3674 (sens)
+#reachable methods:           5097 (insens) / 5097 (sens)
+#call graph edges:            4,4417 (insens) / 4,4417 (sens)
+----------------------------------------
+[pta] elapsed time: 4.40s; CPU usage: start 9.52%, peak 7.24%, end 1.58%; Memory usage: start 764MB, peak 1165MB, end 1229MB
+[Tai-e] elapsed time: 4.83s; CPU usage: start 3.36%, peak 5.88%, end 0.00%; Memory usage: start 866MB, peak 1245MB, end 1229MB
+     [time] Harness            4846 ms  (llm)
+jython     |     5302 |    0.001 | r=0.002 p=0.300      | r=0.901 p=0.980 +96       
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+2647 classes with 25161 methods in the world
+[WorldBuilder] elapsed time: 0.44s; CPU usage: start 5.47%, peak 14.29%, end 32.80%; Memory usage: start 1229MB, peak 1245MB, end 1550MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.44%, peak 0.00%, end 1.31%; Memory usage: start 1566MB, peak 1566MB, end 1582MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     101 (insens) / 101 (sens)
+#var points-to:               1409 (insens) / 1409 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    111 (sens)
+#array points-to:             31 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.05s; CPU usage: start 7.14%, peak 0.00%, end 1.89%; Memory usage: start 1550MB, peak 1550MB, end 1582MB
+[Tai-e] elapsed time: 0.52s; CPU usage: start 3.55%, peak 0.00%, end 0.00%; Memory usage: start 1229MB, peak 1229MB, end 1582MB
+     [time] Harness             524 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+Cannot resolve class org.apache.xerces.jaxp.SAXParserFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xerces.parsers.XIncludeAwareParserConfiguration; treating it as phantom class.
+Cannot resolve class org.apache.xalan.processor.TransformerFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xalan.serialize.SerializerToXML; treating it as phantom class.
+Cannot resolve class org.apache.xerces.parsers.ObjectFactory; treating it as phantom class.
+Cannot resolve class org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xerces.jaxp.DocumentBuilderFactoryImpl; treating it as phantom class.
+Cannot resolve class org.apache.xalan.serialize.CharInfo; treating it as phantom class.
+Cannot resolve class org.eclipse.jdt.core.tests.util.Util; treating it as phantom class.
+Cannot resolve class org.eclipse.jdt.core.tests.util.AbstractCompilerTest; treating it as phantom class.
+Cannot resolve class org.eclipse.jdi.Bootstrap; treating it as phantom class.
+Cannot resolve class com.sun.jdi.VirtualMachineManager; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.Connector$Argument; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.IllegalConnectorArgumentsException; treating it as phantom class.
+Cannot resolve class com.sun.jdi.VMDisconnectedException; treating it as phantom class.
+Cannot resolve class org.eclipse.jdi.TimeoutException; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.Connector$IntegerArgument; treating it as phantom class.
+Cannot resolve class org.eclipse.jdt.debug.core.JDIDebugModel; treating it as phantom class.
+Cannot resolve class com.sun.jdi.VirtualMachine; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.AttachingConnector; treating it as phantom class.
+Cannot resolve class com.sun.jdi.connect.ListeningConnector; treating it as phantom class.
+4898 classes with 50461 methods in the world
+[WorldBuilder] elapsed time: 0.36s; CPU usage: start 5.06%, peak 25.00%, end 40.94%; Memory usage: start 1598MB, peak 1598MB, end 1902MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse-refl.log
+Reflective target 'java.lang.String[]' for Class.forName is not found
+No matched invokes found for org.apache.xalan.processor.TransformerFactoryImpl.class$/162
+Reflective caller class 'org.apache.xalan.serialize.Encodings' is absent
+Reflective caller class 'org.apache.xalan.templates.OutputProperties' is absent
+No matched invokes found for org.apache.xalan.serialize.CharInfo.class$/150
+Reflective caller class 'org.apache.xalan.serialize.SerializerFactory' is absent
+No matched invokes found for org.apache.xerces.parsers.ObjectFactory.class$/-1
+Reflective caller class 'org.apache.xerces.impl.dv.ObjectFactory' is absent
+No matched invokes found for org.apache.xerces.parsers.ObjectFactory.newInstance/-1
+Reflective target '<org.apache.xalan.processor.TransformerFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xalan.serialize.SerializerToXML: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.jaxp.DocumentBuilderFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.jaxp.SAXParserFactoryImpl: void <init>()>' for Constructor.newInstance is not found
+Reflective target '<org.apache.xerces.parsers.XIncludeAwareParserConfiguration: void <init>()>' for Constructor.newInstance is not found
+No matched invokes found for org.apache.xalan.processor.TransformerFactoryImpl.<clinit>/164
+[Pointer analysis] elapsed time: 2.84s; CPU usage: start 5.18%, peak 10.00%, end 0.94%; Memory usage: start 1950MB, peak 1966MB, end 951MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                8,8708 (insens) / 8,8708 (sens)
+#objects:                     8426 (insens) / 8426 (sens)
+#var points-to:               102,2322 (insens) / 102,2322 (sens)
+#static field points-to:      1447 (sens)
+#instance field points-to:    21,2448 (sens)
+#array points-to:             2,4461 (sens)
+#reachable methods:           1,1302 (insens) / 1,1302 (sens)
+#call graph edges:            8,9618 (insens) / 8,9618 (sens)
+----------------------------------------
+[pta] elapsed time: 3.51s; CPU usage: start 0.00%, peak 7.91%, end 1.40%; Memory usage: start 1902MB, peak 1902MB, end 1223MB
+[Tai-e] elapsed time: 3.92s; CPU usage: start 4.76%, peak 11.05%, end 0.00%; Memory usage: start 1582MB, peak 1598MB, end 1223MB
+     [time] Harness            3936 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+2647 classes with 25161 methods in the world
+[WorldBuilder] elapsed time: 0.29s; CPU usage: start 5.10%, peak 0.00%, end 46.55%; Memory usage: start 1225MB, peak 1225MB, end 1417MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.50%, peak 0.00%, end 1.56%; Memory usage: start 1417MB, peak 1417MB, end 1449MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     107 (insens) / 107 (sens)
+#var points-to:               1463 (insens) / 1463 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    111 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.05s; CPU usage: start 0.00%, peak 0.00%, end 2.22%; Memory usage: start 1417MB, peak 1417MB, end 1449MB
+[Tai-e] elapsed time: 0.35s; CPU usage: start 4.46%, peak 0.00%, end 0.00%; Memory usage: start 1225MB, peak 1225MB, end 1449MB
+     [time] Harness             359 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+2647 classes with 25161 methods in the world
+[WorldBuilder] elapsed time: 0.29s; CPU usage: start 3.55%, peak 0.00%, end 47.17%; Memory usage: start 1450MB, peak 1450MB, end 955MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.60%, peak 20.00%, end 2.19%; Memory usage: start 955MB, peak 971MB, end 971MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     123 (insens) / 123 (sens)
+#var points-to:               1616 (insens) / 1616 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    113 (sens)
+#array points-to:             36 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.04s; CPU usage: start 18.18%, peak 0.00%, end 2.53%; Memory usage: start 955MB, peak 955MB, end 971MB
+[Tai-e] elapsed time: 0.36s; CPU usage: start 2.38%, peak 50.00%, end 0.00%; Memory usage: start 1450MB, peak 1450MB, end 971MB
+     [time] Harness             364 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 5dad4628c93f05585dd22147dc7e2bf7cf294cc0
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/eclipse.jar ... 413 classes
+Duplicate classes (total 384) introduced by eclipse.jar and eclipse-deps.jar,
+[org.eclipse.osgi.framework.internal.core.BundleResourceHandler, org.eclipse.osgi.framework.internal.core.SystemBundleActivator, org.eclipse.core.runtime.adaptor.EclipseClassLoader$EclipseClasspathEntry, org.eclipse.osgi.framework.internal.core.SystemPolicy$ParentClassLoader] ... (380 more) is founded in both containers
+
+2647 classes with 25161 methods in the world
+[WorldBuilder] elapsed time: 0.28s; CPU usage: start 5.15%, peak 0.00%, end 48.10%; Memory usage: start 988MB, peak 988MB, end 1164MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.eclipse.EclipseHarness]
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.eclipse.EclipseHarness]
+[arm2-llm] llm-class at <org.eclipse.core.runtime.adaptor.EclipseStarter: org.eclipse.osgi.framework.adaptor.FrameworkAdaptor createAdaptor()>@11 → [java.lang.String[]]
+[arm2-llm] llm-class at <org.eclipse.core.runtime.adaptor.EclipseStarter: void startConsole(org.eclipse.osgi.framework.internal.core.OSGi,java.lang.String[],java.lang.String)>@29 → [[Ljava.lang.String;]
+[arm2-llm] llm-class at <org.eclipse.core.runtime.adaptor.EclipseStarter: void startConsole(org.eclipse.osgi.framework.internal.core.OSGi,java.lang.String[],java.lang.String)>@66 → [java.lang.String[]]
+[arm2-llm] llm-class at <org.eclipse.osgi.framework.internal.core.PermissionAdminImpl: java.security.Permission createPermission(org.osgi.service.permissionadmin.PermissionInfo)>@6 → [The `Class.forName(type)` call at site `@6` uses the `type` variable, which is obtained from `info.getType()` at site `@1`. The `info` variable is of type `org.osgi.service.permissionadmin.PermissionInfo`., The `PermissionInfo` class is part of the OSGi specification. Its `getType()` method returns the fully qualified class name of the permission., Given the context of the `eclipse` benchmark, which is an OSGi-based application, the permissions being created are likely standard Java security permissions or OSGi-specific permissions., Looking at the classpath provided, there are no direct `Permission` implementations listed. However, the surrounding code creates an `org.eclipse.osgi.framework.internal.core.UnresolvedPermission` and then attempts to `resolve` it using the loaded class. This suggests that `type` will be the name of a `java.security.Permission` subclass., Common `java.security.Permission` subclasses include:, *   `java.security.AllPermission`, *   `java.security.SecurityPermission`, *   `java.io.FilePermission`, *   `java.net.SocketPermission`]
+[arm2-llm] llm-class at <org.eclipse.osgi.framework.internal.core.BundleContextImpl: java.lang.String checkServiceClass(java.lang.String[],java.lang.Object)>@10 → [org.eclipse.osgi.service.debug.DebugOptions, org.eclipse.osgi.service.urlconversion.URLConverter, org.eclipse.osgi.framework.log.FrameworkLog, org.eclipse.osgi.service.pluginconversion.PluginConversionException, org.eclipse.osgi.service.resolver.HostSpecification, org.eclipse.osgi.service.resolver.ExportPackageDescription]
+[arm2-llm] llm-class at <org.eclipse.osgi.framework.internal.core.BundleContextImpl: java.lang.String checkServiceClass(java.lang.String[],java.lang.Object)>@13 → [org.eclipse.osgi.service.debug.DebugOptions, org.eclipse.osgi.service.urlconversion.URLConverter, org.eclipse.osgi.framework.log.FrameworkLog, org.eclipse.osgi.framework.log.FrameworkLogEntry, org.eclipse.osgi.service.pluginconversion.PluginConversionException, org.eclipse.osgi.service.resolver.HostSpecification, org.eclipse.osgi.service.resolver.ExportPackageDescription]
+[arm2-llm] llm-class at <org.eclipse.osgi.framework.adaptor.core.AbstractFrameworkAdaptor: org.eclipse.osgi.framework.adaptor.core.SignedBundleSupport getSignedBundleSupport()>@11 → [org.eclipse.osgi.framework.pkcs7verify.SignedBundleSupportImpl]
+[arm2-llm] llm-class at <org.eclipse.osgi.framework.internal.core.SystemBundle: java.lang.Class loadClass(java.lang.String,boolean)>@6 → [org.eclipse.osgi.framework.internal.core.SystemBundle]
+[arm2-llm] llm-class at <org.eclipse.osgi.internal.profile.Profile: void logTime(int,java.lang.String,java.lang.String,java.lang.String)>@5 → [org.eclipse.osgi.internal.profile.DefaultProfileLogger]
+[arm2-llm] llm-class at <org.eclipse.core.runtime.adaptor.EclipseStarter: void startConsole(org.eclipse.osgi.framework.internal.core.OSGi,java.lang.String[],java.lang.String)>@7 → [org.eclipse.osgi.framework.internal.core.FrameworkConsole]
+[arm2-llm] llm-class at <org.eclipse.core.runtime.adaptor.EclipseStarter: org.eclipse.osgi.framework.adaptor.FrameworkAdaptor createAdaptor()>@5 → [org.eclipse.core.runtime.adaptor.EclipseAdaptor]
+[Pointer analysis] elapsed time: 13.63s; CPU usage: start 4.70%, peak 0.00%, end 0.02%; Memory usage: start 1164MB, peak 1325MB, end 1325MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                9121 (insens) / 9121 (sens)
+#objects:                     1062 (insens) / 1062 (sens)
+#var points-to:               1,0875 (insens) / 1,0875 (sens)
+#static field points-to:      146 (sens)
+#instance field points-to:    1158 (sens)
+#array points-to:             115 (sens)
+#reachable methods:           1621 (insens) / 1621 (sens)
+#call graph edges:            6002 (insens) / 6002 (sens)
+----------------------------------------
+[pta] elapsed time: 13.82s; CPU usage: start 11.11%, peak 0.55%, end 1.45%; Memory usage: start 1164MB, peak 1325MB, end 1357MB
+[Tai-e] elapsed time: 14.11s; CPU usage: start 2.74%, peak 1.33%, end 0.00%; Memory usage: start 987MB, peak 1325MB, end 1357MB
+     [time] Harness           14124 ms  (llm)
+eclipse    |    11076 |    0.000 | r=0.001 p=0.267      | r=0.125 p=0.989 +15       
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

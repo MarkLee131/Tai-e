@@ -1,0 +1,227 @@
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 9a1c79ba0a123c12747bd50bccff471542e0595e
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0 ... 1 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0/log4j-api-2.14.0.jar ... 177 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0/log4j-core-2.14.0.jar ... 1117 classes
+
+Cannot resolve class com.fasterxml.jackson.core.JsonGenerationException; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ObjectMapper; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.SerializerProvider; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.std.StdSerializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonGenerator; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonUnwrapped; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonAnyGetter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonRootName; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.dsl.Disruptor; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventTranslatorVararg; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.TimeoutException; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.WaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.ExceptionHandler; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.RingBuffer; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.dsl.ProducerType; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventFactory; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventHandler; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.dsl.EventHandlerGroup; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventTranslator; treating it as phantom class.
+Cannot resolve class javax.mail.Session; treating it as phantom class.
+Cannot resolve class javax.mail.Authenticator; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonProperty; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMessage; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonIgnoreProperties; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonCreator; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.Module$SetupContext; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonParser; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.type.TypeReference; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.DeserializationContext; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.util.DefaultPrettyPrinter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.util.MinimalPrettyPrinter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.PrettyPrinter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.Module; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ObjectReader; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.DeserializationFeature; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.AnsiRenderer$Code; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.Ansi; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.AnsiRenderer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.std.StdScalarSerializer; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.Ansi$Color; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.Ansi$Attribute; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.ProducerRecord; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.Callback; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.Producer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonNode; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonIgnore; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonProcessingException; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.deser.std.StdDeserializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonMappingException; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ObjectWriter; treating it as phantom class.
+Cannot resolve class javax.jms.Connection; treating it as phantom class.
+Cannot resolve class javax.jms.Destination; treating it as phantom class.
+Cannot resolve class javax.jms.Session; treating it as phantom class.
+Cannot resolve class javax.jms.MessageProducer; treating it as phantom class.
+Cannot resolve class javax.jms.Message; treating it as phantom class.
+Cannot resolve class javax.jms.MessageConsumer; treating it as phantom class.
+Cannot resolve class javax.jms.MapMessage; treating it as phantom class.
+Cannot resolve class javax.jms.ConnectionFactory; treating it as phantom class.
+Cannot resolve class javax.jms.ObjectMessage; treating it as phantom class.
+Cannot resolve class javax.jms.JMSException; treating it as phantom class.
+Cannot resolve class javax.jms.TextMessage; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.BlockingWaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.YieldingWaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.BusySpinWaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.SleepingWaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.TimeoutBlockingWaitStrategy; treating it as phantom class.
+Cannot resolve class org.jctools.queues.MessagePassingQueue; treating it as phantom class.
+Cannot resolve class org.jctools.queues.MpscArrayQueue; treating it as phantom class.
+Cannot resolve class org.jctools.queues.MessagePassingQueue$Consumer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonValue; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.Sequence; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonToken; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonCreator$Mode; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.LifecycleAware; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.SequenceReportingEventHandler; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.module.SimpleModule; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.Version; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.yaml.YAMLMapper; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonInclude$Include; treating it as phantom class.
+Cannot resolve class org.osgi.framework.ServiceRegistration; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleContext; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonInclude; treating it as phantom class.
+Cannot resolve class org.osgi.framework.ServiceReference; treating it as phantom class.
+Cannot resolve class org.osgi.framework.Bundle; treating it as phantom class.
+Cannot resolve class org.osgi.framework.wiring.BundleWiring; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleEvent; treating it as phantom class.
+Cannot resolve class org.osgi.framework.InvalidSyntaxException; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleActivator; treating it as phantom class.
+Cannot resolve class org.osgi.framework.SynchronousBundleListener; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleListener; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonPropertyOrder; treating it as phantom class.
+Cannot resolve class javax.mail.PasswordAuthentication; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.RecordMetadata; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMultipart; treating it as phantom class.
+Cannot resolve class javax.mail.util.ByteArrayDataSource; treating it as phantom class.
+Cannot resolve class javax.mail.MessagingException; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeBodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Message$RecipientType; treating it as phantom class.
+Cannot resolve class org.osgi.framework.FrameworkUtil; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetHeaders; treating it as phantom class.
+Cannot resolve class javax.mail.Multipart; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeUtility; treating it as phantom class.
+Cannot resolve class javax.mail.Message; treating it as phantom class.
+Cannot resolve class javax.mail.BodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Transport; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.KafkaProducer; treating it as phantom class.
+Cannot resolve class javax.mail.Address; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetAddress; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter; treating it as phantom class.
+Cannot resolve class javax.mail.internet.AddressException; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonDeserializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.FilterProvider; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonSerializer; treating it as phantom class.
+Cannot resolve class org.codehaus.stax2.XMLStreamWriter2; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.compressors.CompressorStreamFactory; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.compressors.CompressorOutputStream; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.compressors.CompressorException; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.utils.IOUtils; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.annotation.JsonSerialize; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonProperty$Access; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.annotation.JsonDeserialize; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonFilter; treating it as phantom class.
+Cannot resolve class org.apache.commons.csv.CSVFormat; treating it as phantom class.
+Cannot resolve class org.apache.commons.csv.QuoteMode; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.node.JsonNodeType; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonParser$Feature; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventTranslatorTwoArg; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.JacksonXmlModule; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.XmlMapper; treating it as phantom class.
+Cannot resolve class org.osgi.framework.wiring.BundleWire; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleReference; treating it as phantom class.
+Cannot resolve class org.osgi.framework.AdminPermission; treating it as phantom class.
+Cannot resolve class org.osgi.framework.AdaptPermission; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.yaml.YAMLFactory; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonFactory; treating it as phantom class.
+Cannot resolve class org.zeromq.ZMQ$Socket; treating it as phantom class.
+Cannot resolve class org.zeromq.ZMQ$Context; treating it as phantom class.
+Cannot resolve class org.zeromq.ZMQ; treating it as phantom class.
+Cannot resolve class com.conversantmedia.util.concurrent.SpinPolicy; treating it as phantom class.
+Cannot resolve class com.conversantmedia.util.concurrent.DisruptorBlockingQueue; treating it as phantom class.
+7712 classes with 69717 methods in the world
+[WorldBuilder] elapsed time: 1.12s; CPU usage: start 5.40%, peak 73.47%, end 61.68%; Memory usage: start 87MB, peak 221MB, end 270MB
+[pta] starts ...
+Loading taint config from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0/taint-config.yml
+TaintConfig:
+sources:
+  - { kind: "call", method: "<Server: java.lang.String getInput()>", index: "result", type: "java.lang.String" }
+
+sinks:
+  - { method: "<javax.naming.InitialContext: java.lang.Object lookup(java.lang.String)>", index: "0" }
+
+transfers:
+  - { method: "<org.apache.logging.log4j.message.ReusableMessageFactory: org.apache.logging.log4j.message.Message newMessage(java.lang.String)>", from: "0", to: "result", type: "org.apache.logging.log4j.message.ReusableSimpleMessage" }
+  - { method: "<org.apache.logging.log4j.core.impl.ReusableLogEventFactory: org.apache.logging.log4j.core.LogEvent createEvent(java.lang.String,org.apache.logging.log4j.Marker,java.lang.String,org.apache.logging.log4j.Level,org.apache.logging.log4j.message.Message,java.util.List,java.lang.Throwable)>", from: "4", to: "result", type: "org.apache.logging.log4j.core.impl.MutableLogEvent" }
+  - { method: "<org.apache.logging.log4j.core.impl.MutableLogEvent: void formatTo(java.lang.StringBuilder)>", from: "base", to: "0", type: "java.lang.StringBuilder" }
+  - { method: "<java.lang.StringBuilder: void <init>(java.lang.String)>", from: "0", to: "base", type: "java.lang.StringBuilder" }
+  - { method: "<java.lang.StringBuilder: java.lang.String substring(int,int)>", from: "base", to: "result", type: "java.lang.String" }
+  - { method: "<java.lang.StringBuilder: void getChars(int,int,char[],int)>", from: "base", to: "2", type: "char[]" }
+  - { method: "<java.lang.String: java.lang.String substring(int)>", from: "base", to: "result", type: "java.lang.String" }
+  - { method: "<java.lang.String: void <init>(char[],int,int)>", from: "0", to: "base", type: "java.lang.String" }
+
+[Pointer analysis] elapsed time: 20.42s; CPU usage: start 17.09%, peak 17.26%, end 2.74%; Memory usage: start 289MB, peak 1183MB, end 624MB
+Unsound reflective calls:
+[Method.invoke]<org.apache.logging.log4j.core.config.plugins.util.PluginBuilder: java.lang.Object build()>[42@L136] %v34 = invokevirtual factory.invoke($null, params)
+[Method.invoke]<org.apache.logging.log4j.core.config.plugins.util.PluginBuilder: org.apache.logging.log4j.core.util.Builder createBuilder(java.lang.Class)>[19@L157] %v18 = invokevirtual method.invoke($null, %v16)
+[Method.invoke]<org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object createJmDnsVersion3()>[6@L148] %v8 = invokevirtual jmDNSCreateMethod.invoke($null, %v7)
+[Method.invoke]<org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object buildServiceInfoVersion3(java.lang.String,int,java.lang.String,java.util.Map)>[33@L176] %v27 = invokevirtual %v21.invoke($null, %v22)
+[Method.invoke]<org.apache.logging.log4j.core.pattern.PatternParser: org.apache.logging.log4j.core.pattern.PatternConverter createConverter(java.lang.String,java.lang.StringBuilder,java.util.Map,java.util.List,boolean,boolean)>[156@L591] newObj = invokevirtual newInstanceMethod.invoke($null, parms)
+[Method.invoke]<org.apache.logging.log4j.util.Base64Util: void <clinit>()>[12@L38] %v13 = invokevirtual method.invoke($null, %v12)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: void <clinit>()>[14@L66] o = invokevirtual getCallerClass.invoke($null, %v11)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: void <clinit>()>[18@L67] invokevirtual getCallerClass.invoke($null, %v15)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: void <clinit>()>[27@L72] o#1 = invokevirtual getCallerClass.invoke($null, %v17)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: java.lang.Class getCallerClass(int)>[17@L113] %v15 = invokevirtual %v9.invoke($null, %v10)
+Imprecise reflective calls:
+[Array.newInstance]<java.lang.Class: java.lang.Class toClass(java.lang.reflect.Type)>[6@L1128] %v6 = invokestatic java.lang.reflect.Array.newInstance(%v5, %ci0), #targets: 396
+[Constructor.newInstance]<org.apache.logging.log4j.core.util.ReflectionUtil: java.lang.Object instantiate(java.lang.Class)>[5@L188] %v7 = invokevirtual constructor.newInstance(%v6), #targets: 190
+[Class.newInstance]<org.apache.logging.log4j.util.LoaderUtil: java.lang.Object newInstanceOf(java.lang.Class)>[7@L190] %v8 = invokevirtual clazz.newInstance(), #targets: 88
+[Constructor.newInstance]<org.apache.logging.log4j.util.LoaderUtil: java.lang.Object newInstanceOf(java.lang.Class)>[4@L187] %v6 = invokevirtual %v4.newInstance(%v5), #targets: 60
+Detected 1 taint flow(s):
+TaintFlow{<Server: void main(java.lang.String[])>[2@L8] input = invokestatic Server.getInput()/result -> <org.apache.logging.log4j.core.net.JndiManager: java.lang.Object lookup(java.lang.String)>[1@L172] %v3 = invokeinterface %v2.lookup(name)/0}
+[TFGDumper] starts ...
+Source nodes:
+VarNode{<Server: void main(java.lang.String[])>/input}
+Sink nodes:
+VarNode{<org.apache.logging.log4j.core.net.JndiManager: java.lang.Object lookup(java.lang.String)>/name}
+Dumping /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/taint-flow-graph.dot
+[TFGDumper] elapsed time: 0.62s; CPU usage: start 3.70%, peak 0.00%, end 7.47%; Memory usage: start 929MB, peak 929MB, end 1124MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                15,9640 (insens) / 15,9640 (sens)
+#objects:                     1,5970 (insens) / 1,5970 (sens)
+#var points-to:               1638,7466 (insens) / 1638,7466 (sens)
+#static field points-to:      7047 (sens)
+#instance field points-to:    124,4161 (sens)
+#array points-to:             32,8033 (sens)
+#reachable methods:           2,1934 (insens) / 2,1934 (sens)
+#call graph edges:            12,9240 (insens) / 12,9241 (sens)
+----------------------------------------
+[pta] elapsed time: 23.44s; CPU usage: start 16.22%, peak 20.00%, end 1.53%; Memory usage: start 270MB, peak 1251MB, end 1298MB
+[Tai-e] elapsed time: 24.81s; CPU usage: start 0.00%, peak 23.74%, end 0.00%; Memory usage: start 66MB, peak 1219MB, end 1298MB

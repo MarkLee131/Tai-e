@@ -1,0 +1,2 @@
+Class.forName;dacapo.luindex.LuindexHarness;dacapo.TestHarness.findClass;414;;
+Constructor.newInstance;<dacapo.luindex.LuindexHarness: void <init>(dacapo.parser.Config,java.io.File)>;dacapo.TestHarness.runBenchmark;270;isAccessible=false;

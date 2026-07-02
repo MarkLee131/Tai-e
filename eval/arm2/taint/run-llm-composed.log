@@ -1,0 +1,566 @@
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: 9a1c79ba0a123c12747bd50bccff471542e0595e
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0 ... 1 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0/log4j-api-2.14.0.jar ... 177 classes
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0/log4j-core-2.14.0.jar ... 1117 classes
+
+Cannot resolve class com.fasterxml.jackson.databind.ser.std.StdSerializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonGenerationException; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonGenerator; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ObjectMapper; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.SerializerProvider; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonUnwrapped; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonAnyGetter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonRootName; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.dsl.Disruptor; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventTranslatorVararg; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.TimeoutException; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.WaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.dsl.ProducerType; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.RingBuffer; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.ExceptionHandler; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.dsl.EventHandlerGroup; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventFactory; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventHandler; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventTranslator; treating it as phantom class.
+Cannot resolve class javax.mail.Authenticator; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMessage; treating it as phantom class.
+Cannot resolve class javax.mail.Session; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonProperty; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonCreator; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonIgnoreProperties; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.Module; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.type.TypeReference; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonParser; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.DeserializationContext; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.PrettyPrinter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.util.MinimalPrettyPrinter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.util.DefaultPrettyPrinter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.Module$SetupContext; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.AnsiRenderer$Code; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.DeserializationFeature; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.Ansi; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ObjectReader; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.Ansi$Attribute; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.Ansi$Color; treating it as phantom class.
+Cannot resolve class org.fusesource.jansi.AnsiRenderer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.std.StdScalarSerializer; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.Producer; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.ProducerRecord; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.Callback; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonNode; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonIgnore; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonProcessingException; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.deser.std.StdDeserializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonMappingException; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ObjectWriter; treating it as phantom class.
+Cannot resolve class javax.jms.Session; treating it as phantom class.
+Cannot resolve class javax.jms.Destination; treating it as phantom class.
+Cannot resolve class javax.jms.MessageProducer; treating it as phantom class.
+Cannot resolve class javax.jms.Connection; treating it as phantom class.
+Cannot resolve class javax.jms.Message; treating it as phantom class.
+Cannot resolve class javax.jms.MessageConsumer; treating it as phantom class.
+Cannot resolve class javax.jms.MapMessage; treating it as phantom class.
+Cannot resolve class javax.jms.ConnectionFactory; treating it as phantom class.
+Cannot resolve class javax.jms.TextMessage; treating it as phantom class.
+Cannot resolve class javax.jms.ObjectMessage; treating it as phantom class.
+Cannot resolve class javax.jms.JMSException; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.SleepingWaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.BusySpinWaitStrategy; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.YieldingWaitStrategy; treating it as phantom class.
+Cannot resolve class org.jctools.queues.MpscArrayQueue; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.BlockingWaitStrategy; treating it as phantom class.
+Cannot resolve class org.jctools.queues.MessagePassingQueue; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.TimeoutBlockingWaitStrategy; treating it as phantom class.
+Cannot resolve class org.jctools.queues.MessagePassingQueue$Consumer; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.Sequence; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.LifecycleAware; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.SequenceReportingEventHandler; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonToken; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonCreator$Mode; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonValue; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.module.SimpleModule; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.Version; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.yaml.YAMLMapper; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleEvent; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonInclude; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleContext; treating it as phantom class.
+Cannot resolve class org.osgi.framework.Bundle; treating it as phantom class.
+Cannot resolve class org.osgi.framework.ServiceRegistration; treating it as phantom class.
+Cannot resolve class org.osgi.framework.wiring.BundleWiring; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonInclude$Include; treating it as phantom class.
+Cannot resolve class org.osgi.framework.ServiceReference; treating it as phantom class.
+Cannot resolve class org.osgi.framework.InvalidSyntaxException; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleActivator; treating it as phantom class.
+Cannot resolve class org.osgi.framework.SynchronousBundleListener; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleListener; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonPropertyOrder; treating it as phantom class.
+Cannot resolve class org.osgi.framework.FrameworkUtil; treating it as phantom class.
+Cannot resolve class javax.mail.PasswordAuthentication; treating it as phantom class.
+Cannot resolve class javax.mail.MessagingException; treating it as phantom class.
+Cannot resolve class javax.mail.util.ByteArrayDataSource; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.RecordMetadata; treating it as phantom class.
+Cannot resolve class javax.mail.Message$RecipientType; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeMultipart; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetHeaders; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeUtility; treating it as phantom class.
+Cannot resolve class javax.mail.BodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Transport; treating it as phantom class.
+Cannot resolve class javax.mail.Multipart; treating it as phantom class.
+Cannot resolve class javax.mail.internet.MimeBodyPart; treating it as phantom class.
+Cannot resolve class javax.mail.Address; treating it as phantom class.
+Cannot resolve class javax.mail.internet.InternetAddress; treating it as phantom class.
+Cannot resolve class javax.mail.Message; treating it as phantom class.
+Cannot resolve class javax.mail.internet.AddressException; treating it as phantom class.
+Cannot resolve class org.apache.kafka.clients.producer.KafkaProducer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.ser.FilterProvider; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonSerializer; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.JsonDeserializer; treating it as phantom class.
+Cannot resolve class org.codehaus.stax2.XMLStreamWriter2; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.compressors.CompressorStreamFactory; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.compressors.CompressorException; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.utils.IOUtils; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.annotation.JsonDeserialize; treating it as phantom class.
+Cannot resolve class org.apache.commons.compress.compressors.CompressorOutputStream; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.annotation.JsonSerialize; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonFilter; treating it as phantom class.
+Cannot resolve class org.apache.commons.csv.CSVFormat; treating it as phantom class.
+Cannot resolve class org.apache.commons.csv.QuoteMode; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.annotation.JsonProperty$Access; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonParser$Feature; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.databind.node.JsonNodeType; treating it as phantom class.
+Cannot resolve class com.lmax.disruptor.EventTranslatorTwoArg; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.JacksonXmlModule; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.xml.XmlMapper; treating it as phantom class.
+Cannot resolve class org.osgi.framework.BundleReference; treating it as phantom class.
+Cannot resolve class org.osgi.framework.AdminPermission; treating it as phantom class.
+Cannot resolve class org.osgi.framework.AdaptPermission; treating it as phantom class.
+Cannot resolve class org.osgi.framework.wiring.BundleWire; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.dataformat.yaml.YAMLFactory; treating it as phantom class.
+Cannot resolve class com.fasterxml.jackson.core.JsonFactory; treating it as phantom class.
+Cannot resolve class org.zeromq.ZMQ$Context; treating it as phantom class.
+Cannot resolve class org.zeromq.ZMQ$Socket; treating it as phantom class.
+Cannot resolve class com.conversantmedia.util.concurrent.SpinPolicy; treating it as phantom class.
+Cannot resolve class org.zeromq.ZMQ; treating it as phantom class.
+Cannot resolve class com.conversantmedia.util.concurrent.DisruptorBlockingQueue; treating it as phantom class.
+7712 classes with 69717 methods in the world
+[WorldBuilder] elapsed time: 1.18s; CPU usage: start 5.14%, peak 75.76%, end 52.48%; Memory usage: start 87MB, peak 207MB, end 272MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+Loading taint config from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/log4j/2.14.0/taint-config.yml
+TaintConfig:
+sources:
+  - { kind: "call", method: "<Server: java.lang.String getInput()>", index: "result", type: "java.lang.String" }
+
+sinks:
+  - { method: "<javax.naming.InitialContext: java.lang.Object lookup(java.lang.String)>", index: "0" }
+
+transfers:
+  - { method: "<org.apache.logging.log4j.message.ReusableMessageFactory: org.apache.logging.log4j.message.Message newMessage(java.lang.String)>", from: "0", to: "result", type: "org.apache.logging.log4j.message.ReusableSimpleMessage" }
+  - { method: "<org.apache.logging.log4j.core.impl.ReusableLogEventFactory: org.apache.logging.log4j.core.LogEvent createEvent(java.lang.String,org.apache.logging.log4j.Marker,java.lang.String,org.apache.logging.log4j.Level,org.apache.logging.log4j.message.Message,java.util.List,java.lang.Throwable)>", from: "4", to: "result", type: "org.apache.logging.log4j.core.impl.MutableLogEvent" }
+  - { method: "<org.apache.logging.log4j.core.impl.MutableLogEvent: void formatTo(java.lang.StringBuilder)>", from: "base", to: "0", type: "java.lang.StringBuilder" }
+  - { method: "<java.lang.StringBuilder: void <init>(java.lang.String)>", from: "0", to: "base", type: "java.lang.StringBuilder" }
+  - { method: "<java.lang.StringBuilder: java.lang.String substring(int,int)>", from: "base", to: "result", type: "java.lang.String" }
+  - { method: "<java.lang.StringBuilder: void getChars(int,int,char[],int)>", from: "base", to: "2", type: "char[]" }
+  - { method: "<java.lang.String: java.lang.String substring(int)>", from: "base", to: "result", type: "java.lang.String" }
+  - { method: "<java.lang.String: void <init>(char[],int,int)>", from: "0", to: "base", type: "java.lang.String" }
+
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentHashMap: void <clinit>()>@41 → [sizeCtl]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentHashMap: void <clinit>()>@46 → [transferIndex]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentHashMap: void <clinit>()>@51 → [baseCount]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentHashMap: void <clinit>()>@56 → [cellsBusy]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentHashMap: void <clinit>()>@62 → [value]
+[arm2-llm] llm-class at <org.apache.logging.log4j.util.LoaderUtil: java.lang.Class loadClass(java.lang.String)>@3 → [No classes can be loaded.]
+[arm2-llm] llm-class at <org.apache.logging.log4j.util.LoaderUtil: java.lang.Class loadClass(java.lang.String)>@7 → [Given the provided code snippet, the `Class.forName(className)` call is part of a method `org.apache.logging.log4j.util.LoaderUtil.loadClass(java.lang.String)`. This method takes a `className` as an argument., Since the `className` is a parameter to the `loadClass` method, and there are no static string fragments available or specific naming conventions within the provided snippet to constrain `className`, it can potentially load any class that can be represented by a `java.lang.String`., However, the question asks for "fully-qualified names of the classes it may load, one per line" given the "surrounding code" and "use-site type bounds". The surrounding code is the `LoaderUtil` class itself, which is part of the `org.apache.logging.log4j` project. This context strongly suggests that the `LoaderUtil` is designed to load classes relevant to the Log4j framework., Without more specific information about how `LoaderUtil.loadClass` is called within the Log4j project, we have to infer based on the typical use of such a utility in a logging framework. Logging frameworks often need to load:, 1.]
+[arm2-llm] llm-class at <org.apache.logging.log4j.util.LoaderUtil: java.lang.Class loadClass(java.lang.String)>@11 → [java.lang.Class]
+[arm2-llm] llm-field at <java.util.concurrent.atomic.AtomicInteger: void <clinit>()>@5 → [value]
+[arm2-llm] llm-field at <java.util.concurrent.CopyOnWriteArrayList: void <clinit>()>@5 → [lock]
+[arm2-llm] llm-field at <java.util.concurrent.locks.ReentrantReadWriteLock: void <clinit>()>@5 → [tid]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedQueue: void <clinit>()>@5 → [head]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedQueue: void <clinit>()>@10 → [tail]
+[arm2-llm] llm-field at <java.util.concurrent.locks.AbstractQueuedSynchronizer: void <clinit>()>@5 → [state]
+[arm2-llm] llm-field at <java.util.concurrent.locks.AbstractQueuedSynchronizer: void <clinit>()>@11 → [head]
+[arm2-llm] llm-field at <java.util.concurrent.locks.AbstractQueuedSynchronizer: void <clinit>()>@17 → [tail]
+[arm2-llm] llm-field at <java.util.concurrent.locks.AbstractQueuedSynchronizer: void <clinit>()>@23 → [waitStatus]
+[arm2-llm] llm-field at <java.util.concurrent.locks.AbstractQueuedSynchronizer: void <clinit>()>@29 → [next]
+[arm2-llm] llm-field at <java.io.File: void <clinit>()>@36 → [path]
+[arm2-llm] llm-field at <java.io.File: void <clinit>()>@41 → [path]
+[arm2-llm] llm-field at <java.net.InetAddress: void <clinit>()>@84 → [holder]
+[arm2-llm] llm-class at <sun.nio.fs.DefaultFileSystemProvider: java.nio.file.spi.FileSystemProvider createProvider(java.lang.String)>@0 → [sun.nio.fs.UnixFileSystemProvider, sun.nio.fs.WindowsFileSystemProvider]
+[arm2-llm] llm-method at <org.apache.logging.log4j.util.StackLocator: void <clinit>()>@10 → [getCallerClass]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedQueue$Node: void <clinit>()>@5 → [item]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedQueue$Node: void <clinit>()>@10 → [next]
+[arm2-llm] llm-class at <sun.util.logging.PlatformLogger: void <clinit>()>@12 → [sun.util.logging.PlatformLogger$DefaultLoggerProxy]
+[arm2-llm] llm-class at <sun.util.logging.PlatformLogger: void <clinit>()>@16 → [sun.util.logging.PlatformLogger$JavaLoggerProxy]
+[arm2-llm] llm-class at <java.net.InetAddress: java.net.InetAddressImpl loadImpl(java.lang.String)>@56 → [java.net.Inet4AddressImpl, java.net.Inet6AddressImpl]
+[arm2-llm] llm-field at <java.net.Inet6Address: void <clinit>()>@37 → [holder6]
+[arm2-llm] llm-field at <java.util.Random: void <clinit>()>@30 → [seed]
+[arm2-llm] llm-field at <java.util.concurrent.ThreadLocalRandom: void <clinit>()>@33 → [threadLocalRandomSeed]
+[arm2-llm] llm-field at <java.util.concurrent.ThreadLocalRandom: void <clinit>()>@38 → [threadLocalRandomProbe]
+[arm2-llm] llm-field at <java.util.concurrent.ThreadLocalRandom: void <clinit>()>@43 → [threadLocalRandomSecondarySeed]
+[arm2-llm] llm-class at <java.nio.charset.Charset$ExtendedProviderHolder$1: java.nio.charset.spi.CharsetProvider run()>@1 → [sun.nio.cs.ext.ExtendedCharsets]
+[arm2-llm] llm-field at <java.util.concurrent.locks.LockSupport: void <clinit>()>@5 → [parkBlocker]
+[arm2-llm] llm-field at <java.util.concurrent.locks.LockSupport: void <clinit>()>@10 → [threadLocalRandomSeed]
+[arm2-llm] llm-field at <java.util.concurrent.locks.LockSupport: void <clinit>()>@15 → [threadLocalRandomProbe]
+[arm2-llm] llm-field at <java.util.concurrent.locks.LockSupport: void <clinit>()>@20 → [threadLocalRandomSecondarySeed]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentHashMap$TreeBin: void <clinit>()>@14 → [lockState]
+[arm2-llm] llm-field at <java.util.concurrent.atomic.AtomicLong: void <clinit>()>@7 → [value]
+[arm2-llm] llm-field at <java.util.concurrent.atomic.AtomicReference: void <clinit>()>@5 → [value]
+[arm2-llm] llm-method at <java.lang.Class: java.lang.Object[] getEnumConstantsShared()>@8 → [values]
+[arm2-llm] llm-class at <sun.util.logging.LoggingSupport$1: sun.util.logging.LoggingProxy run()>@2 → [java.util.logging.LoggingProxyImpl]
+[arm2-llm] llm-class at <sun.security.jca.Providers: java.security.Provider getSunProvider()>@9 → [sun.security.provider.VerificationProvider]
+[arm2-llm] llm-class at <java.net.InetAddress: java.net.InetAddressImpl loadImpl(java.lang.String)>@14 → [java.net.Inet4AddressImpl, java.net.Inet6AddressImpl]
+[arm2-llm] llm-class at <sun.security.jca.Providers: java.security.Provider getSunProvider()>@3 → [sun.security.provider.VerificationProvider]
+[arm2-llm] llm-class at <sun.nio.cs.FastCharsetProvider: java.nio.charset.Charset lookup(java.lang.String)>@32 → [sun.nio.cs.FastCharsetProvider.US_ASCII, sun.nio.cs.FastCharsetProvider.UTF_8, sun.nio.cs.FastCharsetProvider.UTF_16, sun.nio.cs.FastCharsetProvider.UTF_16BE, sun.nio.cs.FastCharsetProvider.UTF_16LE, sun.nio.cs.FastCharsetProvider.ISO_8859_1, sun.nio.cs.FastCharsetProvider.ASCII]
+[arm2-llm] llm-field at <java.util.concurrent.atomic.AtomicReferenceFieldUpdater$AtomicReferenceFieldUpdaterImpl$1: java.lang.reflect.Field run()>@2 → [val$fieldName]
+[arm2-llm] llm-method at <sun.util.locale.provider.HostLocaleProviderAdapter: java.util.spi.LocaleServiceProvider findInstalledProvider(java.lang.Class)>@9 → [getBreakIteratorProvider, getCollatorProvider, getDateFormatProvider, getDateFormatSymbolsProvider, getDecimalFormatSymbolsProvider, getLocaleResourcesProvider, getNumberFormatProvider, getTimeZoneProvider, getCurrencyNameProvider, getLocaleNameProvider, getCalendarProvider, getCalendarDateProvider, getCalendarDisplayNameProvider, getCalendarFieldProvider, getDisplayNamesProvider, getJavaTimeDateTimePatternProvider]
+[arm2-llm] llm-class at <java.net.URL: java.net.URLStreamHandler getURLStreamHandler(java.lang.String)>@51 → [.Handler, .]
+[arm2-llm] llm-class at <java.net.URL: java.net.URLStreamHandler getURLStreamHandler(java.lang.String)>@56 → [.Handler, .]
+[arm2-llm] llm-class at <java.security.Security: java.lang.Class getSpiClass(java.lang.String)>@13 → [java.security.*Spi]
+[arm2-llm] llm-class at <sun.misc.Launcher$Factory: java.net.URLStreamHandler createURLStreamHandler(java.lang.String)>@10 → [sun.net.www.protocol.$1.Handler]
+[arm2-llm] llm-class at <org.apache.logging.log4j.util.SortedArrayStringMap: void <clinit>()>@31 → [org.apache.logging.log4j.util.internal.DefaultObjectInputFilter]
+[arm2-llm] llm-class at <sun.util.locale.provider.SPILocaleProviderAdapter$1: java.util.spi.LocaleServiceProvider run()>@23 → [sun.util.locale.provider.SPILocaleProviderAdapter$BreakIteratorServiceProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$CollatorServiceProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$DateFormatServiceProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$DateFormatSymbolsServiceProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$DecimalFormatSymbolsServiceProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$LocaleServiceProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$NumberFormatServiceProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$CurrencyNameProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$LocaleNameProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$TimeZoneNameProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$CalendarProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$CalendarBuilderProviderDelegate, sun.util.locale.provider.SPILocaleProviderAdapter$CalendarDateProvider]
+[arm2-llm] llm-class at <java.util.ResourceBundle$Control: java.util.ResourceBundle newBundle(java.lang.String,java.util.Locale,java.lang.String,java.lang.ClassLoader,boolean)>@6 → [java.util.ResourceBundle]
+[arm2-llm] llm-class at <sun.util.calendar.CalendarSystem: sun.util.calendar.CalendarSystem forName(java.lang.String)>@24 → [sun.util.calendar.JulianCalendar, sun.util.calendar.BuddhistCalendar, sun.util.calendar.JapaneseImperialCalendar, sun.util.calendar.JapaneseCalendar, sun.util.calendar.Gregorian]
+[arm2-llm] llm-class at <org.apache.logging.log4j.spi.Provider: java.lang.Class loadLoggerContextFactory()>@14 → [org.apache.logging.log4j.core.impl.Log4jContextFactory, org.apache.logging.log4j.core.async.AsyncLoggerContextFactory]
+[arm2-llm] llm-class at <org.apache.logging.log4j.spi.Provider: java.lang.Class loadThreadContextMap()>@14 → [org.apache.logging.log4j.spi.ThreadContextMap]
+[arm2-llm] llm-class at <java.util.ServiceLoader$LazyIterator: java.lang.Object nextService()>@10 → [java.util.ServiceLoader]
+[arm2-llm] llm-class at <org.apache.logging.log4j.spi.ThreadContextMapFactory: org.apache.logging.log4j.spi.ThreadContextMap createThreadContextMap()>@6 → [org.apache.logging.log4j.spi.ThreadContextMap]
+[arm2-llm] llm-class at <java.security.Policy: java.security.Policy getPolicyNoCheck()>@23 → [sun.security.provider.PolicyFile]
+[arm2-llm] llm-field at <sun.security.x509.X500Name$1: java.lang.Object[] run()>@10 → [thisX500Name]
+[arm2-llm] llm-class at <sun.security.pkcs.PKCS9Attribute: void <clinit>()>@82 → [sun.security.pkcs.PKCS9Attribute[]]
+[arm2-llm] llm-class at <sun.security.pkcs.PKCS9Attribute: void <clinit>()>@452 → [[[Ljava.lang.String;]
+[arm2-llm] llm-class at <sun.security.pkcs.PKCS9Attribute: void <clinit>()>@461 → [sun.security.util.ObjectIdentifier]
+[arm2-llm] llm-class at <sun.security.pkcs.PKCS9Attribute: void <clinit>()>@468 → [java.util.Date]
+[arm2-llm] llm-class at <sun.security.pkcs.PKCS9Attribute: void <clinit>()>@472 → [[Lsun.security.pkcs.SignerInfo;]
+[arm2-llm] llm-class at <sun.security.pkcs.PKCS9Attribute: void <clinit>()>@476 → [java.lang.String]
+[arm2-llm] llm-class at <sun.security.pkcs.PKCS9Attribute: void <clinit>()>@499 → [sun.security.x509.CertificateExtensions]
+[arm2-llm] llm-class at <sun.security.x509.X509Key: java.security.PublicKey buildX509Key(sun.security.x509.AlgorithmId,sun.security.util.BitArray)>@38 → [PublicKey.X.509.]
+[arm2-llm] llm-class at <sun.security.x509.X509Key: java.security.PublicKey buildX509Key(sun.security.x509.AlgorithmId,sun.security.util.BitArray)>@43 → [PublicKey.X.509.]
+[arm2-llm] llm-class at <java.util.ResourceBundle$RBClassLoader: java.lang.Class loadClass(java.lang.String)>@3 → [The `Class.forName` call at line 5 is passed the `$1` parameter, which is the `className` parameter of the `loadClass` method. This method is part of `java.util.ResourceBundle$RBClassLoader`., Given that this is a `ResourceBundle` related class loader, and the method is `loadClass(String className)`, the `className` parameter is expected to be the fully-qualified name of a class that a `ResourceBundle` might need to load., Resource bundles are used for internationalization and typically load classes related to:, 1. **ResourceBundle itself**: Subclasses of `java.util.ResourceBundle` for specific locales., 2. **Formatters/Parsers**: Classes used for formatting or parsing data within the bundle (e.g., `java.text.Format`, `java.text.NumberFormat`, `java.text.DateFormat`)., 3. **Other utility classes**: Any other classes that a custom `ResourceBundle` implementation might need to load dynamically., Without more context on the specific `ResourceBundle` implementation or the types of resources it handles, we can infer the following based on common Java practices for `ResourceBundle` and the nature of `loadClass`:]
+[arm2-llm] llm-class at <java.util.ResourceBundle$RBClassLoader: java.lang.Class loadClass(java.lang.String)>@5 → [java.lang.Object]
+[arm2-llm] llm-class at <java.security.Policy$2: java.security.Policy run()>@9 → [java.security.Policy]
+[arm2-llm] llm-class at <sun.security.x509.OIDMap$OIDInfo: java.lang.Class getClazz()>@3 → [The `Class.forName` call at site `3` uses the value of `this.u003csun.security.x509.OIDMap$OIDInfo: java.lang.String classNameu003e` as the class name., Based on the surrounding code and the class name `OIDMap$OIDInfo`, it is highly probable that the `className` field stores the fully qualified name of a class related to OIDs (Object Identifiers) or X.509 certificates., Given the context of `sun.security.x509`, the loaded classes are likely to be implementations of `java.security.cert.Extension` or other related security classes., Without further information about how `className` is populated, we can only make educated guesses based on common patterns in such security libraries., Here are some potential fully-qualified class names, assuming they are related to X.509 extensions or other security components that might be dynamically loaded:, *   `sun.security.x509.AuthorityInfoAccessExtension`, *   `sun.security.x509.AuthorityKeyIdentifierExtension`, *   `sun.security.x509.BasicConstraintsExtension`, *   `sun.security]
+[arm2-llm] llm-field at <java.util.concurrent.CompletableFuture: void <clinit>()>@30 → [result]
+[arm2-llm] llm-field at <java.util.concurrent.CompletableFuture: void <clinit>()>@34 → [stack]
+[arm2-llm] llm-field at <java.util.concurrent.CompletableFuture: void <clinit>()>@39 → [next]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@7 → [ctl]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@12 → [runState]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@17 → [stealCounter]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@23 → [parkBlocker]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@29 → [top]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@34 → [qlock]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@39 → [scanState]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@44 → [parkBlocker]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@49 → [scanState]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool: void <clinit>()>@54 → [currentJoin]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinTask: void <clinit>()>@14 → [status]
+[arm2-llm] llm-class at <javax.crypto.CryptoPolicyParser: java.security.spec.AlgorithmParameterSpec getInstance(java.lang.String,java.lang.Integer[])>@2 → [java.security.spec.DSAParameterSpec, java.security.spec.ECGenParameterSpec, java.security.spec.RSAKeyGenParameterSpec]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedDeque: void <clinit>()>@17 → [head]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedDeque: void <clinit>()>@22 → [tail]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedDeque$Node: void <clinit>()>@5 → [prev]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedDeque$Node: void <clinit>()>@10 → [item]
+[arm2-llm] llm-field at <java.util.concurrent.ConcurrentLinkedDeque$Node: void <clinit>()>@15 → [next]
+[arm2-llm] llm-class at <sun.management.ExtendedPlatformComponent: java.lang.management.PlatformManagedObject getFlightRecorderBean()>@3 → [jdk.management.jfr.internal.FlightRecorderMXBeanProvider]
+[arm2-llm] llm-method at <org.apache.logging.log4j.util.Base64Util: void <clinit>()>@10 → [getEncoder]
+[arm2-llm] llm-method at <org.apache.logging.log4j.util.Base64Util: void <clinit>()>@18 → [encodeToString]
+[arm2-llm] llm-method at <org.apache.logging.log4j.util.Base64Util: void <clinit>()>@26 → [printBase64Binary]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool$WorkQueue: void <clinit>()>@8 → [top]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool$WorkQueue: void <clinit>()>@13 → [qlock]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinPool$WorkQueue: void <clinit>()>@18 → [currentSteal]
+[arm2-llm] llm-class at <java.security.Provider$EngineDescription: java.lang.Class getConstructorParameterClass()>@3 → [java.lang.Object]
+[arm2-llm] llm-field at <java.util.concurrent.CountedCompleter: void <clinit>()>@5 → [pending]
+[arm2-llm] llm-class at <java.security.Provider$Service: java.lang.Class getImplClass()>@14 → [java.security.Provider$Service]
+[arm2-llm] llm-class at <java.security.Provider$Service: java.lang.Class getImplClass()>@17 → [The `Class.forName` call at site `14@L1634` loads the class specified by `this.u003cjava.security.Provider$Service: java.lang.String classNameu003e`., Based on the surrounding code, the `className` field is used to store the fully-qualified name of a class that implements a service provided by a `java.security.Provider`. The `getImplClass()` method is designed to retrieve the `Class` object for this implementation., Given the context of `java.security.Provider$Service`, the `className` field will hold the name of a class that provides a specific cryptographic service (e.g., a `Cipher`, `MessageDigest`, `KeyFactory`, `Signature`, etc.)., Without specific string fragments for `className`, we rely on the common naming conventions for such classes in the Java Security API. These classes typically reside within the `java.security` or `javax.crypto` packages, or within provider-specific packages (e.g., `sun.security.rsa`, `org.bouncycastle`)., The method checks if the loaded class is `public` using `Modifier.isPublic()`., Here are some examples of classes that could be loaded,]
+[arm2-llm] llm-class at <sun.security.provider.PolicyFile: java.security.Permission getInstance(java.lang.String,java.lang.String,java.lang.String)>@3 → [java.security.AllPermission, java.security.AudioPermission, java.security.AuthPermission, java.security.AWTPermission, java.security.FilePermission, java.security.NetPermission, java.security.PrivateCredentialPermission, java.security.PropertyPermission, java.security.ReflectPermission, java.security.RuntimePermission, java.security.SecurityPermission, java.security.SerializablePermission, java.security.SocketPermission, java.security.SSLPermission, javax.security.auth.PrivateCredentialPermission, javax.security.auth.kerberos.DelegationPermission, javax.security.auth.kerberos.ServicePermission, javax.sound.sampled.AudioPermission, javax.swing.AWTPermission, javax.net.ssl.SSLPermission]
+[arm2-llm] llm-class at <sun.security.provider.PolicyFile: void addPermissions(java.security.Permissions,java.security.CodeSource,java.security.Principal[],sun.security.provider.PolicyFile$PolicyEntry)>@107 → [java.security.Principal]
+[arm2-llm] llm-class at <sun.security.jca.ProviderConfig$2: java.security.Provider run()>@17 → [java.security.Provider]
+[arm2-llm] llm-class at <sun.security.jca.ProviderConfig$2: java.security.Provider run()>@21 → [sun.security.pkcs11.SunPKCS11, sun.security.rsa.SunRsaSign, sun.security.provider.Sun, com.sun.net.ssl.internal.ssl.Provider, com.sun.crypto.provider.SunJCE, sun.security.jgss.SunJGSS, com.sun.security.sasl.Provider, org.jcp.xml.dsig.internal.dom.XMLDSigRI, sun.security.smartcardio.SunPCSC, sun.security.mscapi.SunMSCAPI]
+[arm2-llm] llm-class at <java.security.Provider$Service: java.lang.Class getKeyClass(java.lang.String)>@0 → [java.security.Key, java.security.cert.Certificate, java.security.cert.CertPath, java.security.AlgorithmParameters, java.security.spec.AlgorithmParameterSpec, java.security.KeyStore$Entry, java.security.Policy$Parameters, java.security.spec.ECField, java.security.spec.ECPoint, java.security.interfaces.ECKey, java.security.interfaces.RSAKey, java.security.interfaces.DSAKey, java.security.interfaces.DSAParams, java.security.interfaces.RSAMultiPrimePrivateCrtKey, java.security.interfaces.RSAPrivateCrtKey, java.security.interfaces.RSAPrivateKey, java.security.interfaces.RSAPublicKey, java.security.interfaces.DSAPrivateKey, java.security.interfaces.DSAPublicKey, java.security.interfaces.ECPrivateKey, java.security.interfaces.ECPublicKey, java.security.interfaces.XECKey, java.security.interfaces.EdECKey, java.security.interfaces.EdECPrivateKey, java.security.interfaces.EdECPublicKey, java.security.interfaces.XECPrivateKey, java.security]
+[arm2-llm] llm-class at <java.security.Provider$Service: java.lang.Class getKeyClass(java.lang.String)>@7 → [java.security.Key, java.security.PrivateKey, java.security.PublicKey, javax.crypto.SecretKey]
+[arm2-llm] llm-class at <java.lang.management.PlatformComponent: java.lang.Class getMXBeanInterface()>@4 → [java.lang.management.BufferPoolMXBean, java.lang.management.ClassLoadingMXBean, java.lang.management.CompilationMXBean, java.lang.management.GarbageCollectorMXBean, java.lang.management.MemoryManagerMXBean, java.lang.management.MemoryMXBean, java.lang.management.OperatingSystemMXBean, java.lang.management.RuntimeMXBean, java.lang.management.ThreadMXBean]
+[arm2-llm] llm-class at <org.apache.logging.log4j.core.config.plugins.util.ResolverUtil: void addIfMatching(org.apache.logging.log4j.core.config.plugins.util.ResolverUtil$Test,java.lang.String)>@17 → [org.apache.logging.log4j.core.config.plugins.util.ResolverUtil]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinWorkerThread: void <clinit>()>@14 → [threadLocals]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinWorkerThread: void <clinit>()>@19 → [inheritableThreadLocals]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinWorkerThread: void <clinit>()>@24 → [inheritedAccessControlContext]
+[arm2-llm] llm-class at <jdk.internal.platform.Metrics: jdk.internal.platform.Metrics systemMetrics()>@2 → [jdk.internal.platform.cgroupv1.Metrics]
+[arm2-llm] llm-class at <com.sun.naming.internal.ResourceManager$AppletParameter: java.lang.Class getClass(java.lang.String)>@1 → [```, java.lang.Object, ```]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinWorkerThread$InnocuousForkJoinWorkerThread: java.lang.ThreadGroup createThreadGroup()>@4 → [group]
+[arm2-llm] llm-field at <java.util.concurrent.ForkJoinWorkerThread$InnocuousForkJoinWorkerThread: java.lang.ThreadGroup createThreadGroup()>@7 → [parent]
+[arm2-llm] llm-field at <java.util.concurrent.FutureTask: void <clinit>()>@5 → [state]
+[arm2-llm] llm-field at <java.util.concurrent.FutureTask: void <clinit>()>@10 → [runner]
+[arm2-llm] llm-field at <java.util.concurrent.FutureTask: void <clinit>()>@15 → [waiters]
+[arm2-llm] llm-class at <sun.reflect.misc.MethodUtil: java.lang.Class getTrampolineClass()>@4 → [sun.reflect.misc.Trampoline]
+[arm2-llm] llm-method at <com.sun.naming.internal.ResourceManager$AppletParameter: java.lang.reflect.Method getMethod(java.lang.Class,java.lang.String,java.lang.Class[])>@1 → [getValue]
+[arm2-llm] llm-method at <sun.misc.ProxyGenerator: void <clinit>()>@19 → [java.lang.Object.hashCode]
+[arm2-llm] llm-method at <sun.misc.ProxyGenerator: void <clinit>()>@26 → [equals]
+[arm2-llm] llm-method at <sun.misc.ProxyGenerator: void <clinit>()>@31 → [toString]
+[arm2-llm] llm-class at <java.util.logging.LogManager$Beans: java.lang.Class getClass(java.lang.String)>@3 → [java.beans.BeanInfo, java.beans.SimpleBeanInfo, java.beans.PropertyEditor, java.beans.PropertyEditorManager, java.beans.PropertyChangeListener, java.beans.VetoableChangeListener, java.beans.AppletInitializer, java.beans.Customizer, java.beans.EventHandler, java.beans.PersistenceDelegate, java.beans.Encoder, java.beans.Decoder, java.beans.XMLDecoder, java.beans.XMLEncoder, java.beans.Statement, java.beans.Expression, java.beans.IndexedPropertyDescriptor, java.beans.MethodDescriptor, java.beans.ParameterDescriptor, java.beans.EventSetDescriptor, java.beans.FeatureDescriptor, java.beans.PropertyDescriptor, java.beans.Introspector, java.beans.Beans]
+[arm2-llm] llm-class at <java.util.logging.LogManager: void readConfiguration(java.io.InputStream)>@13 → [java.util.logging.ConsoleHandler, java.util.logging.FileHandler, java.util.logging.StreamHandler, java.util.logging.SocketHandler, java.util.logging.MemoryHandler]
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@5 → [javax.xml.parsers.SAXParserFactory, javax.xml.parsers.DocumentBuilderFactory, javax.xml.transform.TransformerFactory, javax.xml.validation.SchemaFactory, javax.xml.xpath.XPathFactory]
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@13 → [javax.xml.parsers.DocumentBuilderFactory, javax.xml.parsers.SAXParserFactory, javax.xml.transform.TransformerFactory, javax.xml.validation.SchemaFactory, javax.xml.xpath.XPathFactory]
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@15 → [javax.xml.parsers.DocumentBuilderFactory, javax.xml.parsers.SAXParserFactory, javax.xml.transform.TransformerFactory, javax.xml.validation.SchemaFactory, javax.xml.xpath.XPathFactory]
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@21 → [javax.xml.parsers.DocumentBuilderFactory, javax.xml.parsers.SAXParserFactory, javax.xml.transform.TransformerFactory, javax.xml.validation.SchemaFactory, javax.xml.xpath.XPathFactory]
+[arm2-llm] llm-class at <java.util.logging.LogManager$5: java.lang.Object run()>@10 → [java.util.logging.ConsoleHandler, java.util.logging.FileHandler, java.util.logging.StreamHandler, java.util.logging.SocketHandler, java.util.logging.MemoryHandler]
+[arm2-llm] llm-class at <com.sun.naming.internal.VersionHelper12: java.lang.Class loadClass(java.lang.String,boolean,java.lang.ClassLoader)>@0 → [```, com.sun.naming.internal.VersionHelper12, ```]
+[arm2-llm] llm-class at <javax.xml.validation.SchemaFactoryFinder: java.lang.Class createClass(java.lang.String)>@14 → [com.sun.org.apache.xerces.internal.jaxp.SchemaFactoryImpl]
+[arm2-llm] llm-class at <javax.xml.validation.SchemaFactoryFinder: java.lang.Class createClass(java.lang.String)>@16 → [com.sun.org.apache.xerces.internal.jaxp.SchemaFactoryImpl]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object initializeJmDns()>@12 → [create]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object createJmDnsVersion3()>@4 → [create]
+[arm2-llm] llm-class at <org.apache.logging.log4j.core.config.plugins.util.PluginRegistry: java.util.Map decodeCacheFiles(java.lang.ClassLoader)>@47 → [org.apache.logging.log4j.core.config.plugins.PluginType]
+[arm2-llm] llm-class at <javax.management.openmbean.OpenMBeanAttributeInfoSupport: java.lang.Object convertFromStringArray(java.lang.Object,javax.management.openmbean.OpenType)>@24 → [java.lang.String[]]
+[arm2-llm] llm-method at <java.util.logging.LogManager$Beans: java.lang.reflect.Method getMethod(java.lang.Class,java.lang.String,java.lang.Class[])>@3 → [getMethod]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object advertise(java.util.Map)>@53 → [createServiceInfo]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object advertise(java.util.Map)>@66 → [registerService]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object buildServiceInfoVersion3(java.lang.String,int,java.lang.String,java.util.Map)>@22 → [create]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: void unadvertise(java.lang.Object)>@9 → [unregisterService]
+[arm2-llm] llm-class at <java.util.logging.LogManager: java.util.logging.Filter getFilterProperty(java.lang.String,java.util.logging.Filter)>@3 → [java.util.logging.Filter]
+[arm2-llm] llm-class at <java.util.logging.LogManager: java.util.logging.Formatter getFormatterProperty(java.lang.String,java.util.logging.Formatter)>@3 → [java.util.logging.SimpleFormatter, java.util.logging.XMLFormatter]
+[arm2-llm] llm-class at <com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory: com.sun.jmx.mbeanserver.MXBeanMapping makeArrayOrCollectionMapping(java.lang.reflect.Type,java.lang.reflect.Type,com.sun.jmx.mbeanserver.MXBeanMappingFactory)>@24 → [java.lang.Object[], java.lang.Boolean[], java.lang.Byte[], java.lang.Character[], java.lang.Short[], java.lang.Integer[], java.lang.Long[], java.lang.Float[], java.lang.Double[], java.lang.String[], java.lang.Void[]]
+[arm2-llm] llm-class at <javax.management.openmbean.OpenMBeanAttributeInfoSupport: java.lang.Object convertFromStringArray(java.lang.Object,javax.management.openmbean.OpenType)>@34 → [java.lang.String]
+[arm2-llm] llm-class at <com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory: void <clinit>()>@63 → [java.lang.Boolean, java.lang.Byte, java.lang.Character, java.lang.Double, java.lang.Float, java.lang.Integer, java.lang.Long, java.lang.Short, java.lang.String, java.math.BigDecimal, java.math.BigInteger, java.util.Date, javax.management.ObjectName, javax.management.openmbean.CompositeData, javax.management.openmbean.TabularData]
+[arm2-llm] llm-class at <com.sun.jmx.mbeanserver.MXBeanMapping: java.lang.Class makeOpenClass(java.lang.reflect.Type,javax.management.openmbean.OpenType)>@11 → [java.lang.Object, java.lang.Boolean, java.lang.Byte, java.lang.Character, java.lang.Short, java.lang.Integer, java.lang.Long, java.lang.Float, java.lang.Double, java.lang.String, java.math.BigDecimal, java.math.BigInteger, java.util.Date, javax.management.ObjectName]
+[arm2-llm] llm-method at <javax.management.openmbean.OpenMBeanAttributeInfoSupport: java.lang.Object convertFromString(java.lang.String,javax.management.openmbean.OpenType)>@17 → [valueOf]
+[arm2-llm] llm-field at <com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory: void <clinit>()>@77 → [TYPE]
+[arm2-llm] llm-method at <sun.management.GcInfoCompositeData: void <clinit>()>@24 → [getMemoryUsageBeforeGc]
+[arm2-llm] llm-class at <javax.management.openmbean.OpenMBeanAttributeInfoSupport: java.lang.Object convertFromString(java.lang.String,javax.management.openmbean.OpenType)>@4 → [java.lang.Boolean, java.lang.Byte, java.lang.Character, java.lang.Double, java.lang.Float, java.lang.Integer, java.lang.Long, java.lang.Short, java.lang.String]
+[arm2-llm] llm-class at <sun.reflect.generics.factory.CoreReflectionFactory: java.lang.reflect.Type makeNamedType(java.lang.String)>@2 → [java.lang.Object, java.io.Serializable, java.lang.Comparable]
+[arm2-llm] subtype expansion of java.io.Serializable exceeded κ=64 at <sun.reflect.generics.factory.CoreReflectionFactory: java.lang.reflect.Type makeNamedType(java.lang.String)>@2; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] subtype expansion of java.lang.Comparable exceeded κ=64 at <sun.reflect.generics.factory.CoreReflectionFactory: java.lang.reflect.Type makeNamedType(java.lang.String)>@2; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.tools.picocli.CommandLine$Help$Ansi: boolean calcTTY()>@10 → [getConsole]
+[arm2-llm] llm-class at <com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@21 → [The `className` variable is constrained by two `startsWith` checks:, 1. `className.startsWith("com.sun.org.apache")`, 2. `className.startsWith("com.sun.xml.internal")`, These checks are mutually exclusive due to the `if` conditions. If `className` starts with "com.sun.org.apache", the code proceeds. If it doesn't, it then checks if it starts with "com.sun.xml.internal". If neither is true, `cl` is set to `null`, which leads to the `Class.forName(className, %ci0, %v18)` call., Therefore, the `className` must start with either "com.sun.org.apache" or "com.sun.xml.internal"., Given these constraints, the possible fully-qualified class names are:, com.sun.org.apache.*, com.sun.xml.internal.*]
+[arm2-llm] llm-class at <com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@23 → [The `className` variable is checked to start with either "com.sun.org.apache" or "com.sun.xml.internal". This suggests that the loaded classes will belong to these packages., Therefore, the possible fully-qualified names of the classes it may load are:, com.sun.org.apache.*, com.sun.xml.internal.*]
+[arm2-llm] llm-class at <com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@30 → [com.sun.org.apache.xerces.internal.utils.ObjectFactory]
+[arm2-llm] llm-class at <com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@33 → [com.sun.org.apache.xerces.internal.utils.ObjectFactory]
+[arm2-llm] llm-class at <sun.management.MappedMXBeanType$ArrayMXBeanType: void <init>(java.lang.Class)>@40 → [java.lang.Object, java.lang.Boolean, java.lang.Character, java.lang.Byte, java.lang.Short, java.lang.Integer, java.lang.Long, java.lang.Float, java.lang.Double, java.lang.String, java.lang.Void, java.lang.Class, java.lang.reflect.Array, java.lang.reflect.Constructor, java.lang.reflect.Field, java.lang.reflect.Method, java.lang.Package, java.lang.Process, java.lang.ProcessBuilder, java.lang.Runtime, java.lang.SecurityManager, java.lang.StackTraceElement, java.lang.System, java.lang.Thread, java.lang.ThreadGroup, java.lang.Throwable, java.lang.ref.Reference, java.lang.ref.PhantomReference, java.lang.ref.SoftReference, java.lang.ref.WeakReference, java.lang.reflect.AccessibleObject, java.lang.reflect.Member, java.lang.reflect.Modifier, java.lang.reflect.Proxy, java.io.File, java.io.FileDescriptor, java.io.FileInputStream, java.]
+[arm2-llm] llm-class at <sun.management.MappedMXBeanType$GenericArrayMXBeanType: void <init>(java.lang.reflect.GenericArrayType)>@44 → [java.lang.Object, java.lang.Boolean, java.lang.Character, java.lang.Byte, java.lang.Short, java.lang.Integer, java.lang.Long, java.lang.Float, java.lang.Double, java.lang.Void]
+[arm2-llm] llm-class at <sun.management.MappedMXBeanType: void <clinit>()>@77 → [javax.management.openmbean.CompositeData]
+[arm2-llm] llm-class at <org.xml.sax.helpers.NewInstance: java.lang.Object newInstance(java.lang.ClassLoader,java.lang.String)>@12 → [com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl, com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl, com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl, com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl, com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl, com.sun.org.apache.xerces.internal.jaxp.validation.XMLSchemaFactory, com.sun.org.apache.xerces.internal.jaxp.validation.XSGrammarPoolContainer, com.sun.org.apache.xerces.internal.jaxp.validation.XSGrammarPool, com.sun.org.apache.xerces.internal.jaxp.validation.XSGrammarPoolContainer, com.sun.org.apache.xerces.internal.jaxp.validation.XSGrammarPoolContainer, com.sun.org.apache.xerces.internal.jaxp.validation.XSGrammarPoolContainer, com.sun.]
+[arm2-llm] llm-class at <org.xml.sax.helpers.NewInstance: java.lang.Object newInstance(java.lang.ClassLoader,java.lang.String)>@14 → [com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl, com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl, com.sun.org.apache.xerces.internal.jaxp.datatype.DatatypeFactoryImpl, com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl, com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl, com.sun.org.apache.xerces.internal.jaxp.xpath.XPathFactoryImpl, com.sun.org.apache.xerces.internal.jaxp.validation.XMLSchemaFactory, com.sun.org.apache.xerces.internal.jaxp.validation.XSDSchemaFactory, com.sun.org.apache.xerces.internal.jaxp.validation.XSDValidator, com.sun.org.apache.xerces.internal.jaxp.validation.ValidatorImpl, com.sun.org.apache.xerces.internal.jaxp.validation.ValidatorHandlerImpl, com.sun.org.apache.xerces.internal.impl.xs.XMLSchema]
+[arm2-llm] llm-field at <sun.management.MappedMXBeanType: void <clinit>()>@93 → [TYPE]
+[arm2-llm] llm-class at <sun.management.MappedMXBeanType$ListMXBeanType: void <init>(java.lang.reflect.ParameterizedType)>@64 → [java.lang.Object, java.lang.Boolean, java.lang.Byte, java.lang.Character, java.lang.Short, java.lang.Integer, java.lang.Long, java.lang.Float, java.lang.Double, java.lang.String, java.math.BigDecimal, java.math.BigInteger, java.util.Date, javax.management.ObjectName]
+[arm2-llm] llm-method at <sun.management.MappedMXBeanType$CompositeDataMXBeanType$1: java.lang.reflect.Method run()>@8 → [from]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferQueue: void <clinit>()>@5 → [head]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferQueue: void <clinit>()>@10 → [tail]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferQueue: void <clinit>()>@15 → [cleanMe]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferStack: void <clinit>()>@5 → [head]
+[arm2-llm] llm-class at <javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@5 → [javax.xml.transform.TransformerFactory, javax.xml.transform.SourceLocator, javax.xml.transform.Templates, javax.xml.transform.Result, javax.xml.transform.Source, javax.xml.transform.URIResolver, javax.xml.transform.ErrorListener, javax.xml.transform.Transformer, javax.xml.transform.sax.SAXTransformerFactory, javax.xml.transform.sax.TemplatesHandler, javax.xml.transform.sax.TransformerHandler, javax.xml.transform.sax.SAXResult, javax.xml.transform.dom.DOMLocator, javax.xml.transform.dom.DOMResult, javax.xml.transform.dom.DOMSource, javax.xml.transform.stax.StAXResult, javax.xml.transform.stax.StAXSource, javax.xml.transform.stream.StreamResult, javax.xml.transform.stream.StreamSource]
+[arm2-llm] subtype expansion of javax.xml.transform.SourceLocator exceeded κ=64 at <javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@5; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] llm-class at <javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@13 → [javax.xml.transform.TransformerFactory, javax.xml.transform.SourceLocator, javax.xml.transform.Templates, javax.xml.transform.URIResolver, javax.xml.transform.ErrorListener, javax.xml.transform.Result, javax.xml.transform.Source, javax.xml.transform.Transformer, javax.xml.transform.TransformerConfigurationException, javax.xml.transform.TransformerException, javax.xml.transform.TransformerFactoryConfigurationError, javax.xml.transform.dom.DOMLocator, javax.xml.transform.dom.DOMResult, javax.xml.transform.dom.DOMSource, javax.xml.transform.sax.SAXResult, javax.xml.transform.sax.SAXSource, javax.xml.transform.sax.SAXTransformerFactory, javax.xml.transform.sax.TemplatesHandler, javax.xml.transform.sax.TransformerHandler, javax.xml.transform.stax.StAXResult, javax.xml.transform.stax.StAXSource, javax.xml.transform.stream.StreamResult, javax.xml.transform.stream.StreamSource]
+[arm2-llm] subtype expansion of javax.xml.transform.SourceLocator exceeded κ=64 at <javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@13; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] llm-class at <javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@15 → [javax.xml.transform.TransformerFactory, javax.xml.transform.sax.SAXTransformerFactory, javax.xml.transform.dom.DOMResult, javax.xml.transform.dom.DOMSource, javax.xml.transform.stream.StreamResult, javax.xml.transform.stream.StreamSource]
+[arm2-llm] llm-class at <javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@21 → [javax.xml.transform.TransformerFactory, javax.xml.transform.sax.SAXTransformerFactory, javax.xml.transform.dom.DOMResult, javax.xml.transform.dom.DOMSource, javax.xml.transform.stream.StreamResult, javax.xml.transform.stream.StreamSource]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferQueue$QNode: void <clinit>()>@5 → [item]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferQueue$QNode: void <clinit>()>@10 → [next]
+[arm2-llm] llm-class at <com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaConstructor$AnnotationHelper: void findConstructorPropertiesClass()>@4 → [java.beans.ConstructorProperties]
+[arm2-llm] llm-class at <com.sun.org.apache.xml.internal.serializer.OutputPropertiesFactory: java.lang.Class findAccessControllerClass()>@1 → [java.security.AccessController]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferStack$SNode: void <clinit>()>@5 → [match]
+[arm2-llm] llm-field at <java.util.concurrent.SynchronousQueue$TransferStack$SNode: void <clinit>()>@10 → [next]
+[arm2-llm] llm-method at <com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaFrom: java.lang.String applicable(java.lang.reflect.Method[])>@7 → [from]
+[arm2-llm] llm-method at <com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaSetters: java.lang.String applicable(java.lang.reflect.Method[])>@26 → [set*]
+[arm2-llm] llm-method at <com.sun.org.apache.xerces.internal.impl.XMLEntityManager: void setInstanceFollowRedirects(java.net.HttpURLConnection,boolean)>@7 → [setInstanceFollowRedirects]
+[arm2-llm] llm-class at <org.apache.logging.log4j.util.ProcessIdUtil: java.lang.String getProcessId()>@2 → [java.lang.management.ManagementFactory]
+[arm2-llm] llm-class at <org.apache.logging.log4j.util.ProcessIdUtil: java.lang.String getProcessId()>@7 → [java.lang.management.RuntimeMXBean]
+[arm2-llm] llm-method at <org.apache.logging.log4j.util.ProcessIdUtil: java.lang.String getProcessId()>@5 → [getRuntimeMXBean]
+[arm2-llm] llm-method at <org.apache.logging.log4j.util.ProcessIdUtil: java.lang.String getProcessId()>@10 → [getName]
+[arm2-llm] llm-field at <java.net.InetSocketAddress: void <clinit>()>@24 → [holder]
+[arm2-llm] llm-class at <javax.net.ssl.SSLSocketFactory: javax.net.SocketFactory getDefault()>@15 → [javax.net.ssl.SSLSocketFactory]
+[arm2-llm] llm-class at <javax.net.ssl.SSLSocketFactory: javax.net.SocketFactory getDefault()>@20 → [javax.net.ssl.SSLSocketFactory]
+[arm2-llm] llm-class at <java.net.ProxySelector: void <clinit>()>@2 → [sun.net.spi.DefaultProxySelector]
+[arm2-llm] llm-class at <java.net.DefaultDatagramSocketImplFactory: void <clinit>()>@16 → [java.net.DatagramSocketImpl]
+[arm2-llm] llm-class at <javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@5 → [javax.xml.stream.XMLInputFactory, javax.xml.stream.XMLOutputFactory, javax.xml.stream.XMLEventFactory]
+[arm2-llm] llm-class at <javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@13 → [javax.xml.stream.XMLInputFactory, javax.xml.stream.XMLOutputFactory, javax.xml.stream.XMLEventFactory]
+[arm2-llm] llm-class at <javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@15 → [javax.xml.stream.XMLInputFactory, javax.xml.stream.XMLOutputFactory, javax.xml.stream.XMLEventFactory]
+[arm2-llm] llm-class at <javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>@21 → [javax.xml.stream.XMLInputFactory, javax.xml.stream.XMLOutputFactory, javax.xml.stream.XMLEventFactory]
+[arm2-llm] llm-class at <com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@24 → [com.sun.org.apache.xalan.internal.utils.ObjectFactory]
+[arm2-llm] llm-class at <com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@26 → [com.sun.org.apache.xalan.internal.utils.ObjectFactory]
+[arm2-llm] llm-class at <com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@33 → [com.sun.org.apache.xalan.internal.utils.ObjectFactory]
+[arm2-llm] llm-class at <com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>@36 → [com.sun.org.apache.xalan.internal.utils.ObjectFactory]
+[arm2-llm] llm-class at <sun.nio.ch.Util$5: java.lang.Void run()>@6 → [java.nio.DirectByteBufferR]
+[arm2-llm] llm-class at <sun.nio.ch.Util$4: java.lang.Void run()>@6 → [java.nio.DirectByteBuffer]
+[arm2-llm] llm-field at <java.lang.invoke.MethodType: void <clinit>()>@22 → [rtype]
+[arm2-llm] llm-field at <java.lang.invoke.MethodType: void <clinit>()>@28 → [ptypes]
+[arm2-llm] llm-field at <java.lang.invoke.MethodHandle: void <clinit>()>@13 → [form]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@23 → [internalMemberName]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@33 → [internalMemberNameEnsureInit]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@43 → [ensureInitialized]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@53 → [fieldOffset]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@63 → [checkBase]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@73 → [internalMemberName, internalMemberNameEnsureInit]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@83 → [staticOffset]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@95 → [checkCast]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@106 → [allocateInstance]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@117 → [constructorMethod]
+[arm2-llm] llm-method at <java.lang.invoke.DirectMethodHandle$Lazy: void <clinit>()>@129 → [checkReceiver]
+[arm2-llm] llm-method at <java.lang.invoke.DelegatingMethodHandle: void <clinit>()>@13 → [getTarget]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.appender.MemoryMappedFileManager$1: java.lang.Object run()>@6 → [cleaner]
+[arm2-llm] llm-field at <java.lang.invoke.BoundMethodHandle$Factory: java.lang.invoke.BoundMethodHandle$SpeciesData getSpeciesDataFromConcreteBMHClass(java.lang.Class)>@1 → [SPECIES_DATA]
+[arm2-llm] llm-method at <java.lang.invoke.MethodHandleImpl$Lazy: void <clinit>()>@19 → [checkSpreadArgument]
+[arm2-llm] llm-method at <java.lang.invoke.MethodHandleImpl$Lazy: void <clinit>()>@34 → [guardWithCatch]
+[arm2-llm] llm-method at <java.lang.invoke.MethodHandleImpl$Lazy: void <clinit>()>@43 → [throwException]
+[arm2-llm] llm-method at <java.lang.invoke.MethodHandleImpl$Lazy: void <clinit>()>@54 → [profileBoolean]
+[arm2-llm] llm-method at <java.lang.invoke.Invokers: void <clinit>()>@21 → [checkExactType]
+[arm2-llm] llm-method at <java.lang.invoke.Invokers: void <clinit>()>@33 → [checkGenericType]
+[arm2-llm] llm-method at <java.lang.invoke.Invokers: void <clinit>()>@43 → [getCallSiteTarget]
+[arm2-llm] llm-method at <java.lang.invoke.Invokers: void <clinit>()>@53 → [checkCustomized]
+[arm2-llm] llm-method at <org.apache.logging.log4j.core.appender.MemoryMappedFileManager$1: java.lang.Object run()>@14 → [clean]
+[arm2-llm] llm-class at <sun.invoke.util.BytecodeDescriptor: java.lang.Class parseSig(java.lang.String,int[],int,java.lang.ClassLoader)>@22 → [No classes can be loaded. The `Class.forName` method is not used in the provided code. The code uses `ClassLoader.loadClass` instead.]
+[arm2-llm] llm-class at <jdk.internal.org.objectweb.asm.ClassWriter: java.lang.String getCommonSuperClass(java.lang.String,java.lang.String)>@6 → [java.lang.Object]
+[arm2-llm] llm-class at <jdk.internal.org.objectweb.asm.ClassWriter: java.lang.String getCommonSuperClass(java.lang.String,java.lang.String)>@10 → [java.lang.Object]
+[arm2-llm] llm-class at <sun.reflect.misc.ReflectUtil: java.lang.Class forName(java.lang.String)>@1 → [java.lang.Object, java.lang.String, java.lang.Integer, java.lang.Long, java.lang.Double, java.lang.Float, java.lang.Boolean, java.lang.Character, java.lang.Byte, java.lang.Short, java.lang.Void]
+[arm2-llm] llm-field at <java.lang.invoke.MethodHandleNatives: boolean verifyConstants()>@13 → [CONV_OP_LIMIT]
+[arm2-llm] llm-class at <java.lang.SystemClassLoaderAction: java.lang.ClassLoader run()>@8 → [java.system.class.loader]
+[arm2-llm] llm-class at <java.util.concurrent.ForkJoinPool: java.util.concurrent.ForkJoinPool makeCommonPool()>@21 → [java.util.concurrent.ForkJoinPool.common.exceptionHandler]
+[arm2-llm] llm-class at <java.nio.file.FileSystems$DefaultFileSystemHolder: java.nio.file.spi.FileSystemProvider getDefaultProvider()>@13 → [sun.nio.fs.DefaultFileSystemProvider]
+[arm2-llm] llm-class at <javax.management.MBeanServerFactory: java.lang.Class loadBuilderClass(java.lang.String)>@3 → [javax.management.remote.JMXConnectorServerBuilder, javax.management.remote.JMXConnectorBuilder]
+[arm2-llm] llm-class at <sun.management.DiagnosticCommandImpl$Wrapper: void <init>(sun.management.DiagnosticCommandImpl,java.lang.String,java.lang.String,sun.management.DiagnosticCommandInfo)>@13 → [java.security.AllPermission, java.security.AudioPermission, java.security.AuthPermission, java.security.AWTPermission, java.security.FilePermission, java.security.NetPermission, java.security.PrivateCredentialPermission, java.security.PropertyPermission, java.security.RuntimePermission, java.security.SecurityPermission, java.security.SerializablePermission, java.sql.SQLPermission, java.util.logging.LoggingPermission, java.util.PropertyPermission, javax.management.MBeanPermission, javax.management.MBeanServerPermission, javax.management.remote.JMXPermission, javax.net.ssl.SSLPermission, javax.security.auth.PrivateCredentialPermission, javax.security.auth.kerberos.ServicePermission, javax.sound.sampled.AudioPermission, javax.sound.sampled.ClipPermission, javax.sound.sampled.LinePermission, javax.sound.sampled.MixerPermission, javax.sound.sampled.PortPermission, javax.sound.sampled.SoundbankPermission, javax.sound.sampled.DataLine.Info, javax.sound.sampled.Port.Info, javax.sound.sampled.SourceDataLine.Info, javax.sound.sampled.TargetData]
+[arm2-llm] llm-class at <java.util.logging.LogManager$1: java.util.logging.LogManager run()>@6 → [java.util.logging.manager]
+[arm2-llm] llm-class at <java.util.logging.LogManager$1: java.util.logging.LogManager run()>@13 → [java.util.logging.LogManager]
+[arm2-llm] llm-class at <sun.misc.Launcher: void <init>()>@36 → [java.security.manager]
+[arm2-llm] llm-class at <java.util.logging.LogManager: void readConfiguration()>@5 → [java.util.logging.config.class]
+[arm2-llm] llm-class at <java.util.logging.LogManager: void readConfiguration()>@11 → [java.util.logging.config.class]
+[arm2-llm] llm-class at <org.apache.logging.log4j.core.impl.ThrowableProxyHelper: java.lang.Class loadClass(java.lang.ClassLoader,java.lang.String)>@1 → [java.lang.Object]
+[arm2-llm] llm-class at <org.apache.logging.log4j.core.util.Loader: java.lang.Class loadClass(java.lang.String,java.lang.ClassLoader)>@1 → [java.lang.Object]
+[arm2-llm] llm-method at <com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory$CompositeBuilderViaProxy: java.lang.String applicable(java.lang.reflect.Method[])>@20 → [clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait]
+[arm2-llm] llm-class at <java.util.concurrent.ForkJoinPool: java.util.concurrent.ForkJoinPool makeCommonPool()>@16 → [java.util.concurrent.ForkJoinPool.common.threadFactory]
+[Pointer analysis] elapsed time: 128.27s; CPU usage: start 13.39%, peak 27.27%, end 1.31%; Memory usage: start 293MB, peak 1085MB, end 1016MB
+Unsound reflective calls:
+[Method.invoke]<org.apache.logging.log4j.core.config.plugins.util.PluginBuilder: java.lang.Object build()>[42@L136] %v34 = invokevirtual factory.invoke($null, params)
+[Method.invoke]<org.apache.logging.log4j.core.config.plugins.util.PluginBuilder: org.apache.logging.log4j.core.util.Builder createBuilder(java.lang.Class)>[19@L157] %v18 = invokevirtual method.invoke($null, %v16)
+[Method.invoke]<org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object createJmDnsVersion3()>[6@L148] %v8 = invokevirtual jmDNSCreateMethod.invoke($null, %v7)
+[Method.invoke]<org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object buildServiceInfoVersion3(java.lang.String,int,java.lang.String,java.util.Map)>[33@L176] %v27 = invokevirtual %v21.invoke($null, %v22)
+[Method.invoke]<org.apache.logging.log4j.core.pattern.PatternParser: org.apache.logging.log4j.core.pattern.PatternConverter createConverter(java.lang.String,java.lang.StringBuilder,java.util.Map,java.util.List,boolean,boolean)>[156@L591] newObj = invokevirtual newInstanceMethod.invoke($null, parms)
+[Method.invoke]<org.apache.logging.log4j.util.Base64Util: void <clinit>()>[12@L38] %v13 = invokevirtual method.invoke($null, %v12)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: void <clinit>()>[14@L66] o = invokevirtual getCallerClass.invoke($null, %v11)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: void <clinit>()>[18@L67] invokevirtual getCallerClass.invoke($null, %v15)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: void <clinit>()>[27@L72] o#1 = invokevirtual getCallerClass.invoke($null, %v17)
+[Method.invoke]<org.apache.logging.log4j.util.StackLocator: java.lang.Class getCallerClass(int)>[17@L113] %v15 = invokevirtual %v9.invoke($null, %v10)
+Imprecise reflective calls:
+[Array.newInstance]<java.lang.Class: java.lang.Class toClass(java.lang.reflect.Type)>[6@L1128] %v6 = invokestatic java.lang.reflect.Array.newInstance(%v5, %ci0), #targets: 942
+[Class.forName]<com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory: void <clinit>()>[63@L203] %v52 = invokestatic java.lang.Class.forName(%v50, %ci0, %v51), #targets: 941
+[Class.forName]<com.sun.jmx.mbeanserver.MXBeanMapping: java.lang.Class makeOpenClass(java.lang.reflect.Type,javax.management.openmbean.OpenType)>[11@L172] %v11 = invokestatic java.lang.Class.forName(%v8, %ci0, %v10), #targets: 941
+[Class.forName]<com.sun.naming.internal.VersionHelper12: java.lang.Class loadClass(java.lang.String,boolean,java.lang.ClassLoader)>[0@L95] %v5 = invokestatic java.lang.Class.forName($1, $2, $3), #targets: 941
+[Class.forName]<com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[24@L196] providerClass = invokestatic java.lang.Class.forName(className, %ci0, %v18), #targets: 941
+[ClassLoader.loadClass]<com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[26@L199] providerClass = invokevirtual cl.loadClass(className), #targets: 941
+[Class.forName]<com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[33@L205] providerClass = invokestatic java.lang.Class.forName(className), #targets: 941
+[ClassLoader.loadClass]<com.sun.org.apache.xalan.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[36@L208] providerClass = invokevirtual current.loadClass(className), #targets: 941
+[Class.forName]<com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[21@L206] providerClass = invokestatic java.lang.Class.forName(className, %ci0, %v18), #targets: 941
+[ClassLoader.loadClass]<com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[23@L209] providerClass = invokevirtual cl.loadClass(className), #targets: 941
+[Class.forName]<com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[30@L215] providerClass = invokestatic java.lang.Class.forName(className), #targets: 941
+[ClassLoader.loadClass]<com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Class findProviderClass(java.lang.String,java.lang.ClassLoader,boolean)>[33@L218] providerClass = invokevirtual current.loadClass(className), #targets: 941
+[Class.forName]<java.lang.reflect.Proxy$ProxyClassFactory: java.lang.Class apply(java.lang.ClassLoader,java.lang.Class[])>[12@L577] $8 = invokestatic java.lang.Class.forName(%v20, %ci0, $1), #targets: 941
+[Class.forName]<java.security.Policy: java.security.Policy getPolicyNoCheck()>[23@L184] %v24 = invokestatic java.lang.Class.forName($3), #targets: 941
+[Class.forName]<java.security.Policy$2: java.security.Policy run()>[9@L214] %v6 = invokestatic java.lang.Class.forName(%v5, %ci1, $2), #targets: 941
+[Class.forName]<java.security.Provider$Service: java.lang.Class getImplClass()>[14@L1634] $2 = invokestatic java.lang.Class.forName(%v11), #targets: 941
+[ClassLoader.loadClass]<java.security.Provider$Service: java.lang.Class getImplClass()>[17@L1636] $2 = invokevirtual %v10.loadClass(%v12), #targets: 941
+[Class.forName]<java.security.Provider$Service: java.lang.Class getKeyClass(java.lang.String)>[0@L1786] %v3 = invokestatic java.lang.Class.forName($1), #targets: 941
+[ClassLoader.loadClass]<java.security.Provider$Service: java.lang.Class getKeyClass(java.lang.String)>[7@L1793] %v9 = invokevirtual %v7.loadClass($1), #targets: 941
+[ClassLoader.loadClass]<java.util.ResourceBundle$Control: java.util.ResourceBundle newBundle(java.lang.String,java.util.Locale,java.lang.String,java.lang.ClassLoader,boolean)>[6@L2657] %v18 = invokevirtual $4.loadClass(%v14), #targets: 941
+[ClassLoader.loadClass]<java.util.ResourceBundle$RBClassLoader: java.lang.Class loadClass(java.lang.String)>[3@L512] %v5 = invokevirtual %v4.loadClass($1), #targets: 941
+[Class.forName]<java.util.ResourceBundle$RBClassLoader: java.lang.Class loadClass(java.lang.String)>[5@L514] %v6 = invokestatic java.lang.Class.forName($1), #targets: 941
+[Class.forName]<java.util.ServiceLoader$LazyIterator: java.lang.Object nextService()>[10@L370] $2 = invokestatic java.lang.Class.forName(%v7, %ci0, %v9), #targets: 941
+[ClassLoader.loadClass]<java.util.logging.LogManager: void readConfiguration(java.io.InputStream)>[13@L1416] %v19 = invokevirtual %v18.loadClass(%v17), #targets: 941
+[ClassLoader.loadClass]<java.util.logging.LogManager: java.util.logging.Filter getFilterProperty(java.lang.String,java.util.logging.Filter)>[3@L1529] %v8 = invokevirtual %v7.loadClass(%v5), #targets: 941
+[ClassLoader.loadClass]<java.util.logging.LogManager: java.util.logging.Formatter getFormatterProperty(java.lang.String,java.util.logging.Formatter)>[3@L1550] %v8 = invokevirtual %v7.loadClass(%v5), #targets: 941
+[ClassLoader.loadClass]<java.util.logging.LogManager$5: java.lang.Object run()>[10@L965] %v15 = invokevirtual %v14.loadClass(%v13), #targets: 941
+[Class.forName]<javax.crypto.CryptoPolicyParser: java.security.spec.AlgorithmParameterSpec getInstance(java.lang.String,java.lang.Integer[])>[2@L288] %v6 = invokestatic java.lang.Class.forName($0), #targets: 941
+[Class.forName]<javax.management.openmbean.OpenMBeanAttributeInfoSupport: java.lang.Object convertFromString(java.lang.String,javax.management.openmbean.OpenType)>[4@L696] %v8 = invokestatic java.lang.Class.forName(%v7), #targets: 941
+[Class.forName]<javax.net.ssl.SSLSocketFactory: javax.net.SocketFactory getDefault()>[15@L101] $1 = invokestatic java.lang.Class.forName(%v11), #targets: 941
+[ClassLoader.loadClass]<javax.net.ssl.SSLSocketFactory: javax.net.SocketFactory getDefault()>[20@L105] $1 = invokevirtual %v14.loadClass(%v11), #targets: 941
+[Class.forName]<javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[5@L106] %v9 = invokestatic java.lang.Class.forName(className, %ci0, %v8), #targets: 941
+[Class.forName]<javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[13@L113] %v13 = invokestatic java.lang.Class.forName(className, %ci0, cl#1), #targets: 941
+[Class.forName]<javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[15@L118] %v14 = invokestatic java.lang.Class.forName(className, %ci0, cl), #targets: 941
+[Class.forName]<javax.xml.parsers.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[21@L124] %v18 = invokestatic java.lang.Class.forName(className, %ci0, %v17), #targets: 941
+[Class.forName]<javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[5@L107] %v9 = invokestatic java.lang.Class.forName(className, %ci0, %v8), #targets: 941
+[Class.forName]<javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[13@L114] %v13 = invokestatic java.lang.Class.forName(className, %ci0, cl#1), #targets: 941
+[Class.forName]<javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[15@L119] %v14 = invokestatic java.lang.Class.forName(className, %ci0, cl), #targets: 941
+[Class.forName]<javax.xml.stream.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[21@L125] %v18 = invokestatic java.lang.Class.forName(className, %ci0, %v17), #targets: 941
+[Class.forName]<javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[5@L109] %v9 = invokestatic java.lang.Class.forName(className, %ci0, %v8), #targets: 941
+[Class.forName]<javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[13@L116] %v13 = invokestatic java.lang.Class.forName(className, %ci0, cl#1), #targets: 941
+[Class.forName]<javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[15@L121] %v14 = invokestatic java.lang.Class.forName(className, %ci0, cl), #targets: 941
+[Class.forName]<javax.xml.transform.FactoryFinder: java.lang.Class getProviderClass(java.lang.String,java.lang.ClassLoader,boolean,boolean)>[21@L127] %v18 = invokestatic java.lang.Class.forName(className, %ci0, %v17), #targets: 941
+[Class.forName]<javax.xml.validation.SchemaFactoryFinder: java.lang.Class createClass(java.lang.String)>[14@L256] clazz = invokestatic java.lang.Class.forName(className, %ci0, %v12), #targets: 941
+[Class.forName]<javax.xml.validation.SchemaFactoryFinder: java.lang.Class createClass(java.lang.String)>[16@L258] clazz = invokestatic java.lang.Class.forName(className), #targets: 941
+[Class.forName]<jdk.internal.org.objectweb.asm.ClassWriter: java.lang.String getCommonSuperClass(java.lang.String,java.lang.String)>[6@L1710] $3 = invokestatic java.lang.Class.forName(%v12, %ci0, %v8), #targets: 941
+[Class.forName]<jdk.internal.org.objectweb.asm.ClassWriter: java.lang.String getCommonSuperClass(java.lang.String,java.lang.String)>[10@L1711] %v16 = invokestatic java.lang.Class.forName(%v15, %ci0, %v8), #targets: 941
+[ClassLoader.loadClass]<org.apache.logging.log4j.core.config.plugins.util.PluginRegistry: java.util.Map decodeCacheFiles(java.lang.ClassLoader)>[47@L181] clazz = invokevirtual loader.loadClass(className), #targets: 941
+[ClassLoader.loadClass]<org.apache.logging.log4j.core.config.plugins.util.ResolverUtil: void addIfMatching(org.apache.logging.log4j.core.config.plugins.util.ResolverUtil$Test,java.lang.String)>[17@L449] type = invokevirtual loader.loadClass(externalName), #targets: 941
+[Class.forName]<org.apache.logging.log4j.core.util.Loader: java.lang.Class initializeClass(java.lang.String,java.lang.ClassLoader)>[1@L228] %v3 = invokestatic java.lang.Class.forName(className, %ci1, loader), #targets: 941
+[ClassLoader.loadClass]<org.apache.logging.log4j.spi.Provider: java.lang.Class loadLoggerContextFactory()>[14@L135] clazz = invokevirtual loader.loadClass(%v10), #targets: 941
+[ClassLoader.loadClass]<org.apache.logging.log4j.spi.Provider: java.lang.Class loadThreadContextMap()>[14@L174] clazz = invokevirtual loader.loadClass(%v10), #targets: 941
+[ClassLoader.loadClass]<org.apache.logging.log4j.spi.ThreadContextMapFactory: org.apache.logging.log4j.spi.ThreadContextMap createThreadContextMap()>[6@L89] clazz = invokevirtual cl.loadClass(%v10), #targets: 941
+[Class.forName]<org.apache.logging.log4j.util.LoaderUtil: java.lang.Class loadClass(java.lang.String)>[3@L162] %v4 = invokestatic java.lang.Class.forName(className), #targets: 941
+[ClassLoader.loadClass]<org.apache.logging.log4j.util.LoaderUtil: java.lang.Class loadClass(java.lang.String)>[7@L167] %v7 = invokevirtual tccl.loadClass(className), #targets: 941
+[Class.forName]<org.apache.logging.log4j.util.LoaderUtil: java.lang.Class loadClass(java.lang.String)>[11@L171] %v9 = invokestatic java.lang.Class.forName(className), #targets: 941
+[ClassLoader.loadClass]<sun.invoke.util.BytecodeDescriptor: java.lang.Class parseSig(java.lang.String,int[],int,java.lang.ClassLoader)>[22@L83] %v25 = invokevirtual $3.loadClass(%v24), #targets: 941
+[Array.newInstance]<sun.invoke.util.BytecodeDescriptor: java.lang.Class parseSig(java.lang.String,int[],int,java.lang.ClassLoader)>[32@L90] %v29 = invokestatic java.lang.reflect.Array.newInstance($5, %ci0), #targets: 941
+[Class.forName]<sun.invoke.util.VerifyAccess$1: java.lang.Class run()>[3@L241] %v5 = invokestatic java.lang.Class.forName(%v3, %ci0, %v4), #targets: 941
+[Class.forName]<sun.management.MappedMXBeanType: void <clinit>()>[77@L805] %v50 = invokestatic java.lang.Class.forName(%v48, %ci0, %v49), #targets: 941
+[Array.newInstance]<sun.reflect.annotation.AnnotationParser: java.lang.Class toClass(java.lang.reflect.Type)>[6@L447] %v6 = invokestatic java.lang.reflect.Array.newInstance(%v5, %ci0), #targets: 941
+[Class.forName]<sun.reflect.generics.factory.CoreReflectionFactory: java.lang.reflect.Type makeNamedType(java.lang.String)>[2@L114] %v5 = invokestatic java.lang.Class.forName($1, %ci0, %v4), #targets: 941
+[Array.newInstance]<sun.reflect.generics.factory.CoreReflectionFactory: java.lang.reflect.Type makeArrayType(java.lang.reflect.Type)>[4@L123] %v5 = invokestatic java.lang.reflect.Array.newInstance(%v4, %ci0), #targets: 941
+[ClassLoader.loadClass]<sun.security.jca.ProviderConfig$2: java.security.Provider run()>[17@L215] $2 = invokevirtual %v15.loadClass(%v17), #targets: 941
+[Class.forName]<sun.security.jca.ProviderConfig$2: java.security.Provider run()>[21@L217] $2 = invokestatic java.lang.Class.forName(%v19), #targets: 941
+[Class.forName]<sun.security.provider.PolicyFile: java.security.Permission getInstance(java.lang.String,java.lang.String,java.lang.String)>[3@L939] %v10 = invokestatic java.lang.Class.forName($0, %ci0, $null), #targets: 941
+[Class.forName]<sun.security.provider.PolicyFile: void addPermissions(java.security.Permissions,java.security.CodeSource,java.security.Principal[],sun.security.provider.PolicyFile$PolicyEntry)>[107@L1357] %v76 = invokestatic java.lang.Class.forName(%v75, %ci0, %v74), #targets: 941
+[Class.forName]<sun.util.calendar.CalendarSystem: sun.util.calendar.CalendarSystem forName(java.lang.String)>[24@L167] %v18 = invokestatic java.lang.Class.forName(%v15), #targets: 941
+[Class.newInstance]<com.sun.naming.internal.ResourceManager: java.lang.Object getFactory(java.lang.String,java.util.Hashtable,javax.naming.Context,java.lang.String,java.lang.String)>[67@L458] $10 = invokevirtual %v53.newInstance(), #targets: 451
+[Class.newInstance]<com.sun.org.apache.xerces.internal.utils.ObjectFactory: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>[2@L158] instance = invokevirtual providerClass.newInstance(), #targets: 451
+[Class.newInstance]<java.util.ServiceLoader$LazyIterator: java.lang.Object nextService()>[37@L380] %v30 = invokevirtual $2.newInstance(), #targets: 451
+[Class.newInstance]<java.util.logging.LogManager: void readConfiguration(java.io.InputStream)>[14@L1417] invokevirtual %v19.newInstance(), #targets: 451
+[Class.newInstance]<javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.Class,java.lang.String,java.lang.ClassLoader,boolean,boolean)>[30@L192] instance = invokevirtual providerClass.newInstance(), #targets: 451
+[Class.newInstance]<javax.xml.stream.FactoryFinder: java.lang.Object newInstance(java.lang.Class,java.lang.String,java.lang.ClassLoader,boolean,boolean)>[30@L193] instance = invokevirtual providerClass.newInstance(), #targets: 451
+[Class.newInstance]<javax.xml.transform.FactoryFinder: java.lang.Object newInstance(java.lang.Class,java.lang.String,java.lang.ClassLoader,boolean)>[31@L172] instance = invokevirtual providerClass.newInstance(), #targets: 451
+[Class.newInstance]<org.apache.logging.log4j.LogManager: void <clinit>()>[40@L94] %v34 = invokevirtual factoryClass.newInstance(), #targets: 451
+[Constructor.newInstance]<org.apache.logging.log4j.core.util.ReflectionUtil: java.lang.Object instantiate(java.lang.Class)>[5@L188] %v7 = invokevirtual constructor.newInstance(%v6), #targets: 451
+[Class.newInstance]<org.apache.logging.log4j.util.LoaderUtil: java.lang.Object newInstanceOf(java.lang.Class)>[7@L190] %v8 = invokevirtual clazz.newInstance(), #targets: 451
+[Constructor.newInstance]<java.security.Provider$Service: java.lang.Object newInstance(java.lang.Object)>[50@L1595] %v44 = invokevirtual %v42.newInstance(%v43), #targets: 353
+[Constructor.newInstance]<java.security.Provider$Service: java.lang.Object newInstanceGeneric(java.lang.Object)>[7@L1666] %v16 = invokevirtual %v14.newInstance(%v15), #targets: 353
+[Constructor.newInstance]<org.apache.logging.log4j.core.net.MulticastDnsAdvertiser: java.lang.Object createJmDnsVersion1()>[5@L138] %v6 = invokevirtual %v4.newInstance(%v5), #targets: 353
+[Constructor.newInstance]<org.apache.logging.log4j.util.LoaderUtil: java.lang.Object newInstanceOf(java.lang.Class)>[4@L187] %v6 = invokevirtual %v4.newInstance(%v5), #targets: 353
+[Constructor.newInstance]<javax.management.openmbean.OpenMBeanAttributeInfoSupport: java.lang.Object convertFromString(java.lang.String,javax.management.openmbean.OpenType)>[56@L734] %v38 = invokevirtual $4.newInstance(%v37), #targets: 178
+[Class.forName]<sun.management.MappedMXBeanType$ArrayMXBeanType: void <init>(java.lang.Class)>[40@L294] %v28 = invokestatic java.lang.Class.forName(%v27), #targets: 69
+Detected 1 taint flow(s):
+TaintFlow{<Server: void main(java.lang.String[])>[2@L8] input = invokestatic Server.getInput()/result -> <org.apache.logging.log4j.core.net.JndiManager: java.lang.Object lookup(java.lang.String)>[1@L172] %v3 = invokeinterface %v2.lookup(name)/0}
+[TFGDumper] starts ...
+Source nodes:
+VarNode{<Server: void main(java.lang.String[])>/input}
+Sink nodes:
+VarNode{<org.apache.logging.log4j.core.net.JndiManager: java.lang.Object lookup(java.lang.String)>/name}
+Dumping /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/taint-flow-graph.dot
+[TFGDumper] elapsed time: 1.00s; CPU usage: start 2.49%, peak 8.85%, end 4.17%; Memory usage: start 1406MB, peak 1410MB, end 1410MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                16,8888 (insens) / 16,8888 (sens)
+#objects:                     3,1534 (insens) / 3,1534 (sens)
+#var points-to:               5301,0099 (insens) / 5301,0099 (sens)
+#static field points-to:      2,2395 (sens)
+#instance field points-to:    959,0479 (sens)
+#array points-to:             166,9848 (sens)
+#reachable methods:           2,3185 (insens) / 2,3185 (sens)
+#call graph edges:            14,4929 (insens) / 14,4930 (sens)
+----------------------------------------
+[pta] elapsed time: 136.86s; CPU usage: start 21.74%, peak 15.97%, end 2.26%; Memory usage: start 272MB, peak 1633MB, end 1697MB
+[Tai-e] elapsed time: 138.27s; CPU usage: start 0.00%, peak 19.79%, end 0.00%; Memory usage: start 65MB, peak 1665MB, end 1697MB

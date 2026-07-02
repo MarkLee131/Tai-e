@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pascal.taie.analysis.pta.ReflectionRecallEval" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-07-02T05:25:48.402Z" hostname="csl-conti-dell7859" time="20.303">
+  <properties/>
+  <testcase name="measureReflectionRecall()" classname="pascal.taie.analysis.pta.ReflectionRecallEval" time="20.286"/>
+  <system-out><![CDATA[
+==== Reflection-recall (GT = log-reachable \ no-reflection) ====
+bench      |       GT |   sc-rec | SOLAR (Tai-e full)   | arm②: recall/prec/extra   
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/bloat.jar ... 360 classes
+
+2587 classes with 25438 methods in the world
+[WorldBuilder] elapsed time: 0.51s; CPU usage: start 8.44%, peak 0.00%, end 37.28%; Memory usage: start 69MB, peak 69MB, end 365MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.25s; CPU usage: start 9.62%, peak 0.00%, end 10.90%; Memory usage: start 399MB, peak 415MB, end 435MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     101 (insens) / 101 (sens)
+#var points-to:               1409 (insens) / 1409 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    111 (sens)
+#array points-to:             31 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.48s; CPU usage: start 17.24%, peak 0.00%, end 14.26%; Memory usage: start 365MB, peak 365MB, end 452MB
+[Tai-e] elapsed time: 1.28s; CPU usage: start 0.00%, peak 9.75%, end 15.79%; Memory usage: start 95MB, peak 416MB, end 452MB
+     [time] Harness            1713 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/bloat.jar ... 360 classes
+
+2600 classes with 25494 methods in the world
+[WorldBuilder] elapsed time: 0.21s; CPU usage: start 12.87%, peak 10.00%, end 33.37%; Memory usage: start 453MB, peak 453MB, end 661MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/bloat-refl.log
+[Pointer analysis] elapsed time: 0.55s; CPU usage: start 13.30%, peak 0.00%, end 15.20%; Memory usage: start 676MB, peak 692MB, end 220MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1,1854 (insens) / 1,1854 (sens)
+#objects:                     1296 (insens) / 1296 (sens)
+#var points-to:               2,3978 (insens) / 2,3978 (sens)
+#static field points-to:      67 (sens)
+#instance field points-to:    2,5941 (sens)
+#array points-to:             210 (sens)
+#reachable methods:           1611 (insens) / 1611 (sens)
+#call graph edges:            7835 (insens) / 7835 (sens)
+----------------------------------------
+[pta] elapsed time: 0.78s; CPU usage: start 28.57%, peak 14.29%, end 14.79%; Memory usage: start 661MB, peak 677MB, end 152MB
+[Tai-e] elapsed time: 1.04s; CPU usage: start 13.59%, peak 18.66%, end 12.50%; Memory usage: start 452MB, peak 452MB, end 152MB
+     [time] Harness            1054 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/bloat.jar ... 360 classes
+
+2587 classes with 25438 methods in the world
+[WorldBuilder] elapsed time: 0.17s; CPU usage: start 10.32%, peak 0.00%, end 32.81%; Memory usage: start 153MB, peak 153MB, end 252MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.04s; CPU usage: start 16.92%, peak 16.67%, end 12.76%; Memory usage: start 253MB, peak 253MB, end 269MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     107 (insens) / 107 (sens)
+#var points-to:               1463 (insens) / 1463 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    111 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.08s; CPU usage: start 11.11%, peak 30.77%, end 11.18%; Memory usage: start 252MB, peak 252MB, end 285MB
+[Tai-e] elapsed time: 0.29s; CPU usage: start 12.16%, peak 25.00%, end 0.00%; Memory usage: start 152MB, peak 152MB, end 285MB
+     [time] Harness             295 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/bloat.jar ... 360 classes
+
+2587 classes with 25438 methods in the world
+[WorldBuilder] elapsed time: 0.16s; CPU usage: start 11.16%, peak 0.00%, end 32.09%; Memory usage: start 286MB, peak 286MB, end 446MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.05s; CPU usage: start 12.99%, peak 25.00%, end 12.13%; Memory usage: start 462MB, peak 462MB, end 462MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     123 (insens) / 123 (sens)
+#var points-to:               1616 (insens) / 1616 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    113 (sens)
+#array points-to:             36 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.09s; CPU usage: start 10.00%, peak 25.00%, end 8.99%; Memory usage: start 446MB, peak 446MB, end 478MB
+[Tai-e] elapsed time: 0.28s; CPU usage: start 13.79%, peak 0.00%, end 14.29%; Memory usage: start 285MB, peak 285MB, end 478MB
+     [time] Harness             293 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/bloat.jar ... 360 classes
+
+2587 classes with 25438 methods in the world
+[WorldBuilder] elapsed time: 0.14s; CPU usage: start 12.55%, peak 0.00%, end 30.34%; Memory usage: start 479MB, peak 479MB, end 654MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [EDU.purdue.cs.bloat.benchmark.Nonstop]
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [EDU.purdue.cs.bloat.benchmark.Nonstop]
+[Pointer analysis] elapsed time: 1.65s; CPU usage: start 2.96%, peak 0.06%, end 1.56%; Memory usage: start 689MB, peak 742MB, end 757MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                968 (insens) / 968 (sens)
+#objects:                     111 (insens) / 111 (sens)
+#var points-to:               1474 (insens) / 1474 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    114 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           235 (insens) / 235 (sens)
+#call graph edges:            647 (insens) / 647 (sens)
+----------------------------------------
+[pta] elapsed time: 1.88s; CPU usage: start 0.00%, peak 9.09%, end 2.20%; Memory usage: start 654MB, peak 743MB, end 757MB
+[Tai-e] elapsed time: 2.06s; CPU usage: start 12.21%, peak 1.60%, end 0.00%; Memory usage: start 479MB, peak 743MB, end 757MB
+     [time] Harness            2073 ms  (llm)
+     [oracle] queries=2 live=2 cost=$0.0005
+bloat      |     1385 |    0.002 | r=0.004 p=0.200      | r=0.004 p=0.667 +3        
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 0.27s; CPU usage: start 4.11%, peak 9.09%, end 33.47%; Memory usage: start 757MB, peak 757MB, end 496MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 7.56%, peak 0.00%, end 8.20%; Memory usage: start 498MB, peak 514MB, end 514MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     105 (insens) / 105 (sens)
+#var points-to:               1560 (insens) / 1560 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.08s; CPU usage: start 0.00%, peak 25.00%, end 7.62%; Memory usage: start 497MB, peak 497MB, end 530MB
+[Tai-e] elapsed time: 0.40s; CPU usage: start 3.82%, peak 6.67%, end 21.43%; Memory usage: start 757MB, peak 757MB, end 530MB
+     [time] Harness             405 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+7115 classes with 73277 methods in the world
+[WorldBuilder] elapsed time: 0.25s; CPU usage: start 10.50%, peak 15.38%, end 36.45%; Memory usage: start 530MB, peak 530MB, end 339MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart-refl.log
+[Pointer analysis] elapsed time: 0.29s; CPU usage: start 4.31%, peak 0.00%, end 8.39%; Memory usage: start 355MB, peak 371MB, end 516MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1,5413 (insens) / 1,5413 (sens)
+#objects:                     2452 (insens) / 2452 (sens)
+#var points-to:               2,8315 (insens) / 2,8315 (sens)
+#static field points-to:      756 (sens)
+#instance field points-to:    4546 (sens)
+#array points-to:             457 (sens)
+#reachable methods:           2324 (insens) / 2324 (sens)
+#call graph edges:            9443 (insens) / 9443 (sens)
+----------------------------------------
+[pta] elapsed time: 0.44s; CPU usage: start 0.00%, peak 25.00%, end 5.68%; Memory usage: start 339MB, peak 339MB, end 564MB
+[Tai-e] elapsed time: 0.72s; CPU usage: start 8.33%, peak 18.18%, end 7.69%; Memory usage: start 530MB, peak 530MB, end 564MB
+     [time] Harness             728 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 0.25s; CPU usage: start 8.13%, peak 0.00%, end 32.20%; Memory usage: start 580MB, peak 580MB, end 322MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 2.58%, peak 0.00%, end 2.86%; Memory usage: start 338MB, peak 338MB, end 354MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     111 (insens) / 111 (sens)
+#var points-to:               1614 (insens) / 1614 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.07s; CPU usage: start 0.00%, peak 0.00%, end 3.90%; Memory usage: start 322MB, peak 322MB, end 354MB
+[Tai-e] elapsed time: 0.34s; CPU usage: start 7.14%, peak 10.00%, end 0.00%; Memory usage: start 580MB, peak 580MB, end 354MB
+     [time] Harness             344 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 0.24s; CPU usage: start 4.96%, peak 20.00%, end 34.72%; Memory usage: start 354MB, peak 354MB, end 690MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.60%, peak 0.00%, end 3.92%; Memory usage: start 690MB, peak 690MB, end 706MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     127 (insens) / 127 (sens)
+#var points-to:               1767 (insens) / 1767 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    133 (sens)
+#array points-to:             40 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.07s; CPU usage: start 14.29%, peak 0.00%, end 6.17%; Memory usage: start 690MB, peak 690MB, end 722MB
+[Tai-e] elapsed time: 0.33s; CPU usage: start 8.16%, peak 25.00%, end 20.00%; Memory usage: start 354MB, peak 354MB, end 722MB
+     [time] Harness             335 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 0.23s; CPU usage: start 8.27%, peak 0.00%, end 37.18%; Memory usage: start 723MB, peak 723MB, end 429MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [org.jfree.chart.labels.BoxAndWhiskerToolTipGenerator, org.jfree.chart.title.CompositeTitle, org.jfree.chart.imagemap.ImageMapUtilities, org.jfree.chart.needle.ShipNeedle, org.jfree.chart.renderer.xy.XYStepRenderer, org.jfree.chart.axis.QuarterDateFormat, org.jfree.chart.event.AxisChangeEvent, org.jfree.chart.plot.PlotRenderingInfo, org.jfree.chart.axis.TickUnitSource, org.jfree.chart.labels.IntervalCategoryItemLabelGenerator, org.jfree.chart.entity.StandardEntityCollection, org.jfree.chart.labels.StandardXYSeriesLabelGenerator, org.jfree.chart.editor.DefaultAxisEditor, org.jfree.chart.urls.XYURLGenerator, org.jfree.chart.servlet.ServletUtilities, org.jfree.chart.editor.DefaultChartEditorFactory, org.jfree.chart.axis.NumberAxis, org.jfree.chart.labels.XYToolTipGenerator, org.jfree.chart.ChartFrame, org.jfree.chart]
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [org.jfree.chart.ChartFrame]
+[Pointer analysis] elapsed time: 2.56s; CPU usage: start 1.52%, peak 0.00%, end 0.05%; Memory usage: start 445MB, peak 460MB, end 460MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1062 (insens) / 1062 (sens)
+#objects:                     179 (insens) / 179 (sens)
+#var points-to:               1755 (insens) / 1755 (sens)
+#static field points-to:      70 (sens)
+#instance field points-to:    151 (sens)
+#array points-to:             42 (sens)
+#reachable methods:           275 (insens) / 275 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 2.62s; CPU usage: start 0.00%, peak 0.10%, end 2.44%; Memory usage: start 429MB, peak 460MB, end 476MB
+[Tai-e] elapsed time: 2.87s; CPU usage: start 7.84%, peak 25.00%, end 0.00%; Memory usage: start 722MB, peak 722MB, end 476MB
+     [time] Harness            2874 ms  (llm)
+     [oracle] queries=2 live=2 cost=$0.0010
+chart      |     2098 |    0.001 | r=0.003 p=0.233      | r=0.018 p=0.776 +11       
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/hsqldb.jar ... 416 classes
+
+5986 classes with 59055 methods in the world
+[WorldBuilder] elapsed time: 0.24s; CPU usage: start 4.65%, peak 0.00%, end 35.48%; Memory usage: start 477MB, peak 477MB, end 794MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 2.76%, peak 0.00%, end 3.05%; Memory usage: start 810MB, peak 810MB, end 826MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     105 (insens) / 105 (sens)
+#var points-to:               1557 (insens) / 1557 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.06s; CPU usage: start 0.00%, peak 0.00%, end 7.59%; Memory usage: start 794MB, peak 794MB, end 828MB
+[Tai-e] elapsed time: 0.33s; CPU usage: start 4.08%, peak 7.69%, end 0.00%; Memory usage: start 477MB, peak 477MB, end 828MB
+     [time] Harness             331 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/hsqldb.jar ... 416 classes
+
+6039 classes with 60460 methods in the world
+[WorldBuilder] elapsed time: 0.22s; CPU usage: start 7.75%, peak 0.00%, end 38.35%; Memory usage: start 828MB, peak 844MB, end 474MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/hsqldb-refl.log
+Reflective target 'byte[]' for Class.forName is not found
+Reflective target 'char[]' for Class.forName is not found
+Reflective target 'java.lang.Character[]' for Class.forName is not found
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.88%, peak 0.00%, end 4.86%; Memory usage: start 490MB, peak 490MB, end 506MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1579 (insens) / 1579 (sens)
+#objects:                     148 (insens) / 148 (sens)
+#var points-to:               2349 (insens) / 2349 (sens)
+#static field points-to:      42 (sens)
+#instance field points-to:    142 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           325 (insens) / 325 (sens)
+#call graph edges:            1012 (insens) / 1012 (sens)
+----------------------------------------
+[pta] elapsed time: 0.08s; CPU usage: start 0.00%, peak 0.00%, end 4.81%; Memory usage: start 474MB, peak 474MB, end 523MB
+[Tai-e] elapsed time: 0.33s; CPU usage: start 2.63%, peak 0.00%, end 0.00%; Memory usage: start 828MB, peak 828MB, end 523MB
+     [time] Harness             331 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/hsqldb.jar ... 416 classes
+
+5986 classes with 59055 methods in the world
+[WorldBuilder] elapsed time: 0.22s; CPU usage: start 3.94%, peak 0.00%, end 34.64%; Memory usage: start 523MB, peak 523MB, end 843MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.03s; CPU usage: start 1.71%, peak 0.00%, end 11.95%; Memory usage: start 859MB, peak 859MB, end 268MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     111 (insens) / 111 (sens)
+#var points-to:               1611 (insens) / 1611 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.08s; CPU usage: start 0.00%, peak 20.00%, end 2.70%; Memory usage: start 843MB, peak 843MB, end 268MB
+[Tai-e] elapsed time: 0.31s; CPU usage: start 2.70%, peak 0.00%, end 20.00%; Memory usage: start 523MB, peak 523MB, end 268MB
+     [time] Harness             315 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/hsqldb.jar ... 416 classes
+
+5986 classes with 59055 methods in the world
+[WorldBuilder] elapsed time: 0.21s; CPU usage: start 2.59%, peak 0.00%, end 37.02%; Memory usage: start 268MB, peak 268MB, end 588MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.31%, peak 0.00%, end 2.04%; Memory usage: start 588MB, peak 588MB, end 604MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     127 (insens) / 127 (sens)
+#var points-to:               1764 (insens) / 1764 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    133 (sens)
+#array points-to:             40 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.07s; CPU usage: start 0.00%, peak 10.00%, end 2.56%; Memory usage: start 588MB, peak 588MB, end 620MB
+[Tai-e] elapsed time: 0.30s; CPU usage: start 2.86%, peak 0.00%, end 12.50%; Memory usage: start 268MB, peak 268MB, end 620MB
+     [time] Harness             302 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/hsqldb.jar ... 416 classes
+
+5986 classes with 59055 methods in the world
+[WorldBuilder] elapsed time: 0.22s; CPU usage: start 5.97%, peak 11.11%, end 35.73%; Memory usage: start 621MB, peak 621MB, end 316MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [org.hsqldb.test.TestAll]
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [org.hsqldb.lib.HsqlByteArrayOutputStream, org.hsqldb.util.SqlFile$BadSpecial, org.hsqldb.test.TestBatchBug, org.hsqldb.test.SilentParsedSection, org.hsqldb.test.TestCollation, org.hsqldb.util.SQLStatements, org.hsqldb.Result$ResultIterator, org.hsqldb.util.ZaurusTextField, org.hsqldb.test.TestObjectSize, org.hsqldb.DatabaseInformationFull, org.hsqldb.test.TestAll, org.hsqldb.Token, org.hsqldb.persist.Cache, org.hsqldb.lib.IntKeyIntValueHashMap$Values, org.hsqldb.util.TransferSQLText$ColumnDef, org.hsqldb.jdbc.jdbcClob, org.hsqldb.ServerConnection, org.hsqldb.lib.HsqlTimer$Task, org.hsqldb.jdbc.jdbcConnection, org.hsqldb.Types, org.hsq]
+[Pointer analysis] elapsed time: 3.15s; CPU usage: start 1.26%, peak 14.29%, end 0.52%; Memory usage: start 332MB, peak 347MB, end 346MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1622 (insens) / 1622 (sens)
+#objects:                     424 (insens) / 424 (sens)
+#var points-to:               4881 (insens) / 4881 (sens)
+#static field points-to:      62 (sens)
+#instance field points-to:    347 (sens)
+#array points-to:             649 (sens)
+#reachable methods:           293 (insens) / 293 (sens)
+#call graph edges:            896 (insens) / 896 (sens)
+----------------------------------------
+[pta] elapsed time: 3.22s; CPU usage: start 0.00%, peak 0.00%, end 2.39%; Memory usage: start 316MB, peak 347MB, end 362MB
+[Tai-e] elapsed time: 3.47s; CPU usage: start 2.17%, peak 0.16%, end 9.09%; Memory usage: start 620MB, peak 620MB, end 362MB
+     [time] Harness            3475 ms  (llm)
+     [oracle] queries=2 live=2 cost=$0.0009
+hsqldb     |       99 |    0.030 | r=0.061 p=0.200      | r=0.061 p=0.090 +61       
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/fop.jar ... 998 classes
+Duplicate classes (total 195) introduced by fop-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement, javax.xml.transform.stream.StreamResult] ... (191 more) is founded in both containers
+
+7831 classes with 67281 methods in the world
+[WorldBuilder] elapsed time: 0.30s; CPU usage: start 4.50%, peak 0.00%, end 29.17%; Memory usage: start 363MB, peak 363MB, end 747MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.38%, peak 0.00%, end 2.03%; Memory usage: start 763MB, peak 763MB, end 779MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     105 (insens) / 105 (sens)
+#var points-to:               1560 (insens) / 1560 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.08s; CPU usage: start 0.00%, peak 0.00%, end 2.41%; Memory usage: start 747MB, peak 747MB, end 795MB
+[Tai-e] elapsed time: 0.41s; CPU usage: start 3.75%, peak 7.69%, end 0.00%; Memory usage: start 362MB, peak 362MB, end 795MB
+     [time] Harness             419 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/fop.jar ... 998 classes
+Duplicate classes (total 195) introduced by fop-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement, javax.xml.transform.stream.StreamResult] ... (191 more) is founded in both containers
+
+Cannot resolve class org.apache.xerces.impl.dv.ObjectFactory; treating it as phantom class.
+Cannot resolve class org.apache.xerces.parsers.XIncludeAwareParserConfiguration; treating it as phantom class.
+Cannot resolve class org.apache.xerces.parsers.ObjectFactory; treating it as phantom class.
+7935 classes with 67933 methods in the world
+[WorldBuilder] elapsed time: 0.26s; CPU usage: start 4.48%, peak 16.67%, end 34.25%; Memory usage: start 797MB, peak 797MB, end 397MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/fop-refl.log
+No matched invokes found for org.apache.xerces.impl.dv.ObjectFactory.class$/-1
+No matched invokes found for org.apache.xerces.parsers.ObjectFactory.class$/-1
+No matched invokes found for org.apache.xerces.impl.dv.ObjectFactory.newInstance/-1
+No matched invokes found for org.apache.xerces.parsers.ObjectFactory.newInstance/-1
+Reflective target '<org.apache.xerces.parsers.XIncludeAwareParserConfiguration: void <init>()>' for Constructor.newInstance is not found
+[Pointer analysis] elapsed time: 0.10s; CPU usage: start 1.66%, peak 0.00%, end 2.60%; Memory usage: start 413MB, peak 413MB, end 477MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                6840 (insens) / 6840 (sens)
+#objects:                     1069 (insens) / 1069 (sens)
+#var points-to:               9062 (insens) / 9062 (sens)
+#static field points-to:      363 (sens)
+#instance field points-to:    1,1168 (sens)
+#array points-to:             49 (sens)
+#reachable methods:           1470 (insens) / 1470 (sens)
+#call graph edges:            3958 (insens) / 3958 (sens)
+----------------------------------------
+[pta] elapsed time: 0.18s; CPU usage: start 0.00%, peak 0.00%, end 4.14%; Memory usage: start 397MB, peak 397MB, end 509MB
+[Tai-e] elapsed time: 0.47s; CPU usage: start 3.70%, peak 25.00%, end 0.00%; Memory usage: start 795MB, peak 795MB, end 509MB
+     [time] Harness             473 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/fop.jar ... 998 classes
+Duplicate classes (total 195) introduced by fop-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement, javax.xml.transform.stream.StreamResult] ... (191 more) is founded in both containers
+
+7831 classes with 67281 methods in the world
+[WorldBuilder] elapsed time: 0.26s; CPU usage: start 4.07%, peak 25.00%, end 30.37%; Memory usage: start 510MB, peak 510MB, end 910MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.53%, peak 0.00%, end 2.23%; Memory usage: start 910MB, peak 926MB, end 926MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     111 (insens) / 111 (sens)
+#var points-to:               1614 (insens) / 1614 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.09s; CPU usage: start 0.00%, peak 0.00%, end 3.26%; Memory usage: start 910MB, peak 910MB, end 942MB
+[Tai-e] elapsed time: 0.38s; CPU usage: start 2.13%, peak 0.00%, end 0.00%; Memory usage: start 509MB, peak 509MB, end 942MB
+     [time] Harness             383 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/fop.jar ... 998 classes
+Duplicate classes (total 195) introduced by fop-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement, javax.xml.transform.stream.StreamResult] ... (191 more) is founded in both containers
+
+7831 classes with 67281 methods in the world
+[WorldBuilder] elapsed time: 0.24s; CPU usage: start 4.80%, peak 0.00%, end 32.58%; Memory usage: start 942MB, peak 942MB, end 532MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.02s; CPU usage: start 1.28%, peak 0.00%, end 1.35%; Memory usage: start 548MB, peak 548MB, end 564MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     127 (insens) / 127 (sens)
+#var points-to:               1767 (insens) / 1767 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    133 (sens)
+#array points-to:             40 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.08s; CPU usage: start 14.29%, peak 0.00%, end 2.44%; Memory usage: start 532MB, peak 532MB, end 564MB
+[Tai-e] elapsed time: 0.34s; CPU usage: start 1.79%, peak 0.00%, end 0.00%; Memory usage: start 942MB, peak 942MB, end 564MB
+     [time] Harness             341 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: cb784405084474e381cf2918c477074f15c254f2
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/fop.jar ... 998 classes
+Duplicate classes (total 195) introduced by fop-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement, javax.xml.transform.stream.StreamResult] ... (191 more) is founded in both containers
+
+7831 classes with 67281 methods in the world
+[WorldBuilder] elapsed time: 0.26s; CPU usage: start 2.94%, peak 0.00%, end 35.59%; Memory usage: start 580MB, peak 580MB, end 964MB
+[pta] starts ...
+Gemini API key loaded from /home/likaixuan/static_analysis/PTA-enhancement/.api_key_env (…MLQA, 53 chars)
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.fop.Main]
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [org.apache.fop.fo.properties.StressMaker, org.apache.fop.fo.properties.GenericSpace$Enums$Conditionality, org.apache.fop.pdf.PDFCharProcs, org.apache.fop.fo.flow.FootnoteBody, org.apache.fop.fo.properties.BorderStartWidth, org.apache.fop.fo.properties.BackgroundImageMaker, org.apache.fop.fo.properties.CueMaker, org.apache.fop.pdf.PDFCIDSystemInfo, org.apache.fop.layout.MarginProps, org.apache.fop.mif.MIFDocument$ID, org.apache.fop.render.pdf.fonts.CourierOblique, org.apache.fop.fo.properties.AzimuthMaker, org.apache.fop.render.pdf.fonts.ZapfDingbats, org.apache.fop.fo.properties.BorderEndWidth, org.apache.fop.fo.properties.BorderSeparationMaker, org.apache.fop.fo.flow.MultiToggle$Maker, org.apache.fop.layout.inline.]
+[Pointer analysis] elapsed time: 2.93s; CPU usage: start 1.53%, peak 0.00%, end 0.15%; Memory usage: start 980MB, peak 996MB, end 994MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1400 (insens) / 1400 (sens)
+#objects:                     144 (insens) / 144 (sens)
+#var points-to:               2131 (insens) / 2131 (sens)
+#static field points-to:      42 (sens)
+#instance field points-to:    136 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           242 (insens) / 242 (sens)
+#call graph edges:            655 (insens) / 655 (sens)
+----------------------------------------
+[pta] elapsed time: 2.99s; CPU usage: start 0.00%, peak 0.00%, end 2.94%; Memory usage: start 964MB, peak 996MB, end 1010MB
+[Tai-e] elapsed time: 3.27s; CPU usage: start 2.70%, peak 25.00%, end 0.00%; Memory usage: start 580MB, peak 996MB, end 1010MB
+     [time] Harness            3278 ms  (llm)
+     [oracle] queries=2 live=2 cost=$0.0010
+fop        |     1244 |    0.002 | r=0.006 p=0.233      | r=0.010 p=0.813 +3        
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
