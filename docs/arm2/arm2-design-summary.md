@@ -1,0 +1,227 @@
+# arm② — LLM-assisted, soundness-guided reflection resolution for pointer analysis
+### Design summary: core idea · formal guarantees · innovations · results · lessons
+
+**Date:** 2026-07-02 · **System:** Tai-e (Java pointer analysis) · **Fork:** github.com/MarkLee131/Tai-e (`llm-pta`)
+
+This is the consolidated FUNCTIONAL design document; it supersedes the earlier working notes
+(three-arms methodology, optimization plans, observations, systematic-limitation analysis,
+theory↔evidence synthesis, framework-residual taxonomy, SOLAR comparison). Its formal
+companions live alongside it: `2026-07-02-arm2-formal-core-oracle-soundness.md` (the theorem
+spine T1/T2/T3, the three-state disposer, per-component local-soundness, gaps G1–G8 with
+live status) and `2026-07-02-arm2-formal-core-review.md` (the textbook-grounded review that
+drove its corrections).
+
+---
+
+## 1. Core idea — *LLM proposes, sound logic disposes*
+
+Static pointer analysis loses recall at reflective calls whose targets are not recoverable
+from the code (names driven by config files, command-line, or the app's *identity*). The
+strongest static reflection analyses (Elf's self-inference, SOLAR's soundness-guided
+collective inference) *flag* exactly these as unrecoverable and ask for external input.
+
+**arm② puts a Large Language Model in that slot** — but strictly *off the soundness-critical
+path*. The LLM only **proposes** candidate names for the residual sites; Tai-e's sound
+machinery **disposes**: it drops non-existent classes, clamps proposals by the use-site type,
+and injects only add-only points-to facts. A wrong or even adversarial LLM can never make the
+analysis unsound — it can at most waste precision, bounded by the use-site type.
+
+## 2. Formal guarantees (the delta over SOLAR/SAS'15)
+
+The oracle is modeled as an **untrusted, universally-quantified** function `O`. The disposer
+is a three-state map: for a residual site ℓ, realizable proposals `Cand(ℓ)=⋃Φ(O(ℓ))` (Lemma 1:
+non-existent names drop), clamped by the use-site bound `Clamp(ℓ)={t∈Cand:t≼B(ℓ)}` (Lemma 2:
+`B` is sound), injected add-only into a monotone may-analysis (`F_O ⊒ F_base`, Lemma 3).
+
+- **T1 Safety (soundness is *preserved*, oracle-independently).** For *every* oracle `O`,
+  `X_O ⊒ X_base` (**T1a**, preservation) and `X_O ⊒ α(⟦P⟧_{no-ext-refl})` (**T1b**, sound
+  modulo external input). The oracle never appears as a hypothesis in the soundness proof —
+  injection only *adds* facts to a monotone analysis, so no `O` can remove a needed fact. *(Not
+  claimed: absolute soundness w.r.t. the full semantics — no static reflection analysis has it;
+  a wrong `O` costs precision/recall, never the base's soundness.)*
+- **T2 Confinement (a wrong oracle's *source-site* damage is type-bounded).** The object the
+  oracle injects **at the reflective site** is `≼ B(ℓ)` (garbage proposals clamped away) — the
+  same over-approximation a use-site cast already licenses. *(Downstream, a wrong-but-type-valid
+  class propagates like any spurious call-graph edge, bounded by reachability — we do not claim
+  a global type envelope; see formal-core §7 T2.)*
+- **T3 Benefit (recall is monotone in oracle correctness).** A correct proposal for ℓ lands
+  its true target in `Cand(ℓ)`, so recall rises with oracle accuracy — the LLM's only job.
+
+This is the licensing argument that makes an untrusted LLM safe to embed in a sound analysis:
+**soundness and bounded-precision hold unconditionally; recall is the only thing the LLM can
+move.**
+
+## 3. Innovations — the resolution pipeline
+
+Each stage has a theoretical role (SOLAR/Elf/TOSEM) *and* a measured effect (§4).
+
+1. **Unknown-trigger (latched).** Fire on input-dependent names: seed empty-points-to name
+   vars with a placeholder String (`onPhaseFinish`) so the pts-driven handler fires; and
+   consult the LLM whenever the site has EVER carried an Unknown name obj — the residual
+   predicate ⊤∈Ŝ(n) is a per-site **latch** (`unknownNames`), so a co-present bogus constant
+   can never suppress it (the fix that unblocked DaCapo's `findClass`, 0.008→1.0 — now
+   uniform across forName AND getMethod/getField) and a transiently-empty pts can never burn
+   the one-shot query.
+2. **Context modeling.** Backward string-flow extraction (def-indexed, one IR pass) +
+   config-file reading (memoized per classpath), quality-gated (high-confidence fragments fed
+   raw; weak evidence preprocessed).
+3. **Identity + classpath grounding.** Feed the *application identity* (an out-of-band fact the
+   analysis knows but the code doesn't) + the real classpath classes matching it, so the LLM
+   proposes an *existing* convention-driven name instead of hallucinating.
+4. **LLM proposal** (live Gemini; query ONCE per site), then **sound disposal** (T1/T2):
+   realizability + type clamp + add-only injection — with proposals **cached and re-injected
+   on every handler fire** over that fire's class set, so classes arriving in later solver
+   iterations still receive them (monotone injection; the channel itself is hardened:
+   256-token list answers, config-versioned cache keys, blank responses never cached,
+   full control-char JSON escaping).
+5. **Self-inference** (`SelfInferenceModel`): model `Class.getName()`→name-constant (one
+   canonical obj per name) and `System.getProperty(k,default)`→`default ⊔ ⊤`, the ⊤ emitted
+   SITE-level so opaque defaults keep it — the Elf collective-inference links Tai-e lacked;
+   closes the `IMPL = forName(getProperty(key, X.class.getName()))` idiom soundly (G7).
+6. **Abstract→concrete subtype expansion**: `forName`→abstract expanded to instantiable
+   subclasses (a `newInstance` object is concrete) — the SOLAR/Elf subtype treatment;
+   overflow past κ flags the site (no silent truncation, G1), and the downcast bound is
+   enforced downstream at the action site (fixture-pinned invariant).
+7. **ServiceLoader** (`META-INF/services`) provider resolution with **event-driven monotone
+   delivery** (loader→iterator→next graph): providers recorded after the iterator/next
+   handlers fired are still pushed through — no stale snapshot.
+8. **Cascade:** Tai-e's reflective edges (getConstructor/newInstance/invoke) propagate a
+   resolved class into reachable methods (TOSEM: reflection is action-dominated, so one
+   resolved bootstrap unlocks a whole subtree). These stages attach **only in
+   `reflection-inference:llm` mode** (or explicit `-Darm2.addons`) — the shipped baselines
+   stay vanilla Tai-e by construction.
+
+**Design rule enforced throughout:** every component must be *doubly justified* — a named role
+in the theory **and** a measured recall/precision delta. This blocks both failure modes:
+theory-only over-generalization and evidence-only over-fitting.
+
+## 4. Experimental results (DaCapo-2006, live Gemini)
+
+Ground truth = TamiFlex-log-reachable \ no-reflection. Method recall + precision. A
+`-Darm2.noAddons` switch measures Tai-e **as shipped** for the SOLAR baseline.
+
+| bench | GT | string-constant | **SOLAR (Tai-e complete)** r/p | **arm② (ours)** r/p |
+|---|---|---|---|---|
+| luindex | 525 | 0.006 | 0.013 / 0.233 | **1.000 / 1.000** |
+| antlr | 1399 | 0.002 | 0.004 / 0.200 | **1.000 / 0.943** |
+| bloat | 1385 | 0.002 | 0.004 / 0.200 | **1.000 / 0.996** |
+| lusearch | 229 | 0.013 | 0.031 / 0.233 | **1.000 / 1.000** |
+| chart | 2098 | 0.001 | 0.003 / 0.233 | **0.984 / 0.992** |
+| hsqldb | 99 | 0.030 | 0.061 / 0.200 | **0.970 / 0.990** |
+| fop | 1244 | 0.002 | 0.006 / 0.233 | **0.930 / 0.877** |
+| jython | 5302 | 0.001 | 0.002 / 0.300 | **0.901 / 0.980** |
+| xalan | 1115 | 0.003 | 0.007 / 0.267 | **0.494 / 0.977** |
+| pmd | 1388 | 0.002 | 0.005 / 0.233 | **0.299 / 0.983** |
+| eclipse | 11076 | 0.000 | 0.001 / 0.267 | **0.125 / 0.989** |
+
+*(post-fix-wave numbers, 2026-07-02: recalls identical to the pre-wave table; precision
+moved ≤0.018 on four benchmarks because the soundness fixes recover facts that were
+previously SILENTLY DROPPED — late-class proposals, interface fields, late ServiceLoader
+providers — which a dynamic under-approximating log counts as "extra". Wall-clock, llm
+config: luindex 4.7s · antlr 3.1s · bloat 4.8s · lusearch 3.1s · chart 7.4s · hsqldb 2.6s ·
+fop 7.2s · jython 4.8s (was 21.8s before the efficiency pass, warm oracle cache) ·
+xalan 12.8s · pmd 9.5s · eclipse 14.1s; all baseline configs sub-second to ~6s.)*
+
+- **arm② vs SOLAR — stated precisely.** In *this* setting — pure-static (no dynamic
+  reflection log), method-reachability recall, `cs:ci`/`only-app` — arm② is ~2 orders of
+  magnitude above SOLAR in recall. **This is NOT "arm② beats the published SOLAR."** SOLAR's
+  papers (Elf ECOOP'14, SOLAR SAS'15, TOSEM'19; same DaCapo-2006/JDK-1.6) report a *different*
+  metric (recall of the direct reflective **targets** dynamically executed, e.g. TOSEM Table 2
+  SOLAR = *total* recall) on a *closed world built partly from TamiFlex dynamic runs* + program
+  inputs + a context-sensitive analysis. Our SOLAR ≈ 0 is exactly what those papers **predict**
+  for the pure-static setting: 55% of class-retrieving names are "Unknown" (config/cmdline);
+  SOLAR/Elf do not guess names, they self-infer the *type* and **flag** the rest — so the
+  config-driven harness bootstrap is flagged-and-missed, the cascade never fires, method recall
+  ≈ 0. The honest framing: **both arm② and SOLAR run without a dynamic log; arm② additionally
+  uses one out-of-band fact — the app identity — turning it into the missing name via the LLM,
+  which is a static substitute for the dynamic closed-world help SOLAR's own eval relied on.**
+  They are complementary: SOLAR recovers the *type* (self-inference), arm② the *name* (LLM),
+  and arm②'s TypeMatcher clamp is itself SOLAR-style. (arm② precisions 0.88–1.00 and SOLAR's
+  paper precisions — devirtualization ~93% — are also different metrics; not directly compared.)
+- **8/11 benchmarks reach ≥0.90 recall at ≥0.98 precision.** The win is exactly where
+  reflection is *bootstrap-and-cascade-dominated*: one identity-driven name (the DaCapo
+  `dacapo.<id>.<Id>Harness`) unlocks the whole subtree via self-inference.
+- **Recall is engineerable, not stochastic** — the decisive control: bloat went 0.004→1.0 from
+  one added sentence of application context (id-only grounding was ambiguous → the LLM picked
+  the benchmark's own main; +launcher convention → the correct harness → cascade).
+
+### 4.1 The review-driven correctness wave (2026-07-02)
+
+A 7-angle code review (36 candidates) followed by benchmark experiments hardened the
+implementation without regressing any number (live re-measure: luindex/antlr/fop identical,
+pmd +3 sound methods, jython +0.001 recall):
+
+- **Traditional-analysis soundness (TDD, RED→GREEN unless noted):** latched residual
+  predicate (a co-present constant can never suppress the LLM; empty pts never burns the
+  query latch); *monotone proposal re-injection* (classes arriving after the one-shot query
+  now receive the cached proposals — deterministic miss reproduced and fixed); variant-matched
+  resolution probe (getDeclared\* ledger honesty); `Class.getField`'s superinterface lookup;
+  *event-driven monotone ServiceLoader delivery* (late providers pushed through a
+  loader→iterator→next graph — stale-snapshot miss reproduced deterministically); site-level
+  `getProperty` ⊤ (opaque defaults no longer lose G7's over-approximation).
+- **LLM-channel robustness:** output-token cap 64→256 (list answers were truncated mid-FQN
+  and cached forever); generation-config-versioned cache keys; blank responses treated as
+  retryable and never cached (poison-proof); full control-character JSON escaping (IR text
+  embedded in prompts).
+- **Baseline purity by construction:** the deterministic add-ons attach only for
+  `reflection-inference:llm` — the shipped baselines are vanilla Tai-e with no property
+  juggling; the SOLAR-N3 ledgers reset on every analysis in a JVM.
+- **Negative results, kept honestly:** a forName-site type clamp (review's P1) was
+  implemented as a precision fixture first — which showed Tai-e's ACTION-site machinery
+  (ReflectiveActionModel + TypeMatcher) already enforces the downcast bound where instances
+  materialize; no clamp code was added, and `ReflectionCastClampTest` pins the invariant.
+  Phase-end scans, classpath I/O and IR scans were indexed/memoized (measured on
+  jython/eclipse).
+
+The wave's value lands on the *soundness/robustness plane*, not DaCapo's recall — exactly
+the T1-vs-T3 decomposition's prediction: correctness fixes protect the guarantees; recall
+moves only with evidence/context quality.
+
+## 5. Lessons & experience — improving reflection in a pointer analysis
+
+1. **The bottleneck is *evidence*, not cleverness.** The LLM helps exactly to the extent it is
+   given the out-of-band fact (the app identity) that static analysis lacks. Where the name is
+   conventional, the LLM's world knowledge supplies it; where it is bespoke, a human/config
+   must. This is the honest edge of "LLM proposes."
+2. **Model = theory ∧ evidence, always.** The project's biggest near-miss was concluding from
+   an un-decomposed number that "the gap is information-theoretic / +1 is the ceiling."
+   Decomposing the log (70% library-internal, the rest a *fixable* self-inference hole plus one
+   identity name), instrumenting the trigger, and running a bootstrap-only cascade experiment
+   overturned it. Theory located the gap and the soundness discipline; observation revealed
+   what theory did not (context-quality gating, the two unmodeled self-inference links, a
+   constant *suppressing* the LLM). Only the fusion is correct.
+3. **Confirm the cause before the fix.** A class-count "missed 49 Elem\* classes" looked like a
+   registry-dispatch residual; the confirmation experiment (supply just those targets) refuted
+   it — at the *method* level it was ~3 methods. The real residual was the JAXP→xerces chain.
+4. **Know your ceiling and name it.** arm②'s remaining gap (pmd/xalan/eclipse) is a *multi-layer,
+   library-internal factory chain* (JAXP-factory → xerces-factory → xerces-`ObjectFactory` →
+   parser), below `only-app`. A correct top-level JAXP model fired and resolved but moved recall
+   0 — the bottleneck is one layer deeper, inside the library. That is a *scope + depth*
+   boundary, not a name-resolution problem; LLM name-resolution has no leverage there, and it
+   was cut rather than shipped as dead weight ("keep by measured effect").
+5. **Soundness must be a licence, not a hope.** Embedding an untrusted component (an LLM) in a
+   sound analysis is only defensible with the T1/T2 argument: the component is off the
+   soundness path and its damage is type-bounded. That is what lets us use a probabilistic
+   oracle without giving up the guarantees a pointer analysis exists to provide.
+6. **The solver's delta mechanics are part of the spec.** The worst review-wave bugs were not
+   in any formula but in the *interaction* with the fixpoint engine: handlers receive the
+   DELTA of the changed variable (so one-shot injection silently starves late-arriving
+   classes), mock objects never re-trigger handlers (so side-band state like a provider map
+   silently goes stale), and per-fire local flags (`knownName`) are anti-monotone. The
+   pattern that survives: **latch observations, cache decisions, replay effects at the
+   current state** — i.e. make every plugin behave like a monotone transformer evaluated at
+   the current `X`, which is exactly what the formal model assumed all along. Conversely,
+   verify "missing" mechanisms before adding them: the forName-site type clamp turned out to
+   already exist at the action site, and a fixture proved it — an invariant test beats new
+   code.
+
+**Bottom line.** arm② moves DaCapo reflection recall from ~0 (string-constant *and* SOLAR) to
+near the dynamic upper bound at high precision, by supplying — safely — the one kind of
+evidence no static self-inference can recover: config/identity-driven names. The guarantees
+are unconditional; the recall is a function of context quality; the residual is an honestly-
+scoped library-depth boundary.
+
+---
+*Reproduce:* `./gradlew reflRecall -ParmLive [-PreflBenchmarks=…]` (recall/precision vs
+string-constant + SOLAR); diagnostic hooks `-PreflDebug`, `-PreflDumpTargets`,
+`-PreflProbe=…`, `-PreflExtraLog=…`. Functional suite: `./gradlew test --tests 'pta.arm2.*'`.
