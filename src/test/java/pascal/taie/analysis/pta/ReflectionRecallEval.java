@@ -126,16 +126,34 @@ public class ReflectionRecallEval {
                     // full = identity + the launcher naming convention.
                     String ctxLevel = System.getProperty("refl.context", "full");
                     if (!"none".equals(ctxLevel)) {
-                        String idCtx = "This is the DaCapo-2006 benchmark suite; the program "
-                                + "under analysis is the '" + id + "' benchmark.";
-                        String fullCtx = idCtx + " DaCapo launches each benchmark through a "
-                                + "wrapper class named dacapo.<id>.<CapitalizedId>Harness "
-                                + "(e.g. the '" + id + "' benchmark's harness is dacapo."
-                                + id + "." + Character.toUpperCase(id.charAt(0))
-                                + id.substring(1) + "Harness).";
+                        // DaCapo-2006 ids get the launcher-convention context; the
+                        // real-world apps (findbugs/columba/jedit/freecol/…) get generic
+                        // identity + their actual main class — the same mechanism, no
+                        // benchmark-specific naming trick (generalization check).
+                        boolean dacapo = id.indexOf('-') < 0; // real apps are id-version
+                        String hint;
+                        String idCtx, fullCtx;
+                        if (dacapo) {
+                            idCtx = "This is the DaCapo-2006 benchmark suite; the program "
+                                    + "under analysis is the '" + id + "' benchmark.";
+                            fullCtx = idCtx + " DaCapo launches each benchmark through a "
+                                    + "wrapper class named dacapo.<id>.<CapitalizedId>Harness "
+                                    + "(e.g. the '" + id + "' benchmark's harness is dacapo."
+                                    + id + "." + Character.toUpperCase(id.charAt(0))
+                                    + id.substring(1) + "Harness).";
+                            hint = id;
+                        } else {
+                            String appName = id.substring(0, id.indexOf('-'));
+                            idCtx = "The program under analysis is the real-world Java "
+                                    + "application '" + appName + "' (version "
+                                    + id.substring(id.indexOf('-') + 1) + ").";
+                            fullCtx = idCtx + " Its entry point is the main class "
+                                    + info.main() + ".";
+                            hint = appName;
+                        }
                         System.setProperty("arm2.appContext",
                                 "id".equals(ctxLevel) ? idCtx : fullCtx);
-                        System.setProperty("arm2.classHint", id);
+                        System.setProperty("arm2.classHint", hint);
                     }
                     Set<String> llm;
                     try {
