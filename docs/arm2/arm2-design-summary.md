@@ -216,6 +216,39 @@ Per-component switches (`-PreflAblate=…`) + context tiers (`-PreflContext=none
   completeness. Full per-benchmark table in the experiment archive (`persite.py` over
   `expG.xml`).
 
+### 4.3 Downstream impact, oracle generalization, and the Solar-compose tradeoff (2026-07-02)
+
+Instrumentation (commit 9a1c79ba): `[cg]` call-graph edge/method counts, `-Darm2.model`
+oracle switch, `[disposer]` proposed/Φ-rejected/injected counters.
+
+- **RQ5 — call-graph completeness (downstream).** Under string-constant every benchmark
+  reaches only the **229-method / 642-edge DaCapo launcher shell** (identical across all 11 —
+  the body sits behind the reflective `forName`); Reflex adds **+14,344 reachable methods and
+  +91,823 call edges** suite-wide (2.0–22× expansion). Per-benchmark Δmethods ≈ GT
+  (consistency check passed). This is the "so-what" for clients: every call-graph consumer is
+  blind to that code until reflection is resolved.
+- **RQ6a — failure mode (disposal).** Oracle proposed 260 class names across the suite; Φ
+  realizability dropped **65 (25%)** that name no loadable class (pure hallucinations),
+  injected 195. Reject rate tracks difficulty: 0% on convention benches, **pmd 20/40 = 50%**,
+  eclipse 13/32 = 43%, xalan 20/78. Empirical T1/T2: a quarter of LLM output was wrong, none
+  reached the analysis.
+- **RQ6b — cross-model (T1/T3).** Same pipeline, cold cache, swap model: recall∝capability —
+  antlr **1.000 (2.5-flash) → 0.054 (flash-lite) → 0.002 (2.0-flash)**; luindex 1.000/1.000/0.006.
+  Precision stays **0.64–1.00 regardless of model** (empirical T1: a worse oracle loses recall,
+  never breaks soundness).
+- **Log4Shell downstream case (honest boundary → measured tradeoff).** Tai-e taint on
+  log4j-core 2.14.0 (source = attacker string, sink = `InitialContext.lookup`, CVE-2021-44228):
+  string-constant **0** flows, SOLAR **1**, Reflex-alone **0**. The flow is `Method.invoke`
+  (TYPE)-gated — SOLAR's TypeMatcher resolves it; Reflex targets unknown NAMES (DaCapo's mode),
+  not this. **Reflex⊕SOLAR composition** (`-Darm2.solarCompose`, opt-in, both models add-only ⇒
+  sound): composed llm **recovers Log4Shell (Detected=1)**, recall monotone (jython 0.901→0.911,
+  eclipse 0.125→0.175, rest unchanged), **precision −0.01…−0.19** (hsqldb 0.990→0.800,
+  lusearch 1.000→0.836) — SOLAR's forName c^u over-approximation returns. Kept OPT-IN;
+  Reflex-alone stays the high-precision headline. Precision cost is isolated to SOLAR's forName
+  c^u (not its invoke type-matching) → surgical compose (methodInvoke-only) is motivated future
+  work. Mechanism: `@InvokeHandler` registration is per-plugin-instance, so two InferenceModel
+  plugins coexist (forName double-fires, both add-only) with no conflict.
+
 ## 5. Lessons & experience — improving reflection in a pointer analysis
 
 1. **The bottleneck is *evidence*, not cleverness.** The LLM helps exactly to the extent it is
