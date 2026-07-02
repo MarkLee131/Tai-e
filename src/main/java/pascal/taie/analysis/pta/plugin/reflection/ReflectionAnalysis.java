@@ -78,6 +78,19 @@ public class ReflectionAnalysis extends CompositePlugin {
             inferenceModel = new SolarModel(solver, helper, typeMatcher, invokesWithLog);
         } else if ("llm".equals(reflection)) {
             inferenceModel = new LlmInferenceModel(solver, helper, invokesWithLog);
+            // OPTIONAL composition (-Darm2.solarCompose): Reflex ON TOP of Solar.
+            // Solar's collective TYPE inference (Method.invoke / newInstance) resolves
+            // the type-gated reflection Reflex's NAME resolution does not target (e.g.
+            // the log4j plugin dispatch behind Log4Shell). Both models are add-only and
+            // monotone, so the composition is sound and recall is monotone (>=). But
+            // Solar's forName also re-introduces its unknown-class OVER-APPROXIMATION,
+            // measurably costing precision (0.01-0.19 on DaCapo), so composition is
+            // OPT-IN, not the default: the high-precision Reflex-alone configuration is
+            // the headline. A surgical composition inheriting only Solar's type-based
+            // Method.invoke inference (without its forName c^u) is future work.
+            if (System.getProperty("arm2.solarCompose") != null) {
+                addPlugin(new SolarModel(solver, helper, typeMatcher, invokesWithLog));
+            }
         } else if (reflection == null) {
             inferenceModel = InferenceModel.getDummy(solver);
         } else {
