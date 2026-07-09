@@ -13,3 +13,4 @@ output/
 # Python bytecode cache (eval/)
 __pycache__/
 *.pyc
+eval/arm2/raw/reachdumps/
