@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * CAFD-equivalent allocator-wrapper heap model (B3 deterministic baseline).
  *
- * <h3>Design</h3>
+ * <h2>Design</h2>
  * <p>For each call site of a detected allocator-wrapper method, this model
  * pre-creates a distinct {@link pascal.taie.analysis.pta.core.heap.MockObj}
  * keyed by that {@link Invoke} statement.  A companion plugin
@@ -37,7 +37,7 @@ import java.util.Set;
  * <em>different</em> call sites point to <em>distinct</em> abstract objects,
  * reducing alias-set sizes without full context sensitivity.
  *
- * <h3>Integration</h3>
+ * <h2>Integration</h2>
  * Instantiated by {@link pascal.taie.analysis.pta.PointerAnalysis#analyze()}
  * under {@code advanced:cafd}, mirroring the {@code mahjong} branch.
  */

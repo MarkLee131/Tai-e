@@ -37,7 +37,7 @@ import java.util.List;
  * produce {@code llmQueries = 0} and {@code costUsd = 0.0}.
  *
  * <h2>Arm ② special handling</h2>
- * <p>{@link pta.arm2.LlmInferenceModel} uses a <em>static</em> oracle field
+ * <p>{@link pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel} uses a <em>static</em> oracle field
  * that must be populated before {@code Main.main} is called. When a config's
  * {@code ptaArgs} string contains {@code pta.arm2.LlmInferenceModel}, the
  * runner loads a {@link pta.llm.MockOracle} from {@code llm-mock-file}, wraps

@@ -13,7 +13,7 @@ import pascal.taie.language.classes.JMethod;
 /**
  * Companion plugin for {@link AllocatorWrapperModel}.
  *
- * <h3>Responsibilities</h3>
+ * <h2>Responsibilities</h2>
  * <ol>
  *   <li><b>Suppression</b> ({@link #onStart}): registers each detected
  *       wrapper method as an "ignored" method so the solver does not analyse
@@ -27,7 +27,7 @@ import pascal.taie.language.classes.JMethod;
  *       cloning without full context sensitivity.</li>
  * </ol>
  *
- * <h3>Thread safety</h3>
+ * <h2>Thread safety</h2>
  * Registered and used by a single-threaded solver; no additional
  * synchronisation is required.
  */

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * Detects <em>allocator-wrapper</em> methods from a CI pre-analysis result
  * (B3 baseline — deterministic, no LLM).
  *
- * <h3>Detection criterion</h3>
+ * <h2>Detection criterion</h2>
  * A method M is classified as an allocator wrapper if <em>all</em> of the
  * following hold:
  * <ol>

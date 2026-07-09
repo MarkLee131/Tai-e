@@ -30,7 +30,7 @@ import java.util.List;
  *   <li>{@link #a1(String)} — LLM-guided selective context sensitivity (arm ①)</li>
  *   <li>{@link #a2(String)} — LLM reflection target resolution (arm ②).
  *       Note: arm ② uses a <em>static</em> oracle (
- *       {@link pta.arm2.LlmReflectionModel#setOracle}) injected by
+ *       {@link pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel#setOracle}) injected by
  *       {@link ConfigRunner} before each run; the {@code llm-mock-file} value
  *       in the config's {@code ptaArgs} is used by the runner to load the
  *       oracle, but is NOT read by {@code LlmReflectionModel} itself.</li>
@@ -109,8 +109,8 @@ public final class Configs {
      * {@code plugins:[...]}, but it does <em>not</em> read {@code llm-mock-file}
      * from options. Instead, {@link ConfigRunner} detects this config, loads a
      * {@link pta.llm.MockOracle} from {@code mockFile}, and injects it via
-     * {@link pta.arm2.LlmReflectionModel#setOracle} before the run (and calls
-     * {@link pta.arm2.LlmReflectionModel#clearOracle} afterward).
+     * {@link pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel#setOracle} before the run (and calls
+     * {@link pascal.taie.analysis.pta.plugin.reflection.LlmInferenceModel#clearOracle} afterward).
      *
      * @param mockFile path to the mock-oracle file (answers are class names)
      * @return arm ② config
