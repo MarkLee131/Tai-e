@@ -84,7 +84,13 @@ final class ConfigResolver {
                     scanJar(f, keys, values);
                 }
             }
-            return new ArrayList<>(values);
+            // Determinism (B-wave part 2): the accumulation order follows Files.walk's
+            // directory-iteration order, which is filesystem/OS-dependent (not spec-
+            // deterministic) — and this list is interpolated verbatim into the prompt.
+            // Sort for a canonical prompt slot.
+            List<String> result = new ArrayList<>(values);
+            java.util.Collections.sort(result);
+            return result;
         });
     }
 

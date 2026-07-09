@@ -153,6 +153,52 @@ public class LlmInferenceModel extends InferenceModel {
 
     private static final Descriptor NAME_PH = () -> "LlmUnknownReflName";
 
+    // -----------------------------------------------------------------------
+    // B-wave staged querying: during solving, residual sites are only LATCHED
+    // (deferred); queries fire at onPhaseFinish against the CONVERGED phase
+    // state — the lfp of the constraints-so-far, unique regardless of worklist
+    // order — so prompts are canonical and the analysis is deterministic by
+    // induction over phases. Legacy fire-once behavior stays under
+    // -Darm2.staged=false for before/after measurement.
+    // -----------------------------------------------------------------------
+
+    /** Staged mode flag: default TRUE; {@code -Darm2.staged=false} restores fire-once. */
+    private final boolean staged =
+            !"false".equals(System.getProperty("arm2.staged", "true"));
+
+    /** A residual site deferred to the phase boundary (staged mode). */
+    private record Deferred(Context context, Invoke invoke, String kind, String question) {
+    }
+
+    /** Deferred residual sites; entries stay across phases (evidence may mature). */
+    private final Set<Deferred> pending = Sets.newLinkedSet();
+
+    /** Per-invoke prompt-version latch: SHA-256 of every prompt version queried. */
+    private final java.util.Map<Invoke, Set<String>> promptVersions =
+            pascal.taie.util.collection.Maps.newMap();
+
+    /** Cap on distinct prompt versions queried per site (staged mode). */
+    private static final int MAX_PROMPT_VERSIONS = 4;
+
+    /** Per-deferral ledger of already-injected proposals (keeps the phase loop terminating). */
+    private final java.util.Map<Deferred, Set<String>> injectedByEntry =
+            pascal.taie.util.collection.Maps.newMap();
+
+    private static final String Q_CLASS =
+            "A reflective Class.forName(...) has a non-constant class name. "
+                    + "Given the surrounding code, list the fully-qualified names of "
+                    + "the classes it may load, one per line.";
+
+    private static final String Q_METHOD =
+            "A reflective getMethod(...) has a non-constant method name. "
+                    + "Given the surrounding code, list the method name(s) it may "
+                    + "retrieve, one per line.";
+
+    private static final String Q_FIELD =
+            "A reflective getField(...) has a non-constant field name. "
+                    + "Given the surrounding code, list the field name(s) it may "
+                    + "retrieve, one per line.";
+
     LlmInferenceModel(Solver solver, MetaObjHelper helper, Set<Invoke> invokesWithLog) {
         super(solver, helper, invokesWithLog);
         this.oracle = pta.llm.CorruptingOracle.wrapIfConfigured(resolveOracle(),
@@ -273,18 +319,21 @@ public class LlmInferenceModel extends InferenceModel {
                 hasUnknown[0] = true;
             }
         });
-        // Residual: name is (partly) input-dependent → ask the LLM, inject its proposals.
-        if (hasUnknown[0] && oracle != null && queried.add(invoke)) {
-            boolean resolvedAny = false;
-            for (String className : askLlm("llm-class", invoke,
-                    "A reflective Class.forName(...) has a non-constant class name. "
-                            + "Given the surrounding code, list the fully-qualified names of "
-                            + "the classes it may load, one per line.")) {
-                if (injectClassAndSubtypes(context, invoke, className.trim())) {
-                    resolvedAny = true;
+        // Residual: name is (partly) input-dependent. Staged (default): only LATCH the
+        // site; the query fires at onPhaseFinish against the converged state. Legacy
+        // (-Darm2.staged=false): fire-once mid-flight.
+        if (hasUnknown[0] && oracle != null) {
+            if (staged) {
+                pending.add(new Deferred(context, invoke, "llm-class", Q_CLASS));
+            } else if (queried.add(invoke)) {
+                boolean resolvedAny = false;
+                for (String className : askLlm("llm-class", invoke, Q_CLASS)) {
+                    if (injectClassAndSubtypes(context, invoke, className.trim())) {
+                        resolvedAny = true;
+                    }
                 }
+                markResolution(invoke, resolvedAny);
             }
-            markResolution(invoke, resolvedAny);
         }
     }
 
@@ -322,16 +371,21 @@ public class LlmInferenceModel extends InferenceModel {
                 unknownNames.add(invoke);
             }
         });
-        // Residual (⊤ ∈ Ŝ(n), latched): query once, but RE-INJECT the cached proposals
-        // on every fire — handlers receive the DELTA of the changed var, so classes
-        // arriving after the first query would otherwise never get the proposals.
+        // Residual (⊤ ∈ Ŝ(n), latched). Staged (default): only DEFER — the query and
+        // the injection (against the classes re-derived from the then-current pts)
+        // happen at onPhaseFinish. Legacy: query once, but RE-INJECT the cached
+        // proposals on every fire — handlers receive the DELTA of the changed var, so
+        // classes arriving after the first query would otherwise never get the proposals.
+        if (staged) {
+            if (unknownNames.contains(invoke) && oracle != null) {
+                pending.add(new Deferred(context, invoke, "llm-method", Q_METHOD));
+            }
+            return;
+        }
         if (unknownNames.contains(invoke) && !classes.isEmpty() && oracle != null) {
             List<String> props = proposals.get(invoke);
             if (props == null && queried.add(invoke)) {
-                props = askLlm("llm-method", invoke,
-                        "A reflective getMethod(...) has a non-constant method name. "
-                                + "Given the surrounding code, list the method name(s) it may "
-                                + "retrieve, one per line.");
+                props = askLlm("llm-method", invoke, Q_METHOD);
                 proposals.put(invoke, props);
             }
             if (props != null) {
@@ -381,13 +435,16 @@ public class LlmInferenceModel extends InferenceModel {
                 unknownNames.add(invoke);
             }
         });
+        if (staged) {
+            if (unknownNames.contains(invoke) && oracle != null) {
+                pending.add(new Deferred(context, invoke, "llm-field", Q_FIELD));
+            }
+            return;
+        }
         if (unknownNames.contains(invoke) && !classes.isEmpty() && oracle != null) {
             List<String> props = proposals.get(invoke);
             if (props == null && queried.add(invoke)) {
-                props = askLlm("llm-field", invoke,
-                        "A reflective getField(...) has a non-constant field name. "
-                                + "Given the surrounding code, list the field name(s) it may "
-                                + "retrieve, one per line.");
+                props = askLlm("llm-field", invoke, Q_FIELD);
                 proposals.put(invoke, props);
             }
             if (props != null) {
@@ -460,24 +517,33 @@ public class LlmInferenceModel extends InferenceModel {
 
     @Override
     public void onPhaseFinish() {
-        if (oracle == null || ablated("seeding")) {
+        if (oracle == null) {
             return;
         }
+        if (!ablated("seeding")) {
+            seedPlaceholders();
+        }
+        if (staged) {
+            processDeferred();
+        }
+    }
+
+    private void seedPlaceholders() {
         // One pass over the reachable set per phase, indexed by the containers we
         // actually care about — not a full-materialize-then-filter per site (E1).
-        Set<JMethod> pending = Sets.newSet();
+        Set<JMethod> unseeded = Sets.newSet();
         for (Invoke site : reflSites) {
             if (!placeholderDone.contains(site)) {
-                pending.add(site.getContainer());
+                unseeded.add(site.getContainer());
             }
         }
-        if (pending.isEmpty()) {
+        if (unseeded.isEmpty()) {
             return;
         }
         java.util.Map<JMethod, List<Context>> ctxIndex =
                 pascal.taie.util.collection.Maps.newMap();
         solver.getCallGraph().reachableMethods().forEach(m -> {
-            if (pending.contains(m.getMethod())) {
+            if (unseeded.contains(m.getMethod())) {
                 ctxIndex.computeIfAbsent(m.getMethod(), k -> new ArrayList<>())
                         .add(m.getContext());
             }
@@ -487,6 +553,155 @@ public class LlmInferenceModel extends InferenceModel {
                 seedPlaceholderIfEmptyPts(site,
                         ctxIndex.getOrDefault(site.getContainer(), List.of()));
             }
+        }
+    }
+
+    /**
+     * B-wave staged querying: at the phase boundary the points-to state is the
+     * converged lfp of the constraints-so-far — unique regardless of worklist
+     * order — so prompts built here are CANONICAL and the analysis result is
+     * schedule-independent by induction over phases. Injections seed the next
+     * phase; the loop terminates once a phase queries and injects nothing new.
+     */
+    private void processDeferred() {
+        List<Deferred> entries = new ArrayList<>(pending);
+        // canonical processing order (site, kind, context) — the query/injection
+        // sequence itself must not depend on worklist-discovery order
+        entries.sort(java.util.Comparator
+                .comparing((Deferred d) -> siteId(d.invoke()))
+                .thenComparing(Deferred::kind)
+                .thenComparing(d -> d.context().toString()));
+        for (Deferred d : entries) {
+            // Re-check the residual predicate against the CURRENT (converged) pts of
+            // the name var: query only sites that are still residual at the boundary.
+            if (!hasUnknownName(d)) {
+                continue;
+            }
+            List<JClass> classes = List.of();
+            if (!"llm-class".equals(d.kind())) {
+                classes = currentClasses(d);
+                if (classes.isEmpty()) {
+                    continue; // member site without receiver classes yet; retry next phase
+                }
+            }
+            String prompt = buildPrompt(d.kind(), d.invoke(), d.question());
+            Set<String> versions = promptVersions.computeIfAbsent(
+                    d.invoke(), k -> Sets.newLinkedSet());
+            String hash = sha256(prompt);
+            if (!versions.contains(hash)) {
+                if (versions.size() >= MAX_PROMPT_VERSIONS) {
+                    // Mirror the G1 overflow protocol: never silently drop — flag the
+                    // site as an under-approximated residual in the gap report.
+                    OVERFLOW.add(siteId(d.invoke()));
+                    logger.warn("[arm2-llm] prompt-version cap κ={} exceeded at {}; "
+                            + "further evidence maturation is flagged as an "
+                            + "under-approximated residual (not silently dropped)",
+                            MAX_PROMPT_VERSIONS, siteId(d.invoke()));
+                } else {
+                    versions.add(hash);
+                    List<String> merged = proposals.computeIfAbsent(
+                            d.invoke(), k -> new ArrayList<>());
+                    for (String line : queryOracle(d.kind(), prompt, siteId(d.invoke()))) {
+                        String t = line.trim();
+                        if (!t.isEmpty() && !merged.contains(t)) {
+                            merged.add(t);
+                        }
+                    }
+                }
+            }
+            List<String> props = proposals.get(d.invoke());
+            if (props == null || props.isEmpty()) {
+                if (!versions.isEmpty()) {
+                    markResolution(d.invoke(), false); // queried, nothing usable → gap
+                }
+                continue;
+            }
+            injectProposals(d, props, classes);
+        }
+    }
+
+    /** Whether the deferral's name var still carries an Unknown in its CURRENT pts. */
+    private boolean hasUnknownName(Deferred d) {
+        Var nameVar = pascal.taie.analysis.pta.plugin.util.InvokeUtils
+                .getVar(d.invoke(), 0);
+        PointsToSet pts = solver.getPointsToSetOf(
+                solver.getCSManager().getCSVar(d.context(), nameVar));
+        for (var obj : pts) {
+            if (CSObjs.toString(obj) == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Receiver classes of a member site, re-derived from the CURRENT (converged) pts. */
+    private List<JClass> currentClasses(Deferred d) {
+        Var baseVar = pascal.taie.analysis.pta.plugin.util.InvokeUtils
+                .getVar(d.invoke(), BASE);
+        PointsToSet pts = solver.getPointsToSetOf(
+                solver.getCSManager().getCSVar(d.context(), baseVar));
+        List<JClass> classes = new ArrayList<>();
+        pts.forEach(co -> {
+            JClass clazz = CSObjs.toClass(co);
+            if (clazz != null && !classes.contains(clazz)) {
+                classes.add(clazz);
+            }
+        });
+        return classes;
+    }
+
+    /**
+     * Injects the (cumulative) proposals of a deferred site, skipping what this
+     * deferral already injected — so a phase that adds nothing new schedules no
+     * work and the outer phase loop terminates.
+     */
+    private void injectProposals(Deferred d, List<String> props, List<JClass> classes) {
+        Set<String> done = injectedByEntry.computeIfAbsent(d, k -> Sets.newLinkedSet());
+        boolean attempted = false;
+        boolean resolvedAny = false;
+        if ("llm-class".equals(d.kind())) {
+            for (String name : props) {
+                if (done.add(name)) {
+                    attempted = true;
+                    if (injectClassAndSubtypes(d.context(), d.invoke(), name)) {
+                        resolvedAny = true;
+                    }
+                }
+            }
+        } else {
+            boolean isMethod = "llm-method".equals(d.kind());
+            for (String name : props) {
+                for (JClass clazz : classes) {
+                    if (done.add(clazz.getName() + "#" + name)) {
+                        attempted = true;
+                        if (memberExists(d.invoke(), clazz, name)) {
+                            resolvedAny = true;
+                        }
+                        if (isMethod) {
+                            classGetMethodKnown(d.context(), d.invoke(), clazz, name);
+                        } else {
+                            classGetFieldKnown(d.context(), d.invoke(), clazz, name);
+                        }
+                    }
+                }
+            }
+        }
+        if (attempted) {
+            markResolution(d.invoke(), resolvedAny);
+        }
+    }
+
+    private static String sha256(String s) {
+        try {
+            byte[] digest = java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(s.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder(digest.length * 2);
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new AssertionError("SHA-256 unavailable", e);
         }
     }
 
@@ -571,8 +786,18 @@ public class LlmInferenceModel extends InferenceModel {
         return true;
     }
 
+    /** Legacy fire-once path: build the prompt at fire time and query immediately. */
     private List<String> askLlm(String kind, Invoke invoke, String question) {
-        String siteId = invoke.getContainer().getSignature() + "@" + invoke.getIndex();
+        return queryOracle(kind, buildPrompt(kind, invoke, question), siteId(invoke));
+    }
+
+    /**
+     * Builds the prompt for a residual site. In staged mode this runs at the phase
+     * boundary, so every input (IR-derived evidence, config values, grounding hints)
+     * is a function of the converged state — the prompt is canonical.
+     */
+    private String buildPrompt(String kind, Invoke invoke, String question) {
+        String siteId = siteId(invoke);
         // Objectively model the obtainable name evidence (string-flow / config) and
         // quality-gate it: HIGH-quality fragments are fed directly; LOW-quality is
         // preprocessed into a best-effort summary (see ReflectionContextExtractor).
@@ -606,18 +831,28 @@ public class LlmInferenceModel extends InferenceModel {
         if (!ablated("grounding")
                 && "llm-class".equals(kind) && classHint != null && !classHint.isBlank()) {
             String h = classHint.toLowerCase();
+            // Determinism (B-wave part 2): applicationClasses() streams the hierarchy's
+            // class list in RESOLUTION order, which varies across JVM runs — taking the
+            // first 40 of an unordered stream yields run-dependent prompt bytes (the
+            // observed same-config prompt variance). Sort BEFORE limit: the candidate
+            // slot is canonically the alphabetically first 40 matches.
             List<String> candidates = World.get().getClassHierarchy().applicationClasses()
                     .map(JClass::getName)
                     .filter(n -> n.toLowerCase().contains(h))
-                    .distinct().limit(40).toList();
+                    .distinct().sorted().limit(40).toList();
             if (!candidates.isEmpty()) {
                 prompt.append("Classes on the classpath matching the application id "
                         + "(choose the exact one): ").append(candidates).append('\n');
             }
         }
         prompt.append("Enclosing method body:\n").append(body(invoke));
+        return prompt.toString();
+    }
+
+    /** Sends one prompt to the oracle; accounting + robustness shared by both modes. */
+    private List<String> queryOracle(String kind, String prompt, String siteId) {
         try {
-            pta.llm.LlmResponse resp = oracle.ask(new LlmQuery(kind, prompt.toString(), siteId));
+            pta.llm.LlmResponse resp = oracle.ask(new LlmQuery(kind, prompt, siteId));
             QUERIES.incrementAndGet();
             if (!resp.fromCache()) {
                 LIVE_QUERIES.incrementAndGet();
