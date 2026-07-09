@@ -155,7 +155,9 @@ public class LlmInferenceModel extends InferenceModel {
 
     LlmInferenceModel(Solver solver, MetaObjHelper helper, Set<Invoke> invokesWithLog) {
         super(solver, helper, invokesWithLog);
-        this.oracle = resolveOracle();
+        this.oracle = pta.llm.CorruptingOracle.wrapIfConfigured(resolveOracle(),
+                () -> World.get().getClassHierarchy().applicationClasses()
+                        .map(JClass::getName).sorted().toList());
         resetLedgers();
     }
 
