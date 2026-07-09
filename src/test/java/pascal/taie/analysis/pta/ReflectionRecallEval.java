@@ -199,8 +199,13 @@ public class ReflectionRecallEval {
                     }
                     // Cost report (C): oracle queries / live (non-cache) / USD this run.
                     String[] st = LlmInferenceModel.oracleStats().split(",");
-                    System.out.printf("     [oracle] queries=%s live=%s cost=$%.4f%n",
-                            st[0], st[1], Double.parseDouble(st[2]));
+                    System.out.printf("     [oracle] queries=%s live=%s cost=$%.4f failed=%s%n",
+                            st[0], st[1], Double.parseDouble(st[2]), st[3]);
+                    if (Integer.parseInt(st[3]) > 0) {
+                        System.out.printf("     [oracle] WARNING: %s queries FAILED after "
+                                + "retries — oracle-dependent results for this benchmark "
+                                + "are a FLOOR, not the oracle's answer; rerun it%n", st[3]);
+                    }
                     // Failure-mode report: proposed / Phi-rejected / injected.
                     String[] ds = LlmInferenceModel.disposerStats().split(",");
                     System.out.printf("     [disposer] proposed=%s phiRejected=%s injected=%s%n",

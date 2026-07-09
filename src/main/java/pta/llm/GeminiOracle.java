@@ -54,11 +54,15 @@ public class GeminiOracle implements LlmOracle {
                         cache.put(cacheKey, q.prompt(), text);
                         return new LlmResponse(text, false, real);
                     }
-                } else if (code != 429 && code < 500) {
-                    // 4xx other than 429 → fail fast.
+                } else if (code != 429 && code != 404 && code < 500) {
+                    // 4xx other than 429/404 → fail fast.
                     throw new RuntimeException("Gemini HTTP " + code + ": " + resp.body());
                 } else {
-                    // 429 (rate limit) and 5xx (server) are transient → retry.
+                    // 429 (rate limit), 5xx (server), and 404 are transient → retry.
+                    // 404: observed 2026-07-10 as an INTERMITTENT server-side response on
+                    // generateContent (20 sporadic 404s in one 11-benchmark pass, same
+                    // model/URL succeeding before and after) — treating it as permanent
+                    // silently collapsed three benchmarks to the no-oracle floor.
                     last = new RuntimeException("Gemini HTTP " + code + " for " + q.contextId());
                 }
             } catch (java.io.IOException e) {

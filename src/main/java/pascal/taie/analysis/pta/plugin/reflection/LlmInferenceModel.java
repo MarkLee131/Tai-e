@@ -218,6 +218,7 @@ public class LlmInferenceModel extends InferenceModel {
         OVERFLOW.clear();
         QUERIES.set(0);
         LIVE_QUERIES.set(0);
+        FAILED_QUERIES.set(0);
         PROPOSED.set(0);
         PHI_REJECT.set(0);
         INJECTED.set(0);
@@ -236,6 +237,10 @@ public class LlmInferenceModel extends InferenceModel {
             new java.util.concurrent.atomic.AtomicInteger();
     private static final java.util.concurrent.atomic.AtomicInteger LIVE_QUERIES =
             new java.util.concurrent.atomic.AtomicInteger();
+    /** queries that FAILED after retries (channel errors) — nonzero means the run's
+     * oracle-dependent results are a floor, not the oracle's answer; report loudly. */
+    private static final java.util.concurrent.atomic.AtomicInteger FAILED_QUERIES =
+            new java.util.concurrent.atomic.AtomicInteger();
     private static final double[] COST = {0.0};
 
     // ---- failure-mode accounting: how the sound disposer treats LLM proposals ----
@@ -249,10 +254,11 @@ public class LlmInferenceModel extends InferenceModel {
     private static final java.util.concurrent.atomic.AtomicInteger INJECTED =
             new java.util.concurrent.atomic.AtomicInteger();
 
-    /** {@code queries,liveQueries,costUsd} of the current/last analysis run. */
+    /** {@code queries,liveQueries,costUsd,failedQueries} of the current/last analysis run. */
     public static String oracleStats() {
         synchronized (COST) {
-            return QUERIES.get() + "," + LIVE_QUERIES.get() + "," + COST[0];
+            return QUERIES.get() + "," + LIVE_QUERIES.get() + "," + COST[0]
+                    + "," + FAILED_QUERIES.get();
         }
     }
 
@@ -837,12 +843,12 @@ public class LlmInferenceModel extends InferenceModel {
             // first 40 of an unordered stream yields run-dependent prompt bytes (the
             // observed same-config prompt variance). Sort BEFORE limit: the candidate
             // slot is canonically the alphabetically first 40 matches.
-            // Instantiable-only: this slot exists to ground CREATION-site proposals in
-            // classes the disposer can admit; abstract classes/interfaces cannot be
-            // instantiated, and alphabetical order would otherwise front-load Abstract*
-            // base classes, steering the oracle into whole-cone proposals.
+            // NOTE (2026-07-10): do NOT filter this slot to instantiable classes.
+            // Tried and reverted: it steers the oracle away from code-derived ABSTRACT
+            // answers that sound cone expansion depends on (antlr's downcast-implied
+            // CodeGenerator: recall 1.000 -> 0.906), an asymmetric loss versus the
+            // pmd Abstract*-front-loading precision cost it was meant to avoid.
             List<String> candidates = World.get().getClassHierarchy().applicationClasses()
-                    .filter(c -> !c.isAbstract() && !c.isInterface())
                     .map(JClass::getName)
                     .filter(n -> n.toLowerCase().contains(h))
                     .distinct().sorted().limit(40).toList();
@@ -870,6 +876,7 @@ public class LlmInferenceModel extends InferenceModel {
             logger.info("[arm2-llm] {} at {} → {}", kind, siteId, lines);
             return lines;
         } catch (RuntimeException e) {
+            FAILED_QUERIES.incrementAndGet();
             logger.warn("[arm2-llm] query failed for {}: {}", siteId, e.getMessage());
             return List.of();
         }
