@@ -18,7 +18,8 @@ BENCH11=luindex,antlr,bloat,lusearch,chart,hsqldb,fop,jython,xalan,pmd,eclipse
 XML=build/test-results/reflRecall/TEST-pascal.taie.analysis.pta.ReflectionRecallEval.xml
 GUARD=0.05                             # max $ per benchmark [oracle] line
 
-for salt in stab5 stab6 stab7; do
+SALTS="${SALTS:-stab5 stab6 stab7}"
+for salt in $SALTS; do
   echo "=== pass $salt: full 11-benchmark reflRecall, cold cache ==="
   ./gradlew reflRecall -PreflBenchmarks="$BENCH11" -ParmLive \
     -PreflCacheSalt="$salt" -x javadoc --console=plain
