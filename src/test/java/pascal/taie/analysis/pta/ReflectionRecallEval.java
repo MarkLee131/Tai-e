@@ -83,22 +83,38 @@ public class ReflectionRecallEval {
             String libCp = cp(info.libs());
             String refl = new File(HOME, info.reflectionLog()).toString();
             try {
+                // Config filter (-PreflConfigs=llm etc., via refl.configs): each config
+                // runs only when requested; a set that was not computed stays null and
+                // every metric needing it degrades to "skip". Default (property unset)
+                // runs all five configs — byte-identical to the unfiltered behavior.
+                Set<String> want = Sets.newSet(Arrays.asList(
+                        System.getProperty("refl.configs", "none,log,sc,solar,llm")
+                                .split(",")));
                 // Baselines are PURE Tai-e by construction (H2): the arm② add-ons attach
                 // only for reflection-inference:llm, so null/string-constant/solar below
                 // measure Tai-e as shipped without any property juggling.
-                Set<String> none = reach(info, appCp, libCp, "null", null);
-                Set<String> log = reach(info, appCp, libCp, "null", refl);
-                Set<String> sc = reach(info, appCp, libCp, "string-constant", null);
-                Set<String> solar = reach(info, appCp, libCp, "solar", null);
-                Set<String> gt = minus(log, none); // reflection-reachable ground truth
-                double rSc = recall(sc, gt);
-                double rSolar = recall(solar, gt);
-                int solarHit = countRecovered(solar, gt);
-                Set<String> solarAdded = minus(solar, none);
-                double pSolar = solarAdded.isEmpty() ? 1.0
-                        : (double) solarHit / solarAdded.size();
-                String solarCol = String.format("r=%.3f p=%.3f", rSolar, pSolar);
-                if (Boolean.getBoolean("refl.debug")) {
+                Set<String> none = want.contains("none")
+                        ? reach(info, appCp, libCp, "null", null) : null;
+                Set<String> log = want.contains("log")
+                        ? reach(info, appCp, libCp, "null", refl) : null;
+                Set<String> sc = want.contains("sc")
+                        ? reach(info, appCp, libCp, "string-constant", null) : null;
+                Set<String> solar = want.contains("solar")
+                        ? reach(info, appCp, libCp, "solar", null) : null;
+                // reflection-reachable ground truth — needs BOTH the none and log runs
+                Set<String> gt = (none != null && log != null) ? minus(log, none) : null;
+                String scCol = (sc != null && gt != null)
+                        ? String.format("%.3f", recall(sc, gt)) : "skip";
+                String solarCol = "skip";
+                if (solar != null && gt != null) {
+                    double rSolar = recall(solar, gt);
+                    int solarHit = countRecovered(solar, gt);
+                    Set<String> solarAdded = minus(solar, none);
+                    double pSolar = solarAdded.isEmpty() ? 1.0
+                            : (double) solarHit / solarAdded.size();
+                    solarCol = String.format("r=%.3f p=%.3f", rSolar, pSolar);
+                }
+                if (Boolean.getBoolean("refl.debug") && gt != null && sc != null) {
                     debugBreakdown(id, none, log, gt, sc);
                     String bootLog = System.getProperty("refl.bootstrapLog");
                     if (bootLog != null && new File(bootLog).isFile()) {
@@ -119,7 +135,7 @@ public class ReflectionRecallEval {
                     }
                 }
                 String llmCol = "—";
-                if (live) {
+                if (live && want.contains("llm")) {
                     LlmInferenceModel.clearOracle(); // live ApiKeyResolver path
                     // Context level (-PreflContext=none|id|full, default full) — the RQ2
                     // ablation: none = no out-of-band context at all; id = identity only;
@@ -170,11 +186,17 @@ public class ReflectionRecallEval {
                     // recall = |llm ∩ GT| / |GT|; precision = fraction of arm②'s
                     // reflection-added methods that are dynamically-confirmed (in GT);
                     // extra = methods llm reaches beyond the log run (over-approximation).
-                    Set<String> reflAdded = minus(llm, none);
-                    int hit = countRecovered(llm, gt);
-                    double prec = reflAdded.isEmpty() ? 1.0 : (double) hit / reflAdded.size();
-                    int extra = minus(llm, log).size();
-                    llmCol = String.format("r=%.3f p=%.3f +%d", recall(llm, gt), prec, extra);
+                    // Both need the none/log baselines — skipped under a config filter
+                    // that excludes them (the reach set is still dumped above).
+                    if (gt != null) {
+                        Set<String> reflAdded = minus(llm, none);
+                        int hit = countRecovered(llm, gt);
+                        double prec = reflAdded.isEmpty() ? 1.0 : (double) hit / reflAdded.size();
+                        int extra = minus(llm, log).size();
+                        llmCol = String.format("r=%.3f p=%.3f +%d", recall(llm, gt), prec, extra);
+                    } else {
+                        llmCol = "r=skip";
+                    }
                     // Cost report (C): oracle queries / live (non-cache) / USD this run.
                     String[] st = LlmInferenceModel.oracleStats().split(",");
                     System.out.printf("     [oracle] queries=%s live=%s cost=$%.4f%n",
@@ -186,13 +208,15 @@ public class ReflectionRecallEval {
                     String probes = System.getProperty("refl.probe");
                     if (probes != null) {
                         for (String p : probes.split(",")) {
-                            System.out.printf("     [probe] %-32s llm=%d  log=%d%n",
-                                    p, count(llm, p), count(log, p));
+                            System.out.printf("     [probe] %-32s llm=%d  log=%s%n",
+                                    p, count(llm, p),
+                                    log != null ? String.valueOf(count(log, p)) : "skip");
                         }
                     }
                 }
-                System.out.printf("%-10s | %8d | %8s | %-20s | %-26s%n",
-                        id, gt.size(), String.format("%.3f", rSc), solarCol, llmCol);
+                System.out.printf("%-10s | %8s | %8s | %-20s | %-26s%n",
+                        id, gt != null ? String.valueOf(gt.size()) : "-",
+                        scCol, solarCol, llmCol);
             } catch (Throwable t) {
                 System.out.printf("%-10s | FAILED: %s: %s%n",
                         id, t.getClass().getSimpleName(), t.getMessage());
@@ -223,6 +247,23 @@ public class ReflectionRecallEval {
         PointerAnalysisResult r = World.get().getResult(PointerAnalysis.ID);
         Set<String> reachable = r.getCallGraph().reachableMethods()
                 .map(m -> m.getSignature()).collect(Collectors.toSet());
+        // Reach-set dump (-PreflDumpReach=<dir> [-PreflDumpTag=<tag>]): one sorted
+        // signature per line, named <bench>-<config>[-<tag>].txt where <config> is
+        // null | null+log | string-constant | solar | llm — the raw artifact the
+        // offline adversarial-sweep reporter computes recall/precision/pollution from.
+        String dumpDir = System.getProperty("refl.dumpReach");
+        if (dumpDir != null) {
+            String tag = System.getProperty("refl.dumpTag", "");
+            java.nio.file.Path p = java.nio.file.Path.of(dumpDir,
+                    info.id() + "-" + reflInference + (reflLog != null ? "+log" : "")
+                            + (tag.isEmpty() ? "" : "-" + tag) + ".txt");
+            try {
+                java.nio.file.Files.createDirectories(p.getParent());
+                java.nio.file.Files.write(p, reachable.stream().sorted().toList());
+            } catch (java.io.IOException e) {
+                throw new RuntimeException("dumpReach failed: " + p, e);
+            }
+        }
         // Call-graph completeness (downstream RQ): absolute reachable-method and
         // call-edge counts per configuration.
         System.out.printf("     [cg] %-16s methods=%d edges=%d  (%s%s)%n", info.main(),

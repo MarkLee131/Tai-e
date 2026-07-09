@@ -273,6 +273,14 @@ tasks.register<Test>("reflRecall") {
     (findProperty("reflCacheSalt") as String?)?.let { systemProperty("arm2.cacheSalt", it) }
     (findProperty("reflCs") as String?)?.let { systemProperty("refl.cs", it) }
     (findProperty("reflModel") as String?)?.let { systemProperty("arm2.model", it) }
+    (findProperty("reflCorrupt") as String?)?.let { systemProperty("arm2.corrupt", it) }
+    (findProperty("reflCorruptRate") as String?)?.let { systemProperty("arm2.corruptRate", it) }
+    (findProperty("reflCorruptSeed") as String?)?.let { systemProperty("arm2.corruptSeed", it) }
+    (findProperty("reflCorruptSite") as String?)?.let { systemProperty("arm2.corruptSite", it) }
+    (findProperty("reflCorruptExceptSite") as String?)?.let { systemProperty("arm2.corruptExceptSite", it) }
+    (findProperty("reflConfigs") as String?)?.let { systemProperty("refl.configs", it) }
+    (findProperty("reflDumpReach") as String?)?.let { systemProperty("refl.dumpReach", it) }
+    (findProperty("reflDumpTag") as String?)?.let { systemProperty("refl.dumpTag", it) }
     jvmArgs("-Xss4m")
     outputs.upToDateWhen { false }
 
