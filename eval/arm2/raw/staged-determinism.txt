@@ -1,0 +1,10 @@
+B3 determinism acceptance (2026-07-10, staged oracle querying + sorted prompt slots, merge 48b4b5d0)
+Gate: 3 runs per benchmark, reach dumps byte-identical (diff of sorted dumps).
+  luindex: DETERMINISTIC 3/3, 751 methods (legacy clean: 751 — unchanged)
+  antlr:   DETERMINISTIC 3/3, 1709 methods (legacy clean: 1709 — unchanged)
+  hsqldb:  DETERMINISTIC 3/3, 326 methods (legacy clean: 323 — +3 from canonical converged-state prompts)
+  fop:     DETERMINISTIC 3/3, 1554 methods (legacy: bistable 1545/1558 attractors — staged picks one deterministic outcome)
+Legacy before-column: warm-cache attractor flips (fop ±16 methods, ~1/3 draws); cold-cache stab5-7 byte-identical within sampling.
+Root causes fixed: (1) fire-once mid-flight querying sampled schedule-dependent intermediate states -> staged at
+Plugin.onPhaseFinish (converged states, canonical evidence; matches formal core F_O lfp semantics);
+(2) unordered stream sampling in prompt slots (grounding candidates limit(40); ConfigResolver Files.walk order) -> sorted.
