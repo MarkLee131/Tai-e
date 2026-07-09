@@ -187,7 +187,8 @@ public class LlmInferenceModel extends InferenceModel {
     private static final String Q_CLASS =
             "A reflective Class.forName(...) has a non-constant class name. "
                     + "Given the surrounding code, list the fully-qualified names of "
-                    + "the classes it may load, one per line.";
+                    + "the classes it may load, one per line. Answer with class names "
+                    + "only, no explanations.";
 
     private static final String Q_METHOD =
             "A reflective getMethod(...) has a non-constant method name. "
@@ -836,7 +837,12 @@ public class LlmInferenceModel extends InferenceModel {
             // first 40 of an unordered stream yields run-dependent prompt bytes (the
             // observed same-config prompt variance). Sort BEFORE limit: the candidate
             // slot is canonically the alphabetically first 40 matches.
+            // Instantiable-only: this slot exists to ground CREATION-site proposals in
+            // classes the disposer can admit; abstract classes/interfaces cannot be
+            // instantiated, and alphabetical order would otherwise front-load Abstract*
+            // base classes, steering the oracle into whole-cone proposals.
             List<String> candidates = World.get().getClassHierarchy().applicationClasses()
+                    .filter(c -> !c.isAbstract() && !c.isInterface())
                     .map(JClass::getName)
                     .filter(n -> n.toLowerCase().contains(h))
                     .distinct().sorted().limit(40).toList();
