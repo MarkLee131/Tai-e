@@ -65,6 +65,46 @@ public class StagedOracleTest {
     }
 
     @Test
+    void groundingSlotIsSortedAndCanonical() {
+        // B-wave part 2: the grounding-candidates slot used to take the first 40 of
+        // an UNORDERED applicationClasses() stream (resolution order varies across
+        // JVM runs → different prompt bytes → different cache entry/answer). Assert
+        // the structural determinism property: (a) candidates are interpolated in
+        // sorted order (cross-JVM variance itself is not unit-testable in one JVM;
+        // the integration gate is B3's fop 3-run acceptance) and (b) prompt logs are
+        // byte-identical across two consecutive runs WITH the grounding slot present
+        // (grounding requires arm2.classHint).
+        System.setProperty("arm2.staged", "true");
+        System.setProperty("arm2.classHint", "clamp");
+        try {
+            run("ArmReflectionCastClamp");
+            List<String> first = List.copyOf(promptLog);
+            String marker = "Classes on the classpath matching the application id "
+                    + "(choose the exact one): [";
+            String withSlot = first.stream()
+                    .filter(p -> p.contains(marker))
+                    .findFirst()
+                    .orElseThrow(() -> new AssertionError(
+                            "no prompt carries the grounding slot; prompts: " + first));
+            int start = withSlot.indexOf(marker) + marker.length();
+            String slot = withSlot.substring(start, withSlot.indexOf(']', start));
+            List<String> candidates = List.of(slot.split(", "));
+            assertTrue(candidates.size() >= 2,
+                    "need >=2 candidates for sortedness to be meaningful; got "
+                            + candidates);
+            assertEquals(candidates.stream().sorted().toList(), candidates,
+                    "grounding candidates must appear in sorted order; got "
+                            + candidates);
+            promptLog.clear();
+            run("ArmReflectionCastClamp");
+            assertEquals(first, promptLog,
+                    "prompts with a grounding slot must be byte-identical across runs");
+        } finally {
+            System.clearProperty("arm2.classHint");
+        }
+    }
+
+    @Test
     void stagedPromptIsBuiltFromConvergedState() {
         // The staged prompt is a function of the CONVERGED phase state only, so
         // every prompt for the same site must be identical across two runs

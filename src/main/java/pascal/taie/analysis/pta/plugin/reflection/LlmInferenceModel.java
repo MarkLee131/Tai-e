@@ -831,10 +831,15 @@ public class LlmInferenceModel extends InferenceModel {
         if (!ablated("grounding")
                 && "llm-class".equals(kind) && classHint != null && !classHint.isBlank()) {
             String h = classHint.toLowerCase();
+            // Determinism (B-wave part 2): applicationClasses() streams the hierarchy's
+            // class list in RESOLUTION order, which varies across JVM runs — taking the
+            // first 40 of an unordered stream yields run-dependent prompt bytes (the
+            // observed same-config prompt variance). Sort BEFORE limit: the candidate
+            // slot is canonically the alphabetically first 40 matches.
             List<String> candidates = World.get().getClassHierarchy().applicationClasses()
                     .map(JClass::getName)
                     .filter(n -> n.toLowerCase().contains(h))
-                    .distinct().limit(40).toList();
+                    .distinct().sorted().limit(40).toList();
             if (!candidates.isEmpty()) {
                 prompt.append("Classes on the classpath matching the application id "
                         + "(choose the exact one): ").append(candidates).append('\n');
