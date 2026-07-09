@@ -1,0 +1,8 @@
+bench,site,cleanAnswer,wrongClass,S,S_GT_share,BR
+luindex,<dacapo.TestHarness: java.lang.Class findClass()>@3,dacapo.luindex.LuindexHarness,dacapo.lusearch.LusearchHarness,522,1.0,33
+luindex,<dacapo.TestHarness: void main(java.lang.String[])>@63,dacapo.luindex.LuindexHarness,dacapo.lusearch.LusearchHarness,1,0.007619047619047619,0
+luindex,<org.apache.lucene.store.FSDirectory: void <clinit>()>@28,org.apache.lucene.store.FSDirectory,dacapo.lusearch.LusearchHarness,0,0.005714285714285714,0
+luindex,<org.apache.lucene.index.SegmentReader: void <clinit>()>@11,org.apache.lucene.index.SegmentReader,dacapo.lusearch.LusearchHarness,0,0.005714285714285714,0
+antlr,<dacapo.TestHarness: java.lang.Class findClass()>@3,dacapo.antlr.AntlrHarness,antlr.debug.ParserEventSupport,783,0.5618298784846318,0
+antlr,<dacapo.TestHarness: void main(java.lang.String[])>@63,dacapo.antlr.AntlrHarness,antlr.debug.ParserEventSupport,1,0.0028591851322373124,0
+antlr,<antlr.Tool: int doEverything(java.lang.String[])>@40,antlr.CodeGenerator,antlr.debug.ParserEventSupport,0,0.002144388849177984,0

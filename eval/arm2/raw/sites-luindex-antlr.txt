@@ -1,0 +1,7 @@
+luindex	<dacapo.TestHarness: void main(java.lang.String[])>@63	dacapo.luindex.LuindexHarness
+luindex	<dacapo.TestHarness: java.lang.Class findClass()>@3	dacapo.luindex.LuindexHarness
+luindex	<org.apache.lucene.store.FSDirectory: void <clinit>()>@28	org.apache.lucene.store.FSDirectory
+luindex	<org.apache.lucene.index.SegmentReader: void <clinit>()>@11	org.apache.lucene.index.SegmentReader
+antlr	<dacapo.TestHarness: void main(java.lang.String[])>@63	dacapo.antlr.AntlrHarness
+antlr	<dacapo.TestHarness: java.lang.Class findClass()>@3	dacapo.antlr.AntlrHarness
+antlr	<antlr.Tool: int doEverything(java.lang.String[])>@40	antlr.CodeGenerator
