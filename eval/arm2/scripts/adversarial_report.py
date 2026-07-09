@@ -54,17 +54,31 @@ for b in BENCHES:
     if not gt:
         sys.exit(f"empty GT for {b}: {b}-null+log-clean adds nothing over null")
     sc_recall = len(sc & gt) / len(gt)
+    # Pollution baseline: the UNION of all clean draws (<b>-llm-clean*.txt).
+    # 2026-07-10 finding: the site prompt embeds fire-time fixpoint state, and the
+    # solver schedule is not deterministic across JVM runs, so a site can fire with
+    # different evidence maturity -> different cached answer -> the clean reach set
+    # itself has several attractors (fop: +/-16 methods; luindex/antlr/hsqldb stable
+    # over 3 draws). Comparing one corrupt draw against one clean draw conflates that
+    # jitter with corruption-caused pollution; the union baseline removes exactly the
+    # jitter (anything reached by SOME clean draw is not corruption-caused).
+    clean_union = set()
+    for p in sorted(DUMP.glob(f"{b}-llm-clean*.txt")):
+        clean_union |= set(p.read_text().splitlines())
+    n_draws = len(list(DUMP.glob(f"{b}-llm-clean*.txt")))
+    print(f"{b}: pollution baseline = union of {n_draws} clean draws "
+          f"({len(clean_union)} methods; single draw {len(clean)})")
 
     def metrics(reach):
         added = reach - none
         rec = len(reach & gt) / len(gt)
         prec = 1.0 if not added else len(reach & gt) / len(added)
-        return rec, prec, len(reach - clean), len(reach - log)
+        return rec, prec, len(reach - clean_union), len(reach - log)
 
     rows.append((b, "clean", 0.0, 1, *metrics(clean)))
     for m in MODES:
         for rate in RATES:
-            seeds = [1, 2, 3] if rate == 0.50 else [1]
+            seeds = [1, 2, 3]  # missing (mode, rate, seed) points WARN+skip below
             for s in seeds:
                 reach = load(f"{b}-llm-{m}-{rate:.2f}-s{s}")
                 if reach is None:
