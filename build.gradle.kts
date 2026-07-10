@@ -273,6 +273,7 @@ tasks.register<Test>("reflRecall") {
     (findProperty("reflCacheSalt") as String?)?.let { systemProperty("arm2.cacheSalt", it) }
     (findProperty("reflCs") as String?)?.let { systemProperty("refl.cs", it) }
     (findProperty("reflModel") as String?)?.let { systemProperty("arm2.model", it) }
+    if (findProperty("reflCompose") != null) systemProperty("arm2.solarCompose", "true")
     (findProperty("reflCorrupt") as String?)?.let { systemProperty("arm2.corrupt", it) }
     (findProperty("reflCorruptRate") as String?)?.let { systemProperty("arm2.corruptRate", it) }
     (findProperty("reflCorruptSeed") as String?)?.let { systemProperty("arm2.corruptSeed", it) }
