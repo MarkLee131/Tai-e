@@ -290,14 +290,51 @@ public class LlmInferenceModel extends InferenceModel {
         if (oracleOverride != null) {
             return oracleOverride;
         }
-        String key = pta.llm.ApiKeyResolver.resolve();
-        if (key.isEmpty()) {
-            return null; // no key, no override → resolves only constants (sound no-op for LLM)
+        // Cross-family provider switch (RQ6): -Darm2.provider=gemini|openai|deepseek.
+        // OpenAI and DeepSeek share the chat-completions wire format, so both go
+        // through the same OpenAiCompatOracle with provider-specific endpoint,
+        // key env var, default model, and per-token pricing.
+        String provider = System.getProperty("arm2.provider", "gemini");
+        switch (provider) {
+            case "gemini": {
+                String key = pta.llm.ApiKeyResolver.resolve();
+                if (key.isEmpty()) {
+                    return null; // no key, no override → resolves only constants (sound no-op for LLM)
+                }
+                String model = System.getProperty("arm2.model", "gemini-2.5-flash");
+                return new pta.llm.GeminiOracle(model, key,
+                        new pta.llm.PromptCache(java.nio.file.Path.of(".llm-cache")),
+                        new pta.llm.CostMeter(100.0, 3e-7, 2.5e-6));
+            }
+            case "openai": // gpt-4o-mini pricing: $0.15/M input, $0.60/M output tokens
+                return openAiCompatOracle("https://api.openai.com/v1",
+                        "OPENAI_API_KEY", "gpt-4o-mini", 1.5e-7, 6e-7);
+            case "deepseek": // deepseek-chat pricing: $0.027/M input, $0.11/M output tokens
+                return openAiCompatOracle("https://api.deepseek.com",
+                        "DEEPSEEK_API_KEY", "deepseek-chat", 2.7e-8, 1.1e-7);
+            default:
+                // Fail loudly: a typo here silently collapsing the run to the
+                // no-oracle floor is exactly the failure mode we've been bitten by.
+                throw new IllegalArgumentException("unknown arm2.provider '" + provider
+                        + "' (expected gemini, openai, or deepseek)");
         }
-        String model = System.getProperty("arm2.model", "gemini-2.5-flash");
-        return new pta.llm.GeminiOracle(model, key,
+    }
+
+    /** Builds an {@link pta.llm.OpenAiCompatOracle}, or {@code null} (sound no-op,
+     * same semantics as the Gemini no-key path) if the provider's key env is unset. */
+    private static LlmOracle openAiCompatOracle(String baseUrl, String keyEnv,
+                                                String defaultModel,
+                                                double usdPerInTok, double usdPerOutTok) {
+        String key = System.getenv(keyEnv);
+        if (key == null || key.isBlank()) {
+            logger.warn("[arm2-llm] arm2.provider selected but env {} is not set — "
+                    + "running WITHOUT an oracle (resolves only constants).", keyEnv);
+            return null; // no key → sound no-op for LLM, like the Gemini path
+        }
+        String model = System.getProperty("arm2.model", defaultModel);
+        return new pta.llm.OpenAiCompatOracle(baseUrl, model, key.strip(),
                 new pta.llm.PromptCache(java.nio.file.Path.of(".llm-cache")),
-                new pta.llm.CostMeter(100.0, 3e-7, 2.5e-6));
+                new pta.llm.CostMeter(100.0, usdPerInTok, usdPerOutTok));
     }
 
     // -----------------------------------------------------------------------
