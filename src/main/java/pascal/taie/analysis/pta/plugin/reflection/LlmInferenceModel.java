@@ -833,14 +833,32 @@ public class LlmInferenceModel extends InferenceModel {
         }
         // Use-site type grounding (G2, deterministic): when the loaded class is locally
         // instantiated and downcast — (T) site.newInstance() — the runtime class must be
-        // a concrete subtype of T. This is the site-relevance signal the alphabetical
+        // a subtype of T. This is the site-relevance signal the alphabetical
         // canonicalization of the classHint slot lost (B2b regression: gruntspud's hint
         // matches ~every app class, so sorted-first-40 truncation dropped the plugin
         // classes and the oracle's answer flipped off PServerConnectionPlugin). All
         // inputs are IR/hierarchy-derived and sorted, so the slot is canonical.
+        //
+        // Surgical scoping (weak-identity-grounding sites only): enumerate the cone ONLY
+        // when T is ABSTRACT or an INTERFACE. Instantiability of T is the deterministic,
+        // hierarchy-derived proxy for whether the identity/convention channel already
+        // grounds the site. If T is abstract/interface, no single concrete class is "the"
+        // answer, the classHint/appContext channel cannot name it, and the concrete-subtype
+        // cone IS the candidate set (gruntspud's plugspud.Plugin → the 4 plugins; antlr's
+        // CodeGenerator; pmd's Renderer) — identity grounding is weak, so the cone earns
+        // its place. If T is CONCRETE, the downcast is satisfied by T itself, the convention
+        // channel already names the true target (e.g. dacapo.Callback at the DaCapo harness
+        // bootstrap: the appContext names dacapo.<id>.<Id>Harness and it is the first entry
+        // of the classHint slot), and enumerating T's concrete cone only drags in framework
+        // infrastructure that is not the site's reflective target (dacapo.Callback → the
+        // MMTk GcCallback/MMTkCallback family) while overriding the better convention answer
+        // — a pure precision loss (hsqldb +1→+19, and likewise bloat/fop/eclipse). For a
+        // concrete T the whole block is skipped, so the prompt is byte-identical to the
+        // pre-G2 form (its cached convention answer replays unchanged).
         if (!ablated("grounding") && "llm-class".equals(kind)) {
             JClass castTarget = newInstanceCastClass(invoke);
-            if (castTarget != null) {
+            if (castTarget != null
+                    && (castTarget.isAbstract() || castTarget.isInterface())) {
                 prompt.append("The object created from the loaded class is cast to ")
                         .append(castTarget.getName())
                         .append(" at the use site; only its subtypes can be loaded here.");
