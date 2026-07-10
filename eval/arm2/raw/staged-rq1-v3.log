@@ -1,0 +1,15 @@
+Reusing configuration cache.
+> Task :processResources UP-TO-DATE
+> Task :processTestResources UP-TO-DATE
+> Task :compileJava UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :generateBuildInfo
+> Task :compileTestJava UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+> Task :checkstyleTest
+> Task :checkstyleMain
+> Task :reflRecall
+
+BUILD SUCCESSFUL in 3m 28s
+8 actionable tasks: 4 executed, 4 up-to-date
+Configuration cache entry reused.

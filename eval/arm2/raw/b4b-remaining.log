@@ -1,0 +1,13 @@
+=== expB_none: -PreflBenchmarks=bloat,chart,hsqldb,fop -ParmLive -PreflContext=none
+[saved expB_none]
+=== expB_id: -PreflBenchmarks=bloat,chart,hsqldb,fop -ParmLive -PreflContext=id
+[saved expB_id]
+=== expModel_flashlite: -PreflBenchmarks=luindex,antlr -ParmLive -PreflModel=gemini-2.5-flash-lite
+[saved expModel_flashlite]
+=== expModel_20flash: -PreflBenchmarks=luindex,antlr -ParmLive -PreflModel=gemini-2.0-flash
+[saved expModel_20flash]
+=== expRealworld: -PreflBenchmarks=findbugs-3.0,columba-1.4,jedit-3.0,freecol-0.10.3,gruntspud-0.4.6,briss-0.9,soot-2.3.0 -ParmLive
+[saved expRealworld]
+=== expCompose: -PreflBenchmarks=luindex,antlr,bloat,lusearch,chart,hsqldb,fop,jython,xalan,pmd,eclipse -ParmLive -PreflCompose
+[saved expCompose]
+B4B REMAINING BATTERY DONE: 12 XMLs total

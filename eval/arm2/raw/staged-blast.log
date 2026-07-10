@@ -1,0 +1,101 @@
+=== luindex enum-check ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <org.apache.lucene.index.SegmentReader: void <clinit>()>@11 → [org.apache.lucene.index.SegmentReader]
+  arm2-llm] llm-class at <org.apache.lucene.store.FSDirectory: void <clinit>()>@28 → [org.apache.lucene.store.FSDirectory]
+  [oracle] queries=4 live=0 cost=$0.0000 failed=0
+  sites(luindex): 4
+=== luindex allsilent ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → []
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → []
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+  site 1 filter substring: 'TestHarness: java.lang.Class findClass()>@3'
+=== luindex solo-1 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → []
+  arm2-llm] llm-class at <org.apache.lucene.index.SegmentReader: void <clinit>()>@11 → []
+  arm2-llm] llm-class at <org.apache.lucene.store.FSDirectory: void <clinit>()>@28 → []
+  [oracle] queries=4 live=0 cost=$0.0000 failed=0
+=== luindex mal-1 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.lusearch.LusearchHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <org.apache.lucene.index.SegmentReader: void <clinit>()>@11 → [org.apache.lucene.index.SegmentReader]
+  arm2-llm] llm-class at <org.apache.lucene.store.FSDirectory: void <clinit>()>@28 → [org.apache.lucene.store.FSDirectory]
+  [oracle] queries=4 live=0 cost=$0.0000 failed=0
+  site 2 filter substring: 'TestHarness: void main(java.lang.String[])>@63'
+=== luindex solo-2 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → []
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.luindex.LuindexHarness]
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+=== luindex mal-2 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.lusearch.LusearchHarness]
+  arm2-llm] llm-class at <org.apache.lucene.index.SegmentReader: void <clinit>()>@11 → [org.apache.lucene.index.SegmentReader]
+  arm2-llm] llm-class at <org.apache.lucene.store.FSDirectory: void <clinit>()>@28 → [org.apache.lucene.store.FSDirectory]
+  [oracle] queries=4 live=0 cost=$0.0000 failed=0
+  site 3 filter substring: 'SegmentReader: void <clinit>()>@11'
+=== luindex solo-3 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → []
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → []
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+  note(luindex/solo-3): site 3 never fired/answered (gated by a silenced upstream site) — S(site 3) measures 0 by construction
+=== luindex mal-3 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <org.apache.lucene.index.SegmentReader: void <clinit>()>@11 → [dacapo.lusearch.LusearchHarness]
+  arm2-llm] llm-class at <org.apache.lucene.store.FSDirectory: void <clinit>()>@28 → [org.apache.lucene.store.FSDirectory]
+  [oracle] queries=4 live=0 cost=$0.0000 failed=0
+  site 4 filter substring: 'FSDirectory: void <clinit>()>@28'
+=== luindex solo-4 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → []
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → []
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+  note(luindex/solo-4): site 4 never fired/answered (gated by a silenced upstream site) — S(site 4) measures 0 by construction
+=== luindex mal-4 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.luindex.LuindexHarness]
+  arm2-llm] llm-class at <org.apache.lucene.index.SegmentReader: void <clinit>()>@11 → [org.apache.lucene.index.SegmentReader]
+  arm2-llm] llm-class at <org.apache.lucene.store.FSDirectory: void <clinit>()>@28 → [dacapo.lusearch.LusearchHarness]
+  [oracle] queries=4 live=0 cost=$0.0000 failed=0
+=== antlr enum-check ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.antlr.AntlrHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.antlr.AntlrHarness]
+  arm2-llm] llm-class at <antlr.Tool: int doEverything(java.lang.String[])>@40 → [antlr.CodeGenerator]
+  [oracle] queries=3 live=0 cost=$0.0000 failed=0
+  sites(antlr): 3
+=== antlr allsilent ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → []
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → []
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+  site 1 filter substring: 'TestHarness: java.lang.Class findClass()>@3'
+=== antlr solo-1 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.antlr.AntlrHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → []
+  arm2-llm] llm-class at <antlr.Tool: int doEverything(java.lang.String[])>@40 → []
+  [oracle] queries=3 live=0 cost=$0.0000 failed=0
+=== antlr mal-1 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [antlr.debug.ParserEventSupport]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.antlr.AntlrHarness]
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+  site 2 filter substring: 'TestHarness: void main(java.lang.String[])>@63'
+=== antlr solo-2 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → []
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.antlr.AntlrHarness]
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+=== antlr mal-2 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.antlr.AntlrHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [antlr.debug.ParserEventSupport]
+  arm2-llm] llm-class at <antlr.Tool: int doEverything(java.lang.String[])>@40 → [antlr.CodeGenerator]
+  [oracle] queries=3 live=0 cost=$0.0000 failed=0
+  site 3 filter substring: 'Tool: int doEverything(java.lang.String[])>@40'
+=== antlr solo-3 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → []
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → []
+  [oracle] queries=2 live=0 cost=$0.0000 failed=0
+  note(antlr/solo-3): site 3 never fired/answered (gated by a silenced upstream site) — S(site 3) measures 0 by construction
+=== antlr mal-3 ===
+  arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.antlr.AntlrHarness]
+  arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.antlr.AntlrHarness]
+  arm2-llm] llm-class at <antlr.Tool: int doEverything(java.lang.String[])>@40 → [antlr.debug.ParserEventSupport]
+  [oracle] queries=3 live=0 cost=$0.0000 failed=0
+blast-radius runs done; sites file: eval/arm2/raw/sites-luindex-antlr.txt
