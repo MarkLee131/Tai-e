@@ -40,16 +40,28 @@ confirming pass is cheap.
   with a provenance/date note, or substitute a current weak model (deepseek-chat via the
   E2 adapter is a candidate third family anyway). → decision at ε/B5-follow-up.
 
-## RQ7 real-world (7 apps)
-| app | legacy r/p | staged r/p | note |
+## RQ7 real-world (7 apps) — FINAL (commit a4b2a653, scoped use-site-cast grounding)
+| app | legacy r/p | final staged r/p | note |
 |---|---|---|---|
 | columba   | 0.991/0.989 | 0.992/0.989 | ≈ |
-| gruntspud | 0.625/0.417 | **0.338**/0.397 | REGRESSION — staged fired only 2 queries (legacy ~30); root-cause diagnosis in progress; do NOT update the paper row until resolved |
+| gruntspud | 0.625/0.417 | **1.000**/0.635 | RESOLVED + IMPROVED. The earlier "0.338 regression" was NOT a deferral loss (both pipelines fire the same 6 queries): the determinism sort (B2b) destroyed an accidental relevance signal in the grounding slot. Fix = use-site downcast-cone grounding, scoped to ABSTRACT/INTERFACE downcast types (commit a4b2a653): enumerates plugspud.Plugin's concrete impls (the plugin family) — recall to 1.000, beyond the legacy 0.625. Same mechanism as antlr's CodeGenerator cone. |
 | jedit     | 0.800/0.750 | 0.800/0.750 | = |
 | freecol   | 0.925/0.718 | **0.979**/0.727 | improvement |
 | briss     | 0.300/1.000 | 0.300/1.000 | = |
 | soot      | 1.000/0.500 | 1.000/**0.100** | precision drop (GT=1; +9 extras) |
 | findbugs  | 0.059/0.900 | 0.059/0.900 | = |
+
+## RQ1 impact of the scoped grounding fix (a4b2a653) — near-zero
+Only ONE cell changes vs the paper's current staged tab:rq1: pmd precision 0.743 → 0.739
+(the abstract Renderer/Rule cones are grounded, +0.004 precision cost, no recall change,
+same mechanism as antlr). Every other RQ1 recall/precision is byte-identical to the current
+paper values. HEADLINE PRESERVED: "10 of 11 benchmarks at precision ≥0.87" still holds
+(pmd 0.739 is the sole sub-0.87; range display "0.74–1.00" unchanged). Determinism preserved
+(fop 3× byte-identical). The grounding rule is now principled and deterministic:
+enumerate the use-site downcast cone iff the downcast type is not itself instantiable
+(abstract/interface) — for a concrete downcast type the identity/convention channel already
+names the target, so the cone is redundant and only costs precision (this was the hsqldb
+0.990→0.839 collateral, now dissolved).
 
 ## Compose (RQ5's opt-in composition, 11 DaCapo)
 jython 0.911 and eclipse 0.175 reproduce the paper's composed values exactly; hsqldb
