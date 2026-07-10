@@ -831,6 +831,26 @@ public class LlmInferenceModel extends InferenceModel {
                         + "(high-confidence candidates): ").append(values).append('\n');
             }
         }
+        // Use-site type grounding (G2, deterministic): when the loaded class is locally
+        // instantiated and downcast — (T) site.newInstance() — the runtime class must be
+        // a concrete subtype of T. This is the site-relevance signal the alphabetical
+        // canonicalization of the classHint slot lost (B2b regression: gruntspud's hint
+        // matches ~every app class, so sorted-first-40 truncation dropped the plugin
+        // classes and the oracle's answer flipped off PServerConnectionPlugin). All
+        // inputs are IR/hierarchy-derived and sorted, so the slot is canonical.
+        if (!ablated("grounding") && "llm-class".equals(kind)) {
+            JClass castTarget = newInstanceCastClass(invoke);
+            if (castTarget != null) {
+                prompt.append("The object created from the loaded class is cast to ")
+                        .append(castTarget.getName())
+                        .append(" at the use site; only its subtypes can be loaded here.");
+                List<String> subs = concreteSubtypeNames(castTarget, 40);
+                if (subs != null && !subs.isEmpty()) {
+                    prompt.append(" Concrete subtypes on the classpath: ").append(subs);
+                }
+                prompt.append('\n');
+            }
+        }
         // Ground the proposal in real classpath classes: list application classes whose
         // name matches the app id, so the LLM chooses an existing class instead of
         // hallucinating a plausible-but-absent name (which the sound gate would drop).
@@ -859,6 +879,93 @@ public class LlmInferenceModel extends InferenceModel {
         }
         prompt.append("Enclosing method body:\n").append(body(invoke));
         return prompt.toString();
+    }
+
+    /**
+     * G2 use-site type grounding, hop 1: the class of the single unambiguous downcast
+     * applied to {@code (T) classSite.newInstance()} within the enclosing method, or
+     * null. Mirrors {@link TypeMatcher}'s intra-procedural discipline (give up on any
+     * ambiguity) one hop earlier: classSite result → newInstance base → cast on the
+     * newInstance result. Purely IR-derived, hence canonical (schedule-independent).
+     */
+    @javax.annotation.Nullable
+    private JClass newInstanceCastClass(Invoke classSite) {
+        Var classVar = classSite.getResult();
+        if (classVar == null) {
+            return null;
+        }
+        Type found = null;
+        List<Stmt> stmts = classSite.getContainer().getIR().getStmts();
+        for (int i = classSite.getIndex() + 1; i < stmts.size(); i++) {
+            if (stmts.get(i) instanceof Invoke inv
+                    && inv.getInvokeExp() instanceof
+                            pascal.taie.ir.exp.InvokeInstanceExp exp
+                    && exp.getBase().equals(classVar)
+                    && inv.getMethodRef().getName().equals("newInstance")
+                    && inv.getMethodRef().getDeclaringClass().getName()
+                            .equals("java.lang.Class")) {
+                Type t = castTypeOfResult(inv);
+                if (t == null) {
+                    continue; // this use constrains nothing
+                }
+                if (found != null && !found.equals(t)) {
+                    return null; // conflicting downcasts → give up
+                }
+                found = t;
+            }
+        }
+        if (found instanceof pascal.taie.language.type.ClassType ct
+                && !"java.lang.Object".equals(ct.getName())) {
+            return ct.getJClass();
+        }
+        return null;
+    }
+
+    /**
+     * G2 hop 2: the unique cast type applied to {@code invoke}'s result, or null —
+     * the same forward scan as {@link TypeMatcher#computeTypeInfo} (a second use of
+     * the result after the cast, or a second conflicting cast, gives up).
+     */
+    @javax.annotation.Nullable
+    private static Type castTypeOfResult(Invoke invoke) {
+        Var result = invoke.getResult();
+        if (result == null) {
+            return null;
+        }
+        Type type = null;
+        List<Stmt> stmts = invoke.getContainer().getIR().getStmts();
+        for (int i = invoke.getIndex() + 1; i < stmts.size(); i++) {
+            Stmt stmt = stmts.get(i);
+            if (stmt.getUses().contains(result) && type != null) {
+                return null; // multiple usages of the result → give up
+            }
+            if (stmt instanceof pascal.taie.ir.stmt.Cast cast
+                    && cast.getRValue().getValue().equals(result)) {
+                type = cast.getRValue().getCastType();
+            }
+        }
+        return type;
+    }
+
+    /**
+     * Sorted names of {@code root}'s concrete classpath subtypes (including {@code root}
+     * itself if concrete), or null when they exceed {@code cap} — a truncated alphabetical
+     * enumeration would reintroduce exactly the prefix bias this slot exists to fix, so an
+     * over-cap cone states only the cast-type fact.
+     */
+    @javax.annotation.Nullable
+    private List<String> concreteSubtypeNames(JClass root, int cap) {
+        List<String> names = new ArrayList<>();
+        for (JClass sub : hierarchy.getAllSubclassesOf(root)) {
+            if (!sub.isAbstract() && !sub.isInterface()) {
+                if (names.size() >= cap) {
+                    return null;
+                }
+                names.add(sub.getName());
+            }
+        }
+        java.util.Collections.sort(names);
+        return names;
     }
 
     /** Sends one prompt to the oracle; accounting + robustness shared by both modes. */

@@ -282,6 +282,7 @@ tasks.register<Test>("reflRecall") {
     (findProperty("reflConfigs") as String?)?.let { systemProperty("refl.configs", it) }
     (findProperty("reflDumpReach") as String?)?.let { systemProperty("refl.dumpReach", it) }
     (findProperty("reflDumpTag") as String?)?.let { systemProperty("refl.dumpTag", it) }
+    (findProperty("reflStaged") as String?)?.let { systemProperty("arm2.staged", it) }
     jvmArgs("-Xss4m")
     outputs.upToDateWhen { false }
 
