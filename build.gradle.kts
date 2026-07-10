@@ -289,3 +289,30 @@ tasks.register<Test>("reflRecall") {
         includeTestsMatching("pascal.taie.analysis.pta.ReflectionRecallEval")
     }
 }
+
+// ── ζ0: cone-closure feasibility probe (M1 admission-ladder gate for β1 O-disp) ──
+// Usage:
+//   ./gradlew zeta0                          # xalan + pmd slices
+//   ./gradlew zeta0 -Pzeta0Slices=xalan      # single slice
+// Output: eval/arm2/raw/cone-feasibility.csv
+tasks.register<Test>("zeta0") {
+    group = "measurement"
+    description = "ζ0 cone-closure feasibility probe (Task ζ0; gates β1's O-disp investment)"
+    useJUnitPlatform()
+    maxHeapSize = (findProperty("testMaxHeap") as String?) ?: "16g"
+    maxParallelForks = 1
+    val suiteClasses = testing.suites
+        .named<JvmTestSuite>(JvmTestSuitePlugin.DEFAULT_TEST_SUITE_NAME)
+    testClassesDirs = files(suiteClasses.map { it.sources.output.classesDirs })
+    classpath = files(suiteClasses.map { it.sources.runtimeClasspath })
+
+    systemProperty("zeta0.probe", "true")
+    (findProperty("zeta0Slices") as String?)?.let { systemProperty("zeta0.slices", it) }
+    jvmArgs("-Xss16m")
+    outputs.upToDateWhen { false }
+
+    filter {
+        includeTestsMatching("pta.arm2.ConeClosureFeasibilityProbe")
+        includeTestsMatching("pta.arm2.ConeClassifierTest")
+    }
+}
