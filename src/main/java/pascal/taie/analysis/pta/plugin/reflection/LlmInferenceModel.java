@@ -290,6 +290,15 @@ public class LlmInferenceModel extends InferenceModel {
         if (oracleOverride != null) {
             return oracleOverride;
         }
+        // Deterministic no-LLM baseline (LLM-necessity ablation): pick from the
+        // machine-derived grounding slots the prompt already carries, no model call.
+        String oracleKind = System.getProperty("arm2.oracle");
+        if ("grounding-selector".equals(oracleKind)) {
+            return new pta.llm.GroundingSelectorOracle(false);
+        }
+        if ("grounding-selector-full".equals(oracleKind)) {
+            return new pta.llm.GroundingSelectorOracle(true);
+        }
         String key = pta.llm.ApiKeyResolver.resolve();
         if (key.isEmpty()) {
             return null; // no key, no override → resolves only constants (sound no-op for LLM)

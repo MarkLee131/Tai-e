@@ -1,0 +1,41 @@
+# Deterministic grounding-selector baseline (no-LLM ablation) vs live LLM (arm②).
+# The decisive "is the LLM necessary?" experiment demanded by a hostile reviewer.
+#
+# grounding-selector (gs)      : LlmOracle that IGNORES any model and injects ALL
+#                                machine-derived grounding candidates parsed from the
+#                                prompt's classpath id-match list + downcast cone
+#                                (+ config values). This is the reviewer's literal
+#                                "pick from the classpath-candidate list, no LLM" baseline.
+# grounding-selector-full (gsF): same, PLUS the convention/entry-point class name that the
+#                                out-of-band context string (arm2.appContext) already spells
+#                                out verbatim (DaCapo dacapo.<id>.<Id>Harness template; a
+#                                real-world app's declared main class). Still 100% deterministic,
+#                                zero model calls. Answers: once every deterministic string in
+#                                the prompt is on the table, does any LLM advantage survive?
+# llm                          : live Gemini numbers already in the paper (tab:rq1 / tab:rw).
+#
+# recall = |reach(cfg) ∩ GT| / |GT|,  GT = reachable(log) \ reachable(no-refl).
+# gs_cand / gsF_cand = distinct grounding candidates the selector proposed (disposer 'proposed';
+# equivalently the size of the candidate list the deterministic selector chose from).
+# All gs/gsF runs: oracle queries live=0, cost=$0.0000 (no model call, pure function of prompt).
+# rec_gap = llm_recall - gsF_recall  (the LLM's genuine, non-reproducible recall contribution).
+#
+suite,benchmark,GT,llm_recall,llm_prec,gs_recall,gs_prec,gs_cand,gsF_recall,gsF_prec,gsF_cand,rec_gap_vs_gs,rec_gap_vs_gsF,verdict
+dacapo,luindex,525,1.000,1.000,1.000,1.000,8,1.000,1.000,8,0.000,0.000,match
+dacapo,antlr,1399,1.000,0.943,0.097,0.993,80,1.000,0.943,128,0.903,0.000,gs-list-truncation;gsF-matches
+dacapo,bloat,1385,1.000,0.994,0.008,0.550,80,1.000,0.994,123,0.992,0.000,gs-list-truncation;gsF-matches
+dacapo,lusearch,229,1.000,1.000,1.000,1.000,16,1.000,1.000,16,0.000,0.000,match
+dacapo,chart,2098,0.984,0.987,0.984,0.978,200,0.984,0.978,200,0.000,0.000,match
+dacapo,hsqldb,99,1.000,0.990,0.970,0.527,120,0.970,0.527,120,0.030,0.030,llm-load-bearing
+dacapo,fop,1244,0.928,0.870,0.928,0.869,320,0.928,0.869,320,0.000,0.000,match
+dacapo,jython,5302,0.901,0.971,0.899,0.972,88,0.899,0.972,88,0.002,0.002,match
+dacapo,xalan,1115,0.496,0.947,0.494,0.923,560,0.494,0.923,560,0.002,0.002,match-both-low
+dacapo,pmd,1388,0.310,0.739,0.311,0.677,331,0.311,0.677,331,-0.001,-0.001,match-both-low
+dacapo,eclipse,11076,0.125,0.960,0.125,0.989,521,0.125,0.989,521,0.000,0.000,match-both-low
+realworld,columba-1.4,975,0.992,0.989,0.992,0.965,362,0.992,0.964,371,0.000,0.000,match-gated-win-reproduced
+realworld,gruntspud-0.4.6,80,1.000,0.635,1.000,0.580,207,1.000,0.580,212,0.000,0.000,match-gated-win-reproduced
+realworld,freecol-0.10.3,239,0.979,0.727,0.912,0.649,161,0.912,0.649,161,0.067,0.067,llm-load-bearing
+realworld,jedit-3.0,15,0.800,0.750,0.800,0.800,0,0.800,0.800,0,0.000,0.000,match-direct-entry
+realworld,briss-0.9,10,0.300,1.000,0.300,1.000,0,0.300,1.000,0,0.000,0.000,match-direct-entry
+realworld,soot-2.3.0,1,1.000,0.100,1.000,0.100,40,1.000,0.100,41,0.000,0.000,match-direct-entry
+realworld,findbugs-3.0,307,0.059,0.900,0.062,0.074,80,0.062,0.074,82,-0.003,-0.003,match-lib-internal

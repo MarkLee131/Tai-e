@@ -283,6 +283,8 @@ tasks.register<Test>("reflRecall") {
     (findProperty("reflDumpReach") as String?)?.let { systemProperty("refl.dumpReach", it) }
     (findProperty("reflDumpTag") as String?)?.let { systemProperty("refl.dumpTag", it) }
     (findProperty("reflStaged") as String?)?.let { systemProperty("arm2.staged", it) }
+    (findProperty("reflOracle") as String?)?.let { systemProperty("arm2.oracle", it) }
+    if (findProperty("reflStream") != null) testLogging { showStandardStreams = true }
     jvmArgs("-Xss4m")
     outputs.upToDateWhen { false }
 
