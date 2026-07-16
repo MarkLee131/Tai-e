@@ -1,5 +1,13 @@
 bench,GT_classname,resolved_hit,recall
-Traceback (most recent call last):
-  File "/home/likaixuan/static_analysis/PTA-enhancement/Tai-e/eval/arm2/scripts/persite_category.py", line 35, in <module>
-    print(f"AGGREGATE,{tg},{th},{th/tg:.3f}")
-ZeroDivisionError: division by zero
+luindex,8,7,0.875
+antlr,10,9,0.900
+bloat,6,5,0.833
+lusearch,8,7,0.875
+chart,21,17,0.810
+hsqldb,36,5,0.139
+fop,15,10,0.667
+jython,128,57,0.445
+xalan,67,40,0.597
+pmd,34,11,0.324
+eclipse,170,15,0.088
+AGGREGATE,503,183,0.364
