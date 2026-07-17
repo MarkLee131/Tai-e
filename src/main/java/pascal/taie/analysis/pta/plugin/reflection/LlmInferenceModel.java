@@ -299,6 +299,22 @@ public class LlmInferenceModel extends InferenceModel {
         if ("grounding-selector-full".equals(oracleKind)) {
             return new pta.llm.GroundingSelectorOracle(true);
         }
+        // Cross-family oracles (single-vendor robustness check): OpenAI/DeepSeek
+        // via the OpenAI-compatible chat-completions adapter. Same prompt, same
+        // Φ/fence disposer downstream — only the proposer's vendor changes.
+        if ("openai".equals(oracleKind) || "deepseek".equals(oracleKind)) {
+            boolean ds = "deepseek".equals(oracleKind);
+            String envKey = System.getenv(ds ? "DEEPSEEK_API_KEY" : "OPENAI_API_KEY");
+            if (envKey == null || envKey.isEmpty()) {
+                return null; // no key → sound no-op
+            }
+            String base = ds ? "https://api.deepseek.com/v1" : "https://api.openai.com/v1";
+            String defModel = ds ? "deepseek-chat" : "gpt-4o-mini";
+            String xmodel = System.getProperty("arm2.model", defModel);
+            return new pta.llm.OpenAiCompatOracle(base, xmodel, envKey,
+                    new pta.llm.PromptCache(java.nio.file.Path.of(".llm-cache-" + oracleKind)),
+                    new pta.llm.CostMeter(100.0, 3e-7, 2.5e-6));
+        }
         String key = pta.llm.ApiKeyResolver.resolve();
         if (key.isEmpty()) {
             return null; // no key, no override → resolves only constants (sound no-op for LLM)
