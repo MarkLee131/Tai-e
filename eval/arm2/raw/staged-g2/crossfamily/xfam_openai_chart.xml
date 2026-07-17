@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pascal.taie.analysis.pta.ReflectionRecallEval" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-07-17T03:32:12.759Z" hostname="csl-conti-dell7859" time="23.57">
+  <properties/>
+  <testcase name="measureReflectionRecall()" classname="pascal.taie.analysis.pta.ReflectionRecallEval" time="23.553"/>
+  <system-out><![CDATA[
+==== Reflection-recall (GT = log-reachable \ no-reflection) ====
+bench      |       GT |   sc-rec | SOLAR (Tai-e full)   | arm②: recall/prec/extra   
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 1.16s; CPU usage: start 8.29%, peak 45.53%, end 61.09%; Memory usage: start 53MB, peak 445MB, end 558MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.26s; CPU usage: start 10.11%, peak 13.33%, end 10.22%; Memory usage: start 609MB, peak 625MB, end 645MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     105 (insens) / 105 (sens)
+#var points-to:               1560 (insens) / 1560 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             35 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.53s; CPU usage: start 15.38%, peak 17.65%, end 11.46%; Memory usage: start 558MB, peak 574MB, end 645MB
+[Tai-e] elapsed time: 2.01s; CPU usage: start 0.00%, peak 21.73%, end 0.00%; Memory usage: start 79MB, peak 645MB, end 645MB
+     [cg] Harness          methods=226 edges=639  (null)
+     [time] Harness            2420 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+7115 classes with 73277 methods in the world
+[WorldBuilder] elapsed time: 0.47s; CPU usage: start 8.54%, peak 14.29%, end 33.72%; Memory usage: start 660MB, peak 660MB, end 235MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart-refl.log
+[Pointer analysis] elapsed time: 0.56s; CPU usage: start 13.21%, peak 20.00%, end 17.43%; Memory usage: start 268MB, peak 268MB, end 264MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1,5413 (insens) / 1,5413 (sens)
+#objects:                     2452 (insens) / 2452 (sens)
+#var points-to:               2,8315 (insens) / 2,8315 (sens)
+#static field points-to:      756 (sens)
+#instance field points-to:    4546 (sens)
+#array points-to:             457 (sens)
+#reachable methods:           2324 (insens) / 2324 (sens)
+#call graph edges:            9443 (insens) / 9443 (sens)
+----------------------------------------
+[pta] elapsed time: 0.85s; CPU usage: start 20.00%, peak 0.00%, end 14.67%; Memory usage: start 235MB, peak 235MB, end 329MB
+[Tai-e] elapsed time: 1.39s; CPU usage: start 8.79%, peak 16.67%, end 0.00%; Memory usage: start 645MB, peak 661MB, end 329MB
+     [cg] Harness          methods=2324 edges=9443  (null+log)
+     [time] Harness            1397 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 0.40s; CPU usage: start 10.00%, peak 10.00%, end 44.48%; Memory usage: start 329MB, peak 329MB, end 452MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.03s; CPU usage: start 6.43%, peak 0.00%, end 12.94%; Memory usage: start 469MB, peak 469MB, end 485MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     111 (insens) / 111 (sens)
+#var points-to:               1614 (insens) / 1614 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    131 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.10s; CPU usage: start 13.33%, peak 0.00%, end 12.42%; Memory usage: start 452MB, peak 452MB, end 485MB
+[Tai-e] elapsed time: 0.53s; CPU usage: start 11.90%, peak 0.00%, end 14.29%; Memory usage: start 329MB, peak 329MB, end 485MB
+     [cg] Harness          methods=229 edges=642  (string-constant)
+     [time] Harness             536 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 0.38s; CPU usage: start 11.82%, peak 11.11%, end 46.70%; Memory usage: start 501MB, peak 501MB, end 473MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.04s; CPU usage: start 2.40%, peak 0.00%, end 7.22%; Memory usage: start 473MB, peak 473MB, end 489MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     127 (insens) / 127 (sens)
+#var points-to:               1767 (insens) / 1767 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    133 (sens)
+#array points-to:             40 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.09s; CPU usage: start 0.00%, peak 0.00%, end 7.87%; Memory usage: start 473MB, peak 473MB, end 505MB
+[Tai-e] elapsed time: 0.50s; CPU usage: start 14.81%, peak 0.00%, end 14.29%; Memory usage: start 485MB, peak 485MB, end 505MB
+     [cg] Harness          methods=256 edges=696  (solar)
+     [time] Harness             509 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/chart.jar ... 515 classes
+Duplicate classes (total 99) introduced by chart-deps.jar and rt.jar,
+[org.w3c.dom.Text, org.w3c.dom.events.UIEvent, org.w3c.dom.views.DocumentView, javax.xml.transform.sax.TemplatesHandler] ... (95 more) is founded in both containers
+
+6239 classes with 63015 methods in the world
+[WorldBuilder] elapsed time: 0.36s; CPU usage: start 11.07%, peak 12.50%, end 45.51%; Memory usage: start 506MB, peak 506MB, end 826MB
+[pta] starts ...
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.chart.BarChartRenderer, dacapo.chart.ChartHarness, dacapo.chart.Datasets, dacapo.chart.Graph, dacapo.chart.GraphConstants, dacapo.chart.Main, dacapo.chart.Plotter, org.jfree.chart.ChartColor, org.jfree.chart.ChartFactory, org.jfree.chart.ChartFrame, org.jfree.chart.ChartMouseEvent, org.jfree.chart.ChartMouseListener, org.jfree.chart.ChartPanel, org.jfree.chart.ChartRenderingInfo, org.jfree.chart.ChartUtilities, org.jfree.chart.ClipPath, org.jfree.chart.DrawableLegendItem, org.jfree.chart.Effect3D, org.jfree.chart.JFreeChart, org.jfree.chart.JFreeChartInfo, org.jfree.chart.LegendItem, org.jfree.chart.LegendItemCollection, org.jfree.chart.LegendItemSource, org.jfree.chart.LegendRenderingOrder, org.jfree.chart.PolarChartPanel, org.jfree.chart.annotations.AbstractXYAnnotation, org.jfree.chart.annotations.CategoryAnnotation, org.jfree.chart.annotations.CategoryLineAnnotation, org.jfree.chart.annotations.CategoryTextAnnotation, org.jfree.chart.annotations.TextAnnotation, org.jfree.chart.annotations.XYAnnotation, org.jfree.chart.annotations.XYBoxAnnotation, org.jfree.chart.annotations.XYDrawableAnnotation, org.jfree.chart.annotations.XYImageAnnotation, org.jfree.chart.annotations.XYLineAnnotation, org.jfree.chart]
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.chart.BarChartRenderer, dacapo.chart.ChartHarness, dacapo.chart.Datasets, dacapo.chart.Graph, dacapo.chart.GraphConstants, dacapo.chart.Main, dacapo.chart.Plotter, org.jfree.chart.ChartColor, org.jfree.chart.ChartFactory, org.jfree.chart.ChartFrame, org.jfree.chart.ChartMouseEvent, org.jfree.chart.ChartMouseListener, org.jfree.chart.ChartPanel, org.jfree.chart.ChartRenderingInfo, org.jfree.chart.ChartUtilities, org.jfree.chart.ClipPath, org.jfree.chart.DrawableLegendItem, org.jfree.chart.Effect3D, org.jfree.chart.JFreeChart, org.jfree.chart.JFreeChartInfo, org.jfree.chart.LegendItem, org.jfree.chart.LegendItemCollection, org.jfree.chart.LegendItemSource, org.jfree.chart.LegendRenderingOrder, org.jfree.chart.PolarChartPanel, org.jfree.chart.annotations.AbstractXYAnnotation, org.jfree.chart.annotations.CategoryAnnotation, org.jfree.chart.annotations.CategoryLineAnnotation, org.jfree.chart.annotations.CategoryTextAnnotation, org.jfree.chart.annotations.TextAnnotation, org.jfree.chart.annotations.XYAnnotation, org.jfree.chart.annotations.XYBoxAnnotation, org.jfree.chart.annotations.XYDrawableAnnotation, org.jfree.chart.annotations.XYImageAnnotation, org.jfree.chart.annotations.XYLineAnnotation, org.jfree.chart]
+[arm2-llm] llm-class at <org.jfree.base.BaseBoot: java.lang.Class class$(java.lang.String)>@0 → [dacapo.chart.BarChartRenderer, dacapo.chart.ChartHarness, dacapo.chart.Datasets, dacapo.chart.Graph, dacapo.chart.GraphConstants, dacapo.chart.Main, dacapo.chart.Plotter, org.jfree.chart.ChartColor, org.jfree.chart.ChartFactory, org.jfree.chart.ChartFrame, org.jfree.chart.ChartMouseEvent, org.jfree.chart.ChartMouseListener, org.jfree.chart.ChartPanel, org.jfree.chart.ChartRenderingInfo, org.jfree.chart.ChartUtilities, org.jfree.chart.ClipPath, org.jfree.chart.DrawableLegendItem, org.jfree.chart.Effect3D, org.jfree.chart.JFreeChart, org.jfree.chart.JFreeChartInfo, org.jfree.chart.LegendItem, org.jfree.chart.LegendItemCollection, org.jfree.chart.LegendItemSource, org.jfree.chart.LegendRenderingOrder, org.jfree.chart.PolarChartPanel, org.jfree.chart.annotations.AbstractXYAnnotation, org.jfree.chart.annotations.CategoryAnnotation, org.jfree.chart.annotations.CategoryLineAnnotation, org.jfree.chart.annotations.CategoryTextAnnotation, org.jfree.chart.annotations.TextAnnotation, org.jfree.chart.annotations.XYAnnotation, org.jfree.chart.annotations.XYBoxAnnotation, org.jfree.chart.annotations.XYDrawableAnnotation, org.jfree.chart.annotations.XYImageAnnotation, org.jfree.chart.annotations.XYLineAnnotation, org.jfree.chart]
+[arm2-llm] llm-class at <org.jfree.base.modules.PackageManager: boolean loadModule(org.jfree.base.modules.ModuleInfo,java.util.ArrayList,java.util.ArrayList,boolean)>@7 → [dacapo.chart.BarChartRenderer, dacapo.chart.Datasets, dacapo.chart.Graph, dacapo.chart.Main, dacapo.chart.Plotter]
+[arm2-llm] llm-class at <org.jfree.base.AbstractBoot: org.jfree.base.AbstractBoot loadBooter(java.lang.String)>@4 → [dacapo.chart.BarChartRenderer, dacapo.chart.ChartHarness, dacapo.chart.Datasets, dacapo.chart.Graph, dacapo.chart.GraphConstants, dacapo.chart.Main, dacapo.chart.Plotter, org.jfree.chart.ChartColor, org.jfree.chart.ChartFactory, org.jfree.chart.ChartFrame, org.jfree.chart.ChartMouseEvent, org.jfree.chart.ChartMouseListener, org.jfree.chart.ChartPanel, org.jfree.chart.ChartRenderingInfo, org.jfree.chart.ChartUtilities, org.jfree.chart.ClipPath, org.jfree.chart.DrawableLegendItem, org.jfree.chart.Effect3D, org.jfree.chart.JFreeChart, org.jfree.chart.JFreeChartInfo, org.jfree.chart.LegendItem, org.jfree.chart.LegendItemCollection, org.jfree.chart.LegendItemSource, org.jfree.chart.LegendRenderingOrder, org.jfree.chart.PolarChartPanel, org.jfree.chart.annotations.AbstractXYAnnotation, org.jfree.chart.annotations.CategoryAnnotation, org.jfree.chart.annotations.CategoryLineAnnotation, org.jfree.chart.annotations.CategoryTextAnnotation, org.jfree.chart.annotations.TextAnnotation, org.jfree.chart.annotations.XYAnnotation, org.jfree.chart.annotations.XYBoxAnnotation, org.jfree.chart.annotations.XYDrawableAnnotation, org.jfree.chart.annotations.XYImageAnnotation, org.jfree.chart.annotations.XYLineAnnotation, org.jfree.chart]
+[Pointer analysis] elapsed time: 17.42s; CPU usage: start 7.14%, peak 12.50%, end 2.54%; Memory usage: start 379MB, peak 592MB, end 592MB
+Imprecise reflective calls:
+[Class.forName]<dacapo.TestHarness: void main(java.lang.String[])>[63@L142] cls = invokestatic java.lang.Class.forName(%v40), #targets: 99
+[Class.forName]<dacapo.TestHarness: java.lang.Class findClass()>[3@L414] %v4 = invokestatic java.lang.Class.forName(%v3), #targets: 99
+[ClassLoader.loadClass]<org.jfree.base.AbstractBoot: org.jfree.base.AbstractBoot loadBooter(java.lang.String)>[4@L203] c = invokevirtual %v6.loadClass(classname), #targets: 99
+[Class.forName]<org.jfree.base.BaseBoot: java.lang.Class class$(java.lang.String)>[0@L119] %v2 = invokestatic java.lang.Class.forName(x0), #targets: 99
+[ClassLoader.loadClass]<org.jfree.base.modules.PackageManager: boolean loadModule(org.jfree.base.modules.ModuleInfo,java.util.ArrayList,java.util.ArrayList,boolean)>[7@L329] c = invokevirtual %v12.loadClass(%v13), #targets: 99
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1,5337 (insens) / 1,5337 (sens)
+#objects:                     2853 (insens) / 2853 (sens)
+#var points-to:               3,0308 (insens) / 3,0308 (sens)
+#static field points-to:      895 (sens)
+#instance field points-to:    4658 (sens)
+#array points-to:             556 (sens)
+#reachable methods:           2320 (insens) / 2320 (sens)
+#call graph edges:            9395 (insens) / 9395 (sens)
+----------------------------------------
+[pta] elapsed time: 17.76s; CPU usage: start 11.11%, peak 0.70%, end 3.34%; Memory usage: start 826MB, peak 842MB, end 657MB
+[Tai-e] elapsed time: 18.16s; CPU usage: start 9.92%, peak 7.04%, end 11.11%; Memory usage: start 506MB, peak 592MB, end 657MB
+     [cg] Harness          methods=2320 edges=9395  (llm)
+     [time] Harness           18166 ms  (llm)
+     [oracle] queries=5 live=5 cost=$0.0047 failed=0
+     [disposer] proposed=149 phiRejected=4 injected=145
+chart      |     2098 |    0.001 | r=0.003 p=0.233      | r=0.984 p=0.986 +30       
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

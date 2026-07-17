@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pascal.taie.analysis.pta.ReflectionRecallEval" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-07-17T03:31:39.716Z" hostname="csl-conti-dell7859" time="29.812">
+  <properties/>
+  <testcase name="measureReflectionRecall()" classname="pascal.taie.analysis.pta.ReflectionRecallEval" time="29.793"/>
+  <system-out><![CDATA[
+==== Reflection-recall (GT = log-reachable \ no-reflection) ====
+bench      |       GT |   sc-rec | SOLAR (Tai-e full)   | arm②: recall/prec/extra   
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/pmd.jar ... 553 classes
+Duplicate classes (total 295) introduced by pmd-deps.jar and rt.jar,
+[org.w3c.dom.DOMImplementationSource, org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement] ... (291 more) is founded in both containers
+
+6968 classes with 65024 methods in the world
+[WorldBuilder] elapsed time: 1.15s; CPU usage: start 8.41%, peak 44.04%, end 67.36%; Memory usage: start 53MB, peak 446MB, end 575MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.25s; CPU usage: start 10.09%, peak 0.00%, end 9.10%; Memory usage: start 625MB, peak 625MB, end 661MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                963 (insens) / 963 (sens)
+#objects:                     104 (insens) / 104 (sens)
+#var points-to:               1520 (insens) / 1520 (sens)
+#static field points-to:      19 (sens)
+#instance field points-to:    126 (sens)
+#array points-to:             34 (sens)
+#reachable methods:           226 (insens) / 226 (sens)
+#call graph edges:            639 (insens) / 639 (sens)
+----------------------------------------
+[pta] elapsed time: 0.54s; CPU usage: start 15.00%, peak 20.00%, end 10.25%; Memory usage: start 575MB, peak 591MB, end 662MB
+[Tai-e] elapsed time: 1.96s; CPU usage: start 0.00%, peak 17.56%, end 21.43%; Memory usage: start 79MB, peak 298MB, end 662MB
+     [cg] Harness          methods=226 edges=639  (null)
+     [time] Harness            2394 ms  (null)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/pmd.jar ... 553 classes
+Duplicate classes (total 295) introduced by pmd-deps.jar and rt.jar,
+[org.w3c.dom.DOMImplementationSource, org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement] ... (291 more) is founded in both containers
+
+7047 classes with 65791 methods in the world
+[WorldBuilder] elapsed time: 0.42s; CPU usage: start 7.98%, peak 20.00%, end 35.95%; Memory usage: start 676MB, peak 676MB, end 216MB
+[pta] starts ...
+Using reflection log from /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/pmd-refl.log
+[Pointer analysis] elapsed time: 0.44s; CPU usage: start 8.70%, peak 0.00%, end 15.38%; Memory usage: start 232MB, peak 248MB, end 219MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1,0196 (insens) / 1,0196 (sens)
+#objects:                     1069 (insens) / 1069 (sens)
+#var points-to:               1,4676 (insens) / 1,4676 (sens)
+#static field points-to:      143 (sens)
+#instance field points-to:    2676 (sens)
+#array points-to:             150 (sens)
+#reachable methods:           1614 (insens) / 1614 (sens)
+#call graph edges:            6356 (insens) / 6356 (sens)
+----------------------------------------
+[pta] elapsed time: 0.67s; CPU usage: start 23.53%, peak 11.11%, end 17.76%; Memory usage: start 216MB, peak 216MB, end 251MB
+[Tai-e] elapsed time: 1.15s; CPU usage: start 10.59%, peak 15.28%, end 26.67%; Memory usage: start 662MB, peak 678MB, end 251MB
+     [cg] Harness          methods=1614 edges=6356  (null+log)
+     [time] Harness            1162 ms  (null+log)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/pmd.jar ... 553 classes
+Duplicate classes (total 295) introduced by pmd-deps.jar and rt.jar,
+[org.w3c.dom.DOMImplementationSource, org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement] ... (291 more) is founded in both containers
+
+6968 classes with 65024 methods in the world
+[WorldBuilder] elapsed time: 0.27s; CPU usage: start 18.21%, peak 0.00%, end 38.78%; Memory usage: start 252MB, peak 252MB, end 368MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.03s; CPU usage: start 4.43%, peak 0.00%, end 15.27%; Memory usage: start 384MB, peak 384MB, end 400MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                965 (insens) / 965 (sens)
+#objects:                     110 (insens) / 110 (sens)
+#var points-to:               1574 (insens) / 1574 (sens)
+#static field points-to:      35 (sens)
+#instance field points-to:    126 (sens)
+#array points-to:             38 (sens)
+#reachable methods:           229 (insens) / 229 (sens)
+#call graph edges:            642 (insens) / 642 (sens)
+----------------------------------------
+[pta] elapsed time: 0.09s; CPU usage: start 0.00%, peak 0.00%, end 16.13%; Memory usage: start 368MB, peak 368MB, end 417MB
+[Tai-e] elapsed time: 0.40s; CPU usage: start 15.79%, peak 16.67%, end 14.29%; Memory usage: start 251MB, peak 251MB, end 417MB
+     [cg] Harness          methods=229 edges=642  (string-constant)
+     [time] Harness             408 ms  (string-constant)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/pmd.jar ... 553 classes
+Duplicate classes (total 295) introduced by pmd-deps.jar and rt.jar,
+[org.w3c.dom.DOMImplementationSource, org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement] ... (291 more) is founded in both containers
+
+6968 classes with 65024 methods in the world
+[WorldBuilder] elapsed time: 0.27s; CPU usage: start 17.50%, peak 20.00%, end 37.72%; Memory usage: start 417MB, peak 417MB, end 498MB
+[pta] starts ...
+[Pointer analysis] elapsed time: 0.04s; CPU usage: start 3.95%, peak 0.00%, end 11.82%; Memory usage: start 514MB, peak 514MB, end 530MB
+-------------- Pointer analysis statistics: --------------
+#var pointers:                1033 (insens) / 1033 (sens)
+#objects:                     126 (insens) / 126 (sens)
+#var points-to:               1727 (insens) / 1727 (sens)
+#static field points-to:      39 (sens)
+#instance field points-to:    128 (sens)
+#array points-to:             39 (sens)
+#reachable methods:           256 (insens) / 256 (sens)
+#call graph edges:            696 (insens) / 696 (sens)
+----------------------------------------
+[pta] elapsed time: 0.10s; CPU usage: start 9.09%, peak 0.00%, end 13.53%; Memory usage: start 498MB, peak 498MB, end 546MB
+[Tai-e] elapsed time: 0.41s; CPU usage: start 18.75%, peak 30.00%, end 0.00%; Memory usage: start 417MB, peak 417MB, end 546MB
+     [cg] Harness          methods=256 edges=696  (solar)
+     [time] Harness             417 ms  (solar)
+[Tai-e] starts ...
+Output directory: /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output
+Writing options to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/options.yml
+Writing log to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e.log
+java.version: 17.0.17
+java.version.date: 2025-10-21
+java.runtime.version: 17.0.17+10-Ubuntu-122.04
+java.vendor: Ubuntu
+java.vendor.version: null
+os.name: Linux
+os.version: 5.15.0-131-generic
+os.arch: amd64
+Available CPU cores: 80
+Total memory: 192955MB
+Tai-e Version: 0.5.5-SNAPSHOT
+Tai-e Commit: dc542e8686ccf0f186b243f14d716b84fcb72b8d
+Writing analysis plan to /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/output/tai-e-plan.yml
+[WorldBuilder] starts ...
+Scanning /home/likaixuan/static_analysis/PTA-enhancement/Tai-e/java-benchmarks/dacapo-2006/pmd.jar ... 553 classes
+Duplicate classes (total 295) introduced by pmd-deps.jar and rt.jar,
+[org.w3c.dom.DOMImplementationSource, org.w3c.dom.Text, org.w3c.dom.views.DocumentView, org.w3c.dom.html.HTMLFieldSetElement] ... (291 more) is founded in both containers
+
+6968 classes with 65024 methods in the world
+[WorldBuilder] elapsed time: 0.28s; CPU usage: start 15.28%, peak 0.00%, end 36.14%; Memory usage: start 547MB, peak 547MB, end 564MB
+[pta] starts ...
+[arm2-llm] llm-class at <dacapo.TestHarness: java.lang.Class findClass()>@3 → [dacapo.pmd.Main, dacapo.pmd.PmdHarness]
+[arm2-llm] llm-class at <dacapo.TestHarness: void main(java.lang.String[])>@63 → [dacapo.pmd.Main, dacapo.pmd.PmdHarness]
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@18 → [dacapo.pmd.Main, dacapo.pmd.PmdHarness, net.sourceforge.pmd.AbstractRule, net.sourceforge.pmd.CommandLineOptions, net.sourceforge.pmd.CommonAbstractRule, net.sourceforge.pmd.DataSource, net.sourceforge.pmd.ExcludeLines, net.sourceforge.pmd.ExternalRuleID, net.sourceforge.pmd.FileDataSource, net.sourceforge.pmd.IRuleViolation, net.sourceforge.pmd.Language, net.sourceforge.pmd.PMD, net.sourceforge.pmd.PMDException, net.sourceforge.pmd.Report, net.sourceforge.pmd.Report$ProcessingError, net.sourceforge.pmd.Report$ReadableDuration, net.sourceforge.pmd.Report$SuppressedViolation, net.sourceforge.pmd.ReportListener, net.sourceforge.pmd.Rule, net.sourceforge.pmd.RuleContext, net.sourceforge.pmd.RuleSet, net.sourceforge.pmd.RuleSetFactory, net.sourceforge.pmd.RuleSetFactory$OverrideParser, net.sourceforge.pmd.RuleSetNotFoundException, net.sourceforge.pmd.RuleSets, net.sourceforge.pmd.RuleViolation, net.sourceforge.pmd.RuleViolation$RuleViolationComparator, net.sourceforge.pmd.SimpleRuleSetNameMapper, net.sourceforge.pmd.SourceFileConstants, net.sourceforge.pmd.SourceFileSelector, net.sourceforge.pmd.SourceType, net.sourceforge.pmd.SourceTypeDiscoverer]
+[arm2-llm] subtype expansion of net.sourceforge.pmd.AbstractRule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@18; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] subtype expansion of net.sourceforge.pmd.Rule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@18; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@2 → [dacapo.pmd.Main, dacapo.pmd.PmdHarness, net.sourceforge.pmd.AbstractRule, net.sourceforge.pmd.CommandLineOptions, net.sourceforge.pmd.CommonAbstractRule, net.sourceforge.pmd.DataSource, net.sourceforge.pmd.ExcludeLines, net.sourceforge.pmd.ExternalRuleID, net.sourceforge.pmd.FileDataSource, net.sourceforge.pmd.IRuleViolation, net.sourceforge.pmd.Language, net.sourceforge.pmd.PMD, net.sourceforge.pmd.PMDException, net.sourceforge.pmd.Report, net.sourceforge.pmd.Report$ProcessingError, net.sourceforge.pmd.Report$ReadableDuration, net.sourceforge.pmd.Report$SuppressedViolation, net.sourceforge.pmd.ReportListener, net.sourceforge.pmd.Rule, net.sourceforge.pmd.RuleContext, net.sourceforge.pmd.RuleSet, net.sourceforge.pmd.RuleSetFactory, net.sourceforge.pmd.RuleSetFactory$OverrideParser, net.sourceforge.pmd.RuleSetNotFoundException, net.sourceforge.pmd.RuleSets, net.sourceforge.pmd.RuleViolation, net.sourceforge.pmd.RuleViolation$RuleViolationComparator, net.sourceforge.pmd.SimpleRuleSetNameMapper, net.sourceforge.pmd.SourceFileConstants, net.sourceforge.pmd.SourceFileSelector, net.sourceforge.pmd.SourceType, net.sourceforge.pmd.SourceTypeDiscoverer]
+[arm2-llm] subtype expansion of net.sourceforge.pmd.AbstractRule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@2; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] subtype expansion of net.sourceforge.pmd.Rule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@2; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@20 → [dacapo.pmd.Main, dacapo.pmd.PmdHarness, net.sourceforge.pmd.AbstractRule, net.sourceforge.pmd.CommandLineOptions, net.sourceforge.pmd.CommonAbstractRule, net.sourceforge.pmd.DataSource, net.sourceforge.pmd.ExcludeLines, net.sourceforge.pmd.ExternalRuleID, net.sourceforge.pmd.FileDataSource, net.sourceforge.pmd.IRuleViolation, net.sourceforge.pmd.Language, net.sourceforge.pmd.PMD, net.sourceforge.pmd.PMDException, net.sourceforge.pmd.Report, net.sourceforge.pmd.Report$ProcessingError, net.sourceforge.pmd.Report$ReadableDuration, net.sourceforge.pmd.Report$SuppressedViolation, net.sourceforge.pmd.ReportListener, net.sourceforge.pmd.Rule, net.sourceforge.pmd.RuleContext, net.sourceforge.pmd.RuleSet, net.sourceforge.pmd.RuleSetFactory, net.sourceforge.pmd.RuleSetFactory$OverrideParser, net.sourceforge.pmd.RuleSetNotFoundException, net.sourceforge.pmd.RuleSets, net.sourceforge.pmd.RuleViolation, net.sourceforge.pmd.RuleViolation$RuleViolationComparator, net.sourceforge.pmd.SimpleRuleSetNameMapper, net.sourceforge.pmd.SourceFileConstants, net.sourceforge.pmd.SourceFileSelector, net.sourceforge.pmd.SourceType, net.sourceforge.pmd.SourceTypeDiscoverer]
+[arm2-llm] subtype expansion of net.sourceforge.pmd.AbstractRule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@20; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] subtype expansion of net.sourceforge.pmd.Rule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@20; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] llm-class at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@4 → [dacapo.pmd.Main, dacapo.pmd.PmdHarness, net.sourceforge.pmd.AbstractRule, net.sourceforge.pmd.CommandLineOptions, net.sourceforge.pmd.CommonAbstractRule, net.sourceforge.pmd.DataSource, net.sourceforge.pmd.ExcludeLines, net.sourceforge.pmd.ExternalRuleID, net.sourceforge.pmd.FileDataSource, net.sourceforge.pmd.IRuleViolation, net.sourceforge.pmd.Language, net.sourceforge.pmd.PMD, net.sourceforge.pmd.PMDException, net.sourceforge.pmd.Report, net.sourceforge.pmd.Report$ProcessingError, net.sourceforge.pmd.Report$ReadableDuration, net.sourceforge.pmd.Report$SuppressedViolation, net.sourceforge.pmd.ReportListener, net.sourceforge.pmd.Rule, net.sourceforge.pmd.RuleContext, net.sourceforge.pmd.RuleSet, net.sourceforge.pmd.RuleSetFactory, net.sourceforge.pmd.RuleSetFactory$OverrideParser, net.sourceforge.pmd.RuleSetNotFoundException, net.sourceforge.pmd.RuleSets, net.sourceforge.pmd.RuleViolation, net.sourceforge.pmd.RuleViolation$RuleViolationComparator, net.sourceforge.pmd.SimpleRuleSetNameMapper, net.sourceforge.pmd.SourceFileConstants, net.sourceforge.pmd.SourceFileSelector, net.sourceforge.pmd.SourceType, net.sourceforge.pmd.SourceTypeDiscoverer]
+[arm2-llm] subtype expansion of net.sourceforge.pmd.AbstractRule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@4; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] subtype expansion of net.sourceforge.pmd.Rule exceeded κ=64 at <javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>@4; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] llm-class at <net.sourceforge.pmd.CommandLineOptions: net.sourceforge.pmd.renderers.Renderer createRenderer()>@77 → [net.sourceforge.pmd.renderers.CSVRenderer, net.sourceforge.pmd.renderers.EmacsRenderer, net.sourceforge.pmd.renderers.HTMLRenderer, net.sourceforge.pmd.renderers.IDEAJRenderer, net.sourceforge.pmd.renderers.PapariTextRenderer, net.sourceforge.pmd.renderers.SummaryHTMLRenderer, net.sourceforge.pmd.renderers.TextPadRenderer, net.sourceforge.pmd.renderers.TextRenderer, net.sourceforge.pmd.renderers.VBHTMLRenderer, net.sourceforge.pmd.renderers.XMLRenderer, net.sourceforge.pmd.renderers.YAHTMLRenderer]
+[arm2-llm] llm-class at <net.sourceforge.pmd.RuleSetFactory: void parseInternallyDefinedRuleNode(net.sourceforge.pmd.RuleSet,org.w3c.dom.Node)>@6 → [net.sourceforge.pmd.AbstractRule, net.sourceforge.pmd.CommonAbstractRule, net.sourceforge.pmd.ExternalRuleID, net.sourceforge.pmd.Rule]
+[arm2-llm] subtype expansion of net.sourceforge.pmd.AbstractRule exceeded κ=64 at <net.sourceforge.pmd.RuleSetFactory: void parseInternallyDefinedRuleNode(net.sourceforge.pmd.RuleSet,org.w3c.dom.Node)>@6; flagged as under-approximated residual (not silently truncated)
+[arm2-llm] subtype expansion of net.sourceforge.pmd.Rule exceeded κ=64 at <net.sourceforge.pmd.RuleSetFactory: void parseInternallyDefinedRuleNode(net.sourceforge.pmd.RuleSet,org.w3c.dom.Node)>@6; flagged as under-approximated residual (not silently truncated)
+[Pointer analysis] elapsed time: 24.28s; CPU usage: start 3.04%, peak 12.50%, end 0.67%; Memory usage: start 617MB, peak 717MB, end 717MB
+Imprecise reflective calls:
+[Class.forName]<javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>[2@L0] $3 = invokestatic java.lang.Class.forName($0), #targets: 100
+[ClassLoader.loadClass]<javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>[4@L0] $3 = invokevirtual $1.loadClass($0), #targets: 100
+[ClassLoader.loadClass]<javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>[18@L0] $3 = invokevirtual $1.loadClass($0), #targets: 100
+[Class.forName]<javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>[20@L0] $3 = invokestatic java.lang.Class.forName($0), #targets: 100
+[Class.newInstance]<javax.xml.parsers.FactoryFinder: java.lang.Object newInstance(java.lang.String,java.lang.ClassLoader,boolean)>[23@L0] %v12 = invokevirtual $3.newInstance(), #targets: 78
+[ClassLoader.loadClass]<net.sourceforge.pmd.RuleSetFactory: void parseInternallyDefinedRuleNode(net.sourceforge.pmd.RuleSet,org.w3c.dom.Node)>[6@L309] %v15 = invokevirtual %v14.loadClass(attribute), #targets: 71
+[Class.newInstance]<net.sourceforge.pmd.RuleSetFactory: void parseInternallyDefinedRuleNode(net.sourceforge.pmd.RuleSet,org.w3c.dom.Node)>[7@L309] %v16 = invokevirtual %v15.newInstance(), #targets: 67
+-------------- Pointer analysis statistics: --------------
+#var pointers:                4213 (insens) / 4213 (sens)
+#objects:                     780 (insens) / 780 (sens)
+#var points-to:               6918 (insens) / 6918 (sens)
+#static field points-to:      110 (sens)
+#instance field points-to:    8470 (sens)
+#array points-to:             59 (sens)
+#reachable methods:           826 (insens) / 826 (sens)
+#call graph edges:            2919 (insens) / 2919 (sens)
+----------------------------------------
+[pta] elapsed time: 24.56s; CPU usage: start 0.00%, peak 1.39%, end 2.63%; Memory usage: start 564MB, peak 717MB, end 733MB
+[Tai-e] elapsed time: 24.87s; CPU usage: start 15.00%, peak 3.80%, end 0.00%; Memory usage: start 547MB, peak 717MB, end 735MB
+     [cg] Harness          methods=826 edges=2919  (llm)
+     [time] Harness           24882 ms  (llm)
+     [oracle] queries=8 live=8 cost=$0.0064 failed=0
+     [disposer] proposed=147 phiRejected=0 injected=147
+pmd        |     1388 |    0.002 | r=0.005 p=0.233      | r=0.310 p=0.717 +170      
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
